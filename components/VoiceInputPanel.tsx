@@ -184,7 +184,7 @@ export const VoiceInputPanel = ({
             disabled={disabled}
             className="text-sm text-stone transition hover:text-plum"
           >
-            もう一度話す
+            録り直す
           </button>
         ) : null}
       </div>
@@ -207,7 +207,7 @@ export const VoiceInputPanel = ({
           </p>
         ) : isRecording ? (
           <p className="text-sm leading-6 text-plum">
-            いま聞き取っています。話し終えたら止めてください。
+            録音中…
           </p>
         ) : isTranscribing ? (
           <p className="text-sm leading-6 text-stone">
@@ -215,7 +215,7 @@ export const VoiceInputPanel = ({
           </p>
         ) : value.trim() ? (
           <p className="text-sm leading-6 text-stone">
-            文字になった内容を見直して、そのまま進めます。
+            音声を入力しました。
           </p>
         ) : null}
       </div>
@@ -228,13 +228,13 @@ export const VoiceInputPanel = ({
 
       <label className="block">
         <span className="mb-2 block text-sm text-ink/80">
-          {transcriptLabel || "文字にした内容"}
+          {transcriptLabel || "話した内容"}
         </span>
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
           rows={4}
-          placeholder="話した内容がここに表示されます。必要なら少し整えてから、そのままソラに話せます。"
+          placeholder="思いついたことがここに入ります。必要なら少し整えてから、そのまま送れます。"
           className="field-base min-h-[124px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[140px]"
           disabled={disabled || isTranscribing}
         />

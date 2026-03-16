@@ -14,6 +14,7 @@ import { trackEvent } from "@/lib/analytics";
 import { requestSoraReply } from "@/lib/api";
 import { createChatMessage } from "@/lib/chat";
 import { FEEDBACK_FORM_URL } from "@/lib/config";
+import { pickSoraClosingLine, pickSoraPresenceLine } from "@/lib/sora-presence";
 import { loadHistory, saveHistory, takeActiveRecordId } from "@/lib/storage";
 import {
   ChatMessage,
@@ -22,11 +23,28 @@ import {
   ConsultationStage,
   ConsultationTopic,
   EmotionalState,
+  EmotionTag,
+  HeartState,
   ReflectionSummary,
   SoraReply,
 } from "@/types/consultation";
 
 const INITIAL_TOPIC: ConsultationTopic = "恋愛";
+
+const formatRelativeDay = (createdAt: string) => {
+  const diff = Date.now() - new Date(createdAt).getTime();
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (days <= 0) {
+    return "今日";
+  }
+
+  if (days === 1) {
+    return "1日前";
+  }
+
+  return `${days}日前`;
+};
 
 export const ConsultationExperience = () => {
   const router = useRouter();
@@ -46,6 +64,8 @@ export const ConsultationExperience = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastRequest, setLastRequest] = useState<ChatRequest | null>(null);
   const [latestReply, setLatestReply] = useState<SoraReply | null>(null);
+  const [emotionTag, setEmotionTag] = useState<EmotionTag | null>(null);
+  const [heartState, setHeartState] = useState<HeartState | null>(null);
 
   useEffect(() => {
     const loadedHistory = loadHistory();
@@ -86,13 +106,48 @@ export const ConsultationExperience = () => {
     }
 
     return {
-      label: latestRecord.createdAt,
+      label: `${formatRelativeDay(latestRecord.createdAt)} / ${latestRecord.topic}`,
       text:
         latestRecord.insight ||
         latestRecord.summary?.emotion ||
         "前回の相談で残した気づきを、ここで静かに見返せます。",
     };
   }, [history]);
+
+  const reflectionShift = useMemo(() => {
+    const previousRecord = history[0];
+
+    if (!previousRecord || currentStage === 1) {
+      return null;
+    }
+
+    if (previousRecord.topic === topic && userInput.trim().length > previousRecord.userInput.trim().length + 20) {
+      return `前回よりも「${topic}」について、もう少し詳しく言葉にできているのかもしれません。`;
+    }
+
+    if (previousRecord.emotionTag === "まだモヤモヤ" && emotionTag === "整理できた") {
+      return "前回よりも、気持ちの輪郭が少し見えやすくなっているのかもしれません。";
+    }
+
+    if (previousRecord.topic === topic) {
+      return `前回も「${topic}」について立ち止まっていました。今日は、その迷いを少し別の角度から見つめられているのかもしれません。`;
+    }
+
+    return null;
+  }, [currentStage, emotionTag, history, topic, userInput]);
+
+  const soraPresenceLine = useMemo(
+    () => pickSoraPresenceLine(`${topic}:${userInput}:${messages.length}`),
+    [messages.length, topic, userInput],
+  );
+
+  const soraClosingLine = useMemo(
+    () =>
+      pickSoraClosingLine(
+        `${topic}:${latestReply?.insight || ""}:${summary?.topic || ""}:${messages.length}`,
+      ),
+    [latestReply?.insight, messages.length, summary?.topic, topic],
+  );
 
   const messageHint = useMemo(() => {
     if (summary) {
@@ -129,6 +184,8 @@ export const ConsultationExperience = () => {
     setIsLoading(false);
     setLastRequest(null);
     setLatestReply(null);
+    setEmotionTag(null);
+    setHeartState(null);
   };
 
   const applyRecord = (record: ConsultationRecord) => {
@@ -157,6 +214,8 @@ export const ConsultationExperience = () => {
     setChatError("");
     setSaveError("");
     setSaveSuccess("");
+    setEmotionTag(record.emotionTag || null);
+    setHeartState(record.heartState || null);
   };
 
   const fetchSora = async (payload: ChatRequest) => {
@@ -199,6 +258,8 @@ export const ConsultationExperience = () => {
       setMessages([initialUserMessage, soraMessage]);
       setAnswers([]);
       setReplyInput("");
+      setEmotionTag(null);
+      setHeartState(null);
       setSummary(null);
       setChatError("");
       scrollToStepTwo();
@@ -298,6 +359,8 @@ export const ConsultationExperience = () => {
       topic,
       userInput: userInput.trim(),
       emotion: summary.emotion,
+      emotionTag: emotionTag || undefined,
+      heartState: heartState || undefined,
       summary,
       insight:
         latestReply?.insight ||
@@ -321,6 +384,7 @@ export const ConsultationExperience = () => {
       setHistory(loadHistory());
       setSaveSuccess("相談内容をローカルに保存しました。");
       setSaveError("");
+      router.push("/log");
     } catch {
       setSaveError("保存に失敗しました。ブラウザの設定を確認してください。");
       setSaveSuccess("");
@@ -374,8 +438,10 @@ export const ConsultationExperience = () => {
       <main className="space-y-6 lg:space-y-7">
         {latestMemo ? (
           <section className="rounded-lg border border-lilac/40 bg-purple-50/70 px-4 py-3 text-sm text-stone shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回の心のメモ</p>
-            <p className="mt-2 leading-7 text-ink/82">「{latestMemo.text}」</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回のあなた</p>
+            <p className="mt-2 text-xs text-stone/76">{latestMemo.label}</p>
+            <p className="mt-1 leading-7 text-ink/82">「{latestMemo.text}」</p>
+            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少し考えてみますか</p>
           </section>
         ) : null}
 
@@ -419,10 +485,14 @@ export const ConsultationExperience = () => {
             onSummarize={handleSummarize}
             messageHint={messageHint}
               isLoading={isLoading}
-              onRetry={handleRetry}
-              canRetry={Boolean(lastRequest)}
-              latestReply={latestReply}
-            />
+            onRetry={handleRetry}
+            canRetry={Boolean(lastRequest)}
+            latestReply={latestReply}
+            emotionTag={emotionTag}
+            onEmotionTagChange={setEmotionTag}
+            reflectionShift={reflectionShift}
+            soraPresenceLine={soraPresenceLine}
+          />
           </div>
           <div
             className={`transition duration-200 ${
@@ -435,10 +505,14 @@ export const ConsultationExperience = () => {
               futureMessage={latestReply?.futureMessage || ""}
               nextQuestion={latestReply?.nextQuestion || ""}
               emotionalState={latestReply?.emotionalState || null}
+              heartState={heartState}
               saveError={saveError}
               saveSuccess={saveSuccess}
               onSave={handleSave}
               onOpenHistory={handleOpenHistory}
+              onContinueThinking={scrollToStepTwo}
+              onHeartStateChange={setHeartState}
+              soraClosingLine={soraClosingLine}
             />
           </div>
         </section>

@@ -38,7 +38,7 @@ export const ConsultationForm = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">相談入力</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          テーマを選び、今の気持ちを書いたり話したりして、ソラに送ります。
+          テーマを選び、今の気持ちを少しずつ言葉にして、ソラに送ります。
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {["1 テーマを選ぶ", "2 書く / 話す", "3 ソラに送る"].map((step) => (
@@ -80,8 +80,8 @@ export const ConsultationForm = ({
 
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">今の気持ちは、書いても話しても大丈夫です</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">今の自分に合う置き方を選べます。</p>
+            <span className="block text-sm text-ink">今の気持ちを、書いても話しても大丈夫です</span>
+            <p className="mt-1 text-xs leading-6 text-stone/76">少し言葉にしやすい置き方を選べます。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
@@ -118,7 +118,7 @@ export const ConsultationForm = ({
             <>
               <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
                 <p className="text-sm leading-7 text-stone">
-                  今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
+                  思いつくことを、そのまま書いて大丈夫です。
                 </p>
                 <p className="mt-2 text-xs leading-6 text-stone/78">
                   例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」
@@ -129,7 +129,7 @@ export const ConsultationForm = ({
                 value={input}
                 onChange={(event) => onInputChange(event.target.value)}
                 rows={12}
-                placeholder="今いちばん心に引っかかっていることを、思いつくまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
+                placeholder="思いつくことを、そのまま書いて大丈夫です。まだ整理できていない気持ちでも、そのまま置いてみてください。"
                 className="field-base min-h-[272px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[296px]"
                 disabled={isLoading}
               />

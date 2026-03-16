@@ -59,14 +59,19 @@ export const SoraResponseCards = ({
                 : isQuestion
                   ? "border-iris/55 bg-white shadow-[0_18px_42px_rgba(91,77,104,0.12)]"
                   : isEmpathic
-                    ? "border-lilac/40 bg-white/90"
+                    ? "border-lilac/40 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,244,250,0.72))] shadow-[0_12px_30px_rgba(137,119,154,0.08)]"
                     : "border-lilac/35 bg-mist/34"
             }`}
           >
             <div className="mb-2.5 flex items-center justify-between gap-3">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-gold">
-                {section.label}
-              </p>
+              <div className="flex items-center gap-2">
+                {isEmpathic ? (
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
+                ) : null}
+                <p className="text-[11px] uppercase tracking-[0.22em] text-gold">
+                  {isEmpathic ? "ソラ" : section.label}
+                </p>
+              </div>
               {canSave ? (
                 <button
                   type="button"
@@ -86,7 +91,7 @@ export const SoraResponseCards = ({
                 </button>
               ) : null}
             </div>
-            <p className="text-[15px] leading-7 text-ink sm:leading-8">{content}</p>
+            <p className="text-[15px] leading-7.5 text-ink sm:leading-8">{content}</p>
           </article>
         );
       })}

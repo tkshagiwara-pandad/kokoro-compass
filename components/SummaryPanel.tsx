@@ -1,5 +1,5 @@
 import { EmotionalStateMeter } from "@/components/EmotionalStateMeter";
-import { EmotionalState, ReflectionSummary } from "@/types/consultation";
+import { EmotionalState, HeartState, heartStateOptions, ReflectionSummary } from "@/types/consultation";
 
 type SummaryPanelProps = {
   summary: ReflectionSummary | null;
@@ -7,10 +7,14 @@ type SummaryPanelProps = {
   futureMessage: string;
   nextQuestion: string;
   emotionalState: EmotionalState | null;
+  heartState: HeartState | null;
   saveError: string;
   saveSuccess: string;
   onSave: () => void;
   onOpenHistory: () => void;
+  onContinueThinking: () => void;
+  onHeartStateChange: (value: HeartState) => void;
+  soraClosingLine: string;
 };
 
 const summaryItems = [
@@ -27,10 +31,14 @@ export const SummaryPanel = ({
   futureMessage,
   nextQuestion,
   emotionalState,
+  heartState,
   saveError,
   saveSuccess,
   onSave,
   onOpenHistory,
+  onContinueThinking,
+  onHeartStateChange,
+  soraClosingLine,
 }: SummaryPanelProps) => {
   return (
     <section className="surface-card p-6 sm:p-7">
@@ -88,18 +96,72 @@ export const SummaryPanel = ({
             </article>
           ) : null}
 
-          <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={onSave} className="button-primary">
-              保存
-            </button>
-            <button
-              type="button"
-              onClick={onOpenHistory}
-              className="button-secondary"
-            >
-              マイログを見る
-            </button>
-          </div>
+          <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
+            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+              心の現在地
+            </p>
+            <p className="text-sm leading-7 text-stone">
+              今のあなたはどこに近いですか？
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {heartStateOptions.map((option) => {
+                const isSelected = option === heartState;
+
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => onHeartStateChange(option)}
+                    className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                      isSelected
+                        ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
+                        : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+          </article>
+
+          <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
+            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+              今日はここまでにしますか？
+            </p>
+            <p className="text-sm leading-7 text-stone">
+              ここまでで少し整理できたら、記録として残して終えても大丈夫です。
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button type="button" onClick={onSave} className="button-primary">
+                保存して終わる
+              </button>
+              <button
+                type="button"
+                onClick={onContinueThinking}
+                className="button-secondary"
+              >
+                もう少し考える
+              </button>
+              <button
+                type="button"
+                onClick={onOpenHistory}
+                className="button-secondary"
+              >
+                マイログを見る
+              </button>
+            </div>
+          </article>
+
+          <article className="rounded-[18px] border border-lilac/24 bg-white/84 px-4 py-4">
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
+              <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
+                ソラより
+              </p>
+            </div>
+            <p className="mt-2 text-sm leading-7 text-ink/88">{soraClosingLine}</p>
+          </article>
 
           {saveError ? (
             <p className="rounded-2xl border border-rose-200 bg-rose-50/90 px-4 py-3 text-sm leading-6 text-rose-700">

@@ -1,5 +1,5 @@
 import { defaultEmotionalState, normalizeEmotionalState } from "@/lib/emotional-state";
-import { ConsultationRecord, EmotionalState } from "@/types/consultation";
+import { ConsultationRecord, EmotionalState, EmotionTag, HeartState } from "@/types/consultation";
 
 const STORAGE_KEY = "kokoro-compass-history";
 const ACTIVE_RECORD_KEY = "kokoro-compass-active-record-id";
@@ -13,6 +13,8 @@ const sortRecords = (records: ConsultationRecord[]) =>
 const normalizeRecord = (
   record: ConsultationRecord & {
     emotion?: string;
+    emotionTag?: EmotionTag;
+    heartState?: HeartState;
     insight?: string;
     futureMessage?: string;
     nextQuestion?: string;
@@ -36,6 +38,8 @@ const normalizeRecord = (
     record.emotion ||
     record.summary?.emotion ||
     "いくつもの気持ちが重なり、まだ輪郭を探している途中のようです。",
+  emotionTag: record.emotionTag,
+  heartState: record.heartState,
   insight:
     record.insight ||
     "今日の小さな気づきとして、まず安心できる感覚を取り戻すことが大切なのかもしれません。",
@@ -207,6 +211,8 @@ export const loadHistory = (): ConsultationRecord[] => {
     const parsed = JSON.parse(raw) as Array<
       ConsultationRecord & {
         emotion?: string;
+        emotionTag?: EmotionTag;
+        heartState?: HeartState;
         insight?: string;
         futureMessage?: string;
         nextQuestion?: string;

@@ -52,9 +52,20 @@ export const HistoryPanel = ({
               <p className="mt-3 text-xs leading-6 text-stone">
                 感情: {record.emotion}
               </p>
-              <p className="mt-2 text-xs leading-6 text-stone">
-                直近の気づき: {record.insight}
-              </p>
+              {record.emotionTag ? (
+                <p className="mt-1 text-xs leading-6 text-stone">
+                  今の気持ち: {record.emotionTag}
+                </p>
+              ) : null}
+              {record.heartState ? (
+                <p className="mt-1 text-xs leading-6 text-stone">
+                  心の現在地: {record.heartState}
+                </p>
+              ) : null}
+              <div className="mt-3 rounded-2xl border border-lilac/26 bg-white/84 px-3 py-3">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-gold">今日の気づき</p>
+                <p className="mt-1 text-sm leading-6 text-ink">{record.insight}</p>
+              </div>
               <div className="mt-4 flex flex-wrap gap-3">
                 <button
                   type="button"

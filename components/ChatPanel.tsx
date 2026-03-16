@@ -1,6 +1,6 @@
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { SoraResponseCards } from "@/components/SoraResponseCards";
-import { ChatMessage, SoraReply } from "@/types/consultation";
+import { ChatMessage, EmotionTag, emotionTagOptions, SoraReply } from "@/types/consultation";
 
 type InputMode = "text" | "voice";
 
@@ -20,6 +20,10 @@ type ChatPanelProps = {
   onRetry: () => void;
   canRetry: boolean;
   latestReply: SoraReply | null;
+  emotionTag: EmotionTag | null;
+  onEmotionTagChange: (value: EmotionTag) => void;
+  reflectionShift: string | null;
+  soraPresenceLine: string;
 };
 
 export const ChatPanel = ({
@@ -38,6 +42,10 @@ export const ChatPanel = ({
   onRetry,
   canRetry,
   latestReply,
+  emotionTag,
+  onEmotionTagChange,
+  reflectionShift,
+  soraPresenceLine,
 }: ChatPanelProps) => {
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
@@ -50,13 +58,56 @@ export const ChatPanel = ({
       </div>
 
       <div className="space-y-5.5">
+        <div className="rounded-[20px] border border-lilac/30 bg-white/84 px-4 py-3.5">
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">ソラの言葉</p>
+          </div>
+          <p className="mt-2 text-sm leading-7 text-stone">
+            {soraPresenceLine}
+          </p>
+        </div>
+
         {latestReply?.empathicMessage ? (
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.2em] text-plum/62">ソラの言葉</p>
             <SoraResponseCards
               reply={latestReply}
               sections={["empathicMessage"]}
             />
+          </div>
+        ) : null}
+
+        {latestReply?.empathicMessage ? (
+          <div className="rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
+              今の気持ちはどれに近いですか
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {emotionTagOptions.map((option) => {
+                const selected = option === emotionTag;
+
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => onEmotionTagChange(option)}
+                    className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                      selected
+                        ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
+                        : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        {latestReply?.followUpQuestion ? (
+          <div className="text-center">
+            <p className="text-xs leading-6 text-stone/52">・・・</p>
           </div>
         ) : null}
 
@@ -107,10 +158,11 @@ export const ChatPanel = ({
             ) : null}
 
             <div className="space-y-3 rounded-[18px] bg-white/68 p-3.5 sm:p-4">
+              <p className="text-sm leading-6 text-stone/78">少し言葉にしてみる</p>
               <div className="inline-flex rounded-full border border-lilac/44 bg-white/88 p-1">
                 {([
                   { key: "text", label: "書く" },
-                  { key: "voice", label: "話す" },
+                  { key: "voice", label: "話してみる" },
                 ] as const).map((option) => {
                   const isSelected = option.key === inputMode;
 
@@ -146,15 +198,11 @@ export const ChatPanel = ({
                   <textarea
                     value={replyInput}
                     onChange={(event) => onReplyInputChange(event.target.value)}
-                    rows={5}
-                    placeholder="いま感じていることを、ひとことずつでも置いてみてください。"
+                    rows={4}
+                    placeholder="思いつくことを、そのまま書いて大丈夫です。"
                     className="field-base min-h-[168px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[180px]"
                     disabled={isLoading || (!canReply && !canSummarize)}
                   />
-                  <p className="text-xs leading-6 text-stone/72">
-                    例: 「少し不安です」 「気持ちがまだまとまりません」
-                    「本当はどうしたいのか分からないです」
-                  </p>
                 </>
               )}
             </div>
@@ -204,6 +252,13 @@ export const ChatPanel = ({
               reply={latestReply}
               sections={["insight"]}
             />
+          </div>
+        ) : null}
+
+        {reflectionShift ? (
+          <div className="rounded-[20px] border border-lilac/32 bg-mist/22 px-4 py-4">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">前回との変化</p>
+            <p className="mt-2 text-sm leading-7 text-ink/88">{reflectionShift}</p>
           </div>
         ) : null}
 

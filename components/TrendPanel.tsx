@@ -64,9 +64,21 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
         </p>
       </div>
 
+      <div className="mb-4 rounded-[20px] border border-lilac/30 bg-white/84 px-4 py-3.5">
+        <div className="flex items-center gap-2">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
+          <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">ソラのひとこと</p>
+        </div>
+        <p className="mt-2 text-sm leading-7 text-stone">
+          {hasRecords
+            ? "ここまで残してきた言葉にも、少しずつ流れがあるのかもしれません。"
+            : "ここから少しずつ、あなたの言葉を残していけます。"}
+        </p>
+      </div>
+
       <div className="grid gap-3.5 lg:grid-cols-[1.05fr_1.1fr_0.95fr]">
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-gold">最近のテーマ</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-gold">最近よく考えているテーマ</p>
           {hasRecords ? (
             <div className="mt-3 grid gap-2">
               {lifeMapThemes.map((theme) => (
@@ -123,7 +135,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
         </article>
 
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-gold">AIコメント</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-gold">最近の流れ</p>
           <p className="mt-3 text-sm leading-7 text-ink">{lifeMapComment}</p>
           <div className="mt-4 border-t border-lilac/30 pt-4">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">

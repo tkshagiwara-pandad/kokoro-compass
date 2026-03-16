@@ -32,6 +32,24 @@ export type EmotionalState = {
   hope: number;
 };
 
+export const emotionTagOptions = [
+  "少し楽になった",
+  "まだモヤモヤ",
+  "整理できた",
+  "よくわからない",
+] as const;
+
+export type EmotionTag = (typeof emotionTagOptions)[number];
+
+export const heartStateOptions = [
+  "まだ混ざっている",
+  "少し見えてきた",
+  "言葉になってきた",
+  "少し落ち着いた",
+] as const;
+
+export type HeartState = (typeof heartStateOptions)[number];
+
 export type SoraReply = {
   empathicMessage: string;
   followUpQuestion: string;
@@ -61,6 +79,8 @@ export type ConsultationRecord = {
   topic: ConsultationTopic;
   userInput: string;
   emotion: string;
+  emotionTag?: EmotionTag;
+  heartState?: HeartState;
   summary: ReflectionSummary;
   insight: string;
   futureMessage: string;
