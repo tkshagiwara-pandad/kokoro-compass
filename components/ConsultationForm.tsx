@@ -26,12 +26,12 @@ export const ConsultationForm = ({
   isLoading,
 }: ConsultationFormProps) => {
   return (
-    <section className="surface-card p-6 sm:p-7 lg:p-8">
+    <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">相談入力</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          今の気持ちを、そのままの言葉で書いてください。うまくまとまっていなくても大丈夫です。
+          まずはここから、今の気持ちをそのままの言葉で書いてみてください。うまくまとまっていなくても大丈夫です。
         </p>
       </div>
 
@@ -93,9 +93,9 @@ export const ConsultationForm = ({
             type="button"
             onClick={onStart}
             disabled={!isStartEnabled || isLoading}
-            className="button-primary"
+            className="button-primary min-w-[168px]"
           >
-            {isLoading ? "ソラが整えています..." : "相談を始める"}
+            {isLoading ? "ソラが整えています..." : "この内容でソラに話す"}
           </button>
           <button
             type="button"
@@ -112,7 +112,7 @@ export const ConsultationForm = ({
           <p className="mt-2 text-sm leading-7 text-stone">
             {started
               ? "相談は始まっています。右へ進みながら、ソラの問いに短い言葉で返してみてください。"
-              : "まずは心に引っかかっていることを一つだけ書いてみてください。長くなくても大丈夫です。"}
+              : "まずは左の入力欄に、心に引っかかっていることを一つだけ置いてみてください。長くなくても大丈夫です。"}
           </p>
         </div>
       </div>

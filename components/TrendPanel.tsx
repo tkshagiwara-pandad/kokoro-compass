@@ -36,7 +36,7 @@ const buildLifeMapComment = (counts: Record<LifeMapTheme, number>) => {
     .sort((left, right) => right.count - left.count);
 
   if (rankedThemes.length === 0) {
-    return "まだ記録は少ないですが、少しずつ残していくと心が向かいやすい方向が見えてきます。";
+    return "相談を重ねていくと、心が向かいやすいテーマや、くり返し立ち止まりやすい場所が少しずつ見えてきます。";
   }
 
   if (rankedThemes.length === 1) {
@@ -94,7 +94,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
                   >
                     <span className="text-sm text-stone">{theme}</span>
                     <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-stone">
-                      記録が入る場所
+                      これから流れが見えてきます
                     </span>
                   </div>
                 ))}
@@ -116,7 +116,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
           ) : (
             <div className="mt-3 rounded-2xl border border-dashed border-lilac/38 bg-white/78 px-4 py-4">
               <p className="text-sm leading-7 text-stone">
-                ここには、その時々の小さな気づきが残ります。あとから見返すと、同じような揺れ方や、少しずつ変わってきた視点に気づけることがあります。
+                ここには、その時々の小さな気づきが静かに残っていきます。あとから見返すと、同じような揺れ方や、少しずつ変わってきた視点に気づけることがあります。
               </p>
             </div>
           )}
@@ -148,7 +148,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
               ))
             ) : (
               <p className="text-sm leading-7 text-stone">
-                相談を重ねると、不安や疲れ、希望の流れがここに静かに表れてきます。
+                相談を重ねると、不安や疲れ、希望の流れがここに静かに重なって見えてきます。
               </p>
             )}
           </div>

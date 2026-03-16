@@ -347,44 +347,58 @@ export const ConsultationExperience = () => {
         </div>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
-          <ConsultationForm
-            topic={topic}
-            input={userInput}
-            error={formError}
-            onTopicChange={setTopic}
-            onInputChange={setUserInput}
-            onStart={handleStart}
-            onReset={resetAll}
-            started={messages.length > 0}
-            isStartEnabled={isStartEnabled}
-            isLoading={isLoading}
-          />
-          <ChatPanel
-            messages={messages}
-            replyInput={replyInput}
-            chatError={chatError}
-            canReply={canReply}
-            canSummarize={canSummarize}
-            onReplyInputChange={setReplyInput}
-            onNext={handleNext}
-            onSummarize={handleSummarize}
-            messageHint={messageHint}
-            isLoading={isLoading}
-            onRetry={handleRetry}
-            canRetry={Boolean(lastRequest)}
-            latestReply={latestReply}
-          />
-          <SummaryPanel
-            summary={summary}
-            insight={latestReply?.insight || ""}
-            futureMessage={latestReply?.futureMessage || ""}
-            nextQuestion={latestReply?.nextQuestion || ""}
-            emotionalState={latestReply?.emotionalState || null}
-            saveError={saveError}
-            saveSuccess={saveSuccess}
-            onSave={handleSave}
-            onOpenHistory={handleOpenHistory}
-          />
+          <div className="transition duration-200">
+            <ConsultationForm
+              topic={topic}
+              input={userInput}
+              error={formError}
+              onTopicChange={setTopic}
+              onInputChange={setUserInput}
+              onStart={handleStart}
+              onReset={resetAll}
+              started={messages.length > 0}
+              isStartEnabled={isStartEnabled}
+              isLoading={isLoading}
+            />
+          </div>
+          <div
+            className={`transition duration-200 ${
+              currentStage === 1 ? "opacity-72 xl:pt-4" : "opacity-100"
+            }`}
+          >
+            <ChatPanel
+              messages={messages}
+              replyInput={replyInput}
+              chatError={chatError}
+              canReply={canReply}
+              canSummarize={canSummarize}
+              onReplyInputChange={setReplyInput}
+              onNext={handleNext}
+              onSummarize={handleSummarize}
+              messageHint={messageHint}
+              isLoading={isLoading}
+              onRetry={handleRetry}
+              canRetry={Boolean(lastRequest)}
+              latestReply={latestReply}
+            />
+          </div>
+          <div
+            className={`transition duration-200 ${
+              currentStage === 1 ? "opacity-68 xl:pt-6" : "opacity-100"
+            }`}
+          >
+            <SummaryPanel
+              summary={summary}
+              insight={latestReply?.insight || ""}
+              futureMessage={latestReply?.futureMessage || ""}
+              nextQuestion={latestReply?.nextQuestion || ""}
+              emotionalState={latestReply?.emotionalState || null}
+              saveError={saveError}
+              saveSuccess={saveSuccess}
+              onSave={handleSave}
+              onOpenHistory={handleOpenHistory}
+            />
+          </div>
         </section>
 
         <NoticePanel compact />
