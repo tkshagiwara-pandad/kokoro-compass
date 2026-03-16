@@ -47,6 +47,13 @@ export const ChatPanel = ({
   reflectionShift,
   soraPresenceLine,
 }: ChatPanelProps) => {
+  const handleEmotionTagSelect = (value: EmotionTag) => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[ChatPanel] emotionTag selected:", value);
+    }
+    onEmotionTagChange(value);
+  };
+
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
       <div className="mb-6">
@@ -78,11 +85,11 @@ export const ChatPanel = ({
         ) : null}
 
         {latestReply?.empathicMessage ? (
-          <div className="rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4">
+          <div className="relative z-20 rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4">
             <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
               今の気持ちはどれに近いですか
             </p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2 pointer-events-auto">
               {emotionTagOptions.map((option) => {
                 const selected = option === emotionTag;
 
@@ -90,8 +97,8 @@ export const ChatPanel = ({
                   <button
                     key={option}
                     type="button"
-                    onClick={() => onEmotionTagChange(option)}
-                    className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                    onClick={() => handleEmotionTagSelect(option)}
+                    className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       selected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
                         : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
@@ -146,7 +153,7 @@ export const ChatPanel = ({
           </div>
         ) : null}
 
-        <div className="z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur lg:sticky lg:bottom-3 sm:p-5">
+        <div className="relative z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur lg:sticky lg:bottom-3 sm:p-5">
           <div className="rounded-[22px] border border-lilac/34 bg-mist/20 p-4 sm:p-5">
             {latestReply?.followUpQuestion ? (
               <div className="mb-4">

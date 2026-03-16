@@ -49,6 +49,7 @@ const formatRelativeDay = (createdAt: string) => {
 export const ConsultationExperience = () => {
   const router = useRouter();
   const stepTwoRef = useRef<HTMLDivElement | null>(null);
+  const lastStepTwoScrollKeyRef = useRef("");
   const [topic, setTopic] = useState<ConsultationTopic>(INITIAL_TOPIC);
   const [inputMode, setInputMode] = useState<"text" | "voice">("text");
   const [userInput, setUserInput] = useState("");
@@ -428,6 +429,26 @@ export const ConsultationExperience = () => {
     });
   };
 
+  useEffect(() => {
+    if (isLoading || currentStage !== 2 || !latestReply) {
+      return;
+    }
+
+    const scrollKey = [
+      messages.length,
+      latestReply.empathicMessage,
+      latestReply.followUpQuestion,
+      latestReply.insight,
+    ].join("::");
+
+    if (lastStepTwoScrollKeyRef.current === scrollKey) {
+      return;
+    }
+
+    lastStepTwoScrollKeyRef.current = scrollKey;
+    scrollToStepTwo();
+  }, [currentStage, isLoading, latestReply, messages.length]);
+
   return (
     <LayoutShell
       eyebrow="Kokoro Compass"
@@ -468,7 +489,7 @@ export const ConsultationExperience = () => {
           </div>
           <div
             ref={stepTwoRef}
-            className={`transition duration-200 ${
+            className={`scroll-mt-24 transition duration-200 ${
               currentStage === 1 ? "opacity-72 xl:pt-4" : "opacity-100"
             }`}
           >

@@ -40,6 +40,20 @@ export const SummaryPanel = ({
   onHeartStateChange,
   soraClosingLine,
 }: SummaryPanelProps) => {
+  const handleHeartStateSelect = (value: HeartState) => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[SummaryPanel] heartState selected:", value);
+    }
+    onHeartStateChange(value);
+  };
+
+  const handleSaveClick = () => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[SummaryPanel] save clicked");
+    }
+    onSave();
+  };
+
   return (
     <section className="surface-card p-6 sm:p-7">
       <div className="mb-6">
@@ -96,14 +110,14 @@ export const SummaryPanel = ({
             </article>
           ) : null}
 
-          <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
+          <article className="relative z-20 rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               心の現在地
             </p>
             <p className="text-sm leading-7 text-stone">
               今のあなたはどこに近いですか？
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2 pointer-events-auto">
               {heartStateOptions.map((option) => {
                 const isSelected = option === heartState;
 
@@ -111,8 +125,8 @@ export const SummaryPanel = ({
                   <button
                     key={option}
                     type="button"
-                    onClick={() => onHeartStateChange(option)}
-                    className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                    onClick={() => handleHeartStateSelect(option)}
+                    className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       isSelected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
                         : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
@@ -133,20 +147,20 @@ export const SummaryPanel = ({
               ここまでで少し整理できたら、記録として残して終えても大丈夫です。
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <button type="button" onClick={onSave} className="button-primary">
+              <button type="button" onClick={handleSaveClick} className="button-primary touch-manipulation">
                 保存して終わる
               </button>
               <button
                 type="button"
                 onClick={onContinueThinking}
-                className="button-secondary"
+                className="button-secondary touch-manipulation"
               >
                 もう少し考える
               </button>
               <button
                 type="button"
                 onClick={onOpenHistory}
-                className="button-secondary"
+                className="button-secondary touch-manipulation"
               >
                 マイログを見る
               </button>
