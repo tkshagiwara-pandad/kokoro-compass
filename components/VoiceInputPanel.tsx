@@ -149,69 +149,77 @@ export const VoiceInputPanel = ({
     }
   };
 
+  const handlePrimaryAction = () => {
+    if (isRecording) {
+      stopRecording();
+      return;
+    }
+
+    void startRecording();
+  };
+
   return (
-    <div className="space-y-3">
-      <div className="rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
-        <p className="text-sm leading-7 text-stone">
+    <div className="space-y-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <button
+          type="button"
+          onClick={handlePrimaryAction}
+          disabled={disabled || !isSupported || isTranscribing}
+          className={`min-h-[48px] w-full rounded-full px-5 py-3 text-sm transition sm:w-auto ${
+            isRecording
+              ? "border border-iris/55 bg-white text-plum shadow-soft"
+              : "bg-plum text-white hover:bg-ink disabled:cursor-not-allowed disabled:bg-lilac disabled:text-white/75"
+          }`}
+        >
+          {isRecording ? "録音を止める" : "録音を始める"}
+        </button>
+
+        {value.trim() && !isRecording && !isTranscribing ? (
+          <button
+            type="button"
+            onClick={() => {
+              setError("");
+              onChange("");
+            }}
+            disabled={disabled}
+            className="text-sm text-stone transition hover:text-plum"
+          >
+            もう一度話す
+          </button>
+        ) : null}
+      </div>
+
+      <div className="rounded-[20px] border border-iris/24 bg-white/78 px-4 py-2.5 sm:px-5">
+        <p className="text-sm leading-6 text-stone">
           {introMessage ||
             "今の気持ちを、思いつくまま話してみてください。うまく話そうとしなくて大丈夫です。"}
         </p>
-        <p className="mt-2 text-xs leading-6 text-stone/78">
+        <p className="mt-1 text-xs leading-5 text-stone/74">
           {helperMessage ||
             "声は一度文字に整えてから表示されます。必要なら少し直してから、ソラに送れます。"}
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <button
-          type="button"
-          onClick={startRecording}
-          disabled={disabled || !isSupported || isRecording || isTranscribing}
-          className="button-secondary min-h-[48px] w-full border-iris/55 bg-white/92 sm:min-w-[148px] sm:w-auto"
-        >
-          録音を始める
-        </button>
-        <button
-          type="button"
-          onClick={stopRecording}
-          disabled={disabled || !isRecording}
-          className="button-secondary min-h-[48px] w-full sm:min-w-[148px] sm:w-auto"
-        >
-          録音を止める
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setError("");
-            onChange("");
-          }}
-          disabled={disabled || isRecording || isTranscribing || !value.trim()}
-          className="button-secondary min-h-[48px] w-full border-lilac/42 bg-white/72 text-stone sm:min-w-[148px] sm:w-auto"
-        >
-          もう一度話す
-        </button>
-      </div>
-
-      <div className="rounded-2xl border border-lilac/34 bg-mist/26 px-4 py-3">
+      <div className="rounded-2xl border border-lilac/30 bg-mist/18 px-4 py-2">
         {!isSupported ? (
-          <p className="text-sm leading-7 text-stone">
+          <p className="text-sm leading-6 text-stone">
             この環境では音声入力を使えないようです。書くモードから相談できます。
           </p>
         ) : isRecording ? (
-          <p className="text-sm leading-7 text-plum">
-            いま聞き取っています。話し終えたら「録音を止める」を押してください。
+          <p className="text-sm leading-6 text-plum">
+            いま聞き取っています。話し終えたら止めてください。
           </p>
         ) : isTranscribing ? (
-          <p className="text-sm leading-7 text-stone">
+          <p className="text-sm leading-6 text-stone">
             声を文字に整えています。少しだけお待ちください。
           </p>
         ) : value.trim() ? (
-          <p className="text-sm leading-7 text-stone">
-            文字になった内容を見直して、必要なら少し整えてからソラに送れます。
+          <p className="text-sm leading-6 text-stone">
+            文字になった内容を見直して、そのまま次へ進めます。
           </p>
         ) : (
-          <p className="text-sm leading-7 text-stone">
-            話した内容は、この下に文字として静かに置かれていきます。
+          <p className="text-sm leading-6 text-stone">
+            話した内容は、この下に文字として置かれていきます。
           </p>
         )}
       </div>
@@ -229,15 +237,15 @@ export const VoiceInputPanel = ({
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          rows={10}
+          rows={4}
           placeholder="話した内容がここに表示されます。必要なら少し整えてから、そのままソラに話せます。"
-          className="field-base min-h-[244px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[268px]"
+          className="field-base min-h-[124px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[140px]"
           disabled={disabled || isTranscribing}
         />
       </label>
 
       {value.trim() ? (
-        <p className="text-xs leading-6 text-stone/72">
+        <p className="text-xs leading-5 text-stone/70">
           {transcriptHint ||
             "内容を整えたら、下の「この内容でソラに話す」からそのまま相談を始められます。"}
         </p>

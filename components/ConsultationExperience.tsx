@@ -79,7 +79,7 @@ export const ConsultationExperience = () => {
 
   const messageHint = useMemo(() => {
     if (summary) {
-      return "対話は整いました。右側の整理結果で、いまの気持ちの輪郭を見返せます。";
+      return "対話は整いました。整理された内容を見返しながら、いまの気持ちの輪郭をたどれます。";
     }
 
     if (isLoading) {
@@ -94,7 +94,7 @@ export const ConsultationExperience = () => {
       return "最初の問いに、いま一番近い気持ちを返してみてください。";
     }
 
-    return "あとひとつ返答すると、ソラが心の整理をまとめます。";
+    return "ここまでで少し整理できたら、このまま心の整理を見ることもできます。続けても、ここで区切っても大丈夫です。";
   }, [answers.length, isLoading, messages.length, summary]);
 
   const resetAll = () => {

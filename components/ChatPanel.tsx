@@ -113,13 +113,22 @@ export const ChatPanel = ({
             })}
           </div>
 
+          {latestReply?.followUpQuestion ? (
+            <div className="mb-3 rounded-[18px] border border-lilac/34 bg-mist/24 px-4 py-2.5">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-gold">いまの問い</p>
+              <p className="mt-1 text-sm leading-6.5 text-ink">
+                {latestReply.followUpQuestion}
+              </p>
+            </div>
+          ) : null}
+
           {inputMode === "voice" ? (
             <VoiceInputPanel
               value={replyInput}
               onChange={onReplyInputChange}
               disabled={isLoading || (!canReply && !canSummarize)}
               introMessage="いま感じていることを、そのまま続けて話してみてください。短くても大丈夫です。"
-              helperMessage="声は一度文字に整えてから表示されます。必要なら少し直して、そのまま次へ進めます。"
+              helperMessage="声は一度文字になってから見直せます。必要なら少し整えて、そのまま次へ進めます。"
               transcriptLabel="返答を文字にした内容"
               transcriptHint="内容を整えたら、下の「次へ」または「心の整理を見る」からそのまま進められます。"
             />

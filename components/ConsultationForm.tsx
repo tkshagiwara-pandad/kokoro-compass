@@ -160,8 +160,8 @@ export const ConsultationForm = ({
           <p className="text-xs uppercase tracking-[0.22em] text-gold">Guide</p>
           <p className="mt-2 text-sm leading-7 text-stone">
             {started
-              ? "相談は始まっています。右へ進みながら、ソラの問いに短い言葉で返してみてください。"
-              : "まずは左の入力欄に、心に引っかかっていることを一つだけ置いてみてください。長くなくても大丈夫です。"}
+              ? "相談は始まっています。このままソラの問いに、短い言葉で返してみてください。"
+              : "まずはここに、心に引っかかっていることを一つだけ置いてみてください。長くなくても大丈夫です。"}
           </p>
         </div>
       </div>

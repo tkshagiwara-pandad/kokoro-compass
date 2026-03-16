@@ -7,8 +7,8 @@ type SoraResponseCardsProps = {
 
 const allSections = [
   { key: "empathicMessage", label: "共感" },
-  { key: "followUpQuestion", label: "質問" },
-  { key: "insight", label: "気づき" },
+  { key: "followUpQuestion", label: "いまの問い" },
+  { key: "insight", label: "小さな気づき" },
   { key: "futureMessage", label: "未来のあなたからの言葉" },
 ] as const;
 
