@@ -43,7 +43,7 @@ export const SummaryPanel = ({
       </div>
 
       {summary ? (
-        <div className="space-y-4">
+        <div className="space-y-4.5">
           {summaryItems.map((item) => (
             <article
               key={item.key}
@@ -52,7 +52,7 @@ export const SummaryPanel = ({
               <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
                 {item.label}
               </p>
-              <p className="text-sm leading-7 text-ink">
+              <p className="text-[15px] leading-7 text-ink sm:leading-8">
                 {summary[item.key]}
               </p>
             </article>
@@ -62,21 +62,21 @@ export const SummaryPanel = ({
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               今日の小さな気づき
             </p>
-            <p className="text-sm leading-7 text-ink">{insight}</p>
+            <p className="text-[15px] leading-7 text-ink sm:leading-8">{insight}</p>
           </article>
 
           <article className="rounded-[24px] border border-gold/32 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.9))] p-4 sm:p-5 shadow-[0_14px_32px_rgba(120,106,82,0.08)]">
             <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
               未来のあなたからの言葉
             </p>
-            <p className="text-sm leading-7 text-ink">{futureMessage}</p>
+            <p className="text-[15px] leading-7 text-ink sm:leading-8">{futureMessage}</p>
           </article>
 
           <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               次の問い
             </p>
-            <p className="text-sm leading-7 text-ink/92">{nextQuestion}</p>
+            <p className="text-sm leading-7 text-ink/88 sm:leading-8">{nextQuestion}</p>
           </article>
 
           {emotionalState ? (

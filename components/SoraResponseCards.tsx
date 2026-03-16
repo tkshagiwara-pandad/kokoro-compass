@@ -21,7 +21,7 @@ export const SoraResponseCards = ({
   }
 
   return (
-    <div className="grid gap-3.5">
+    <div className="grid gap-4">
       {allSections
         .filter((section) =>
           sections.includes(
@@ -55,10 +55,10 @@ export const SoraResponseCards = ({
                     : "border-lilac/35 bg-mist/34"
             }`}
           >
-            <p className="mb-2 text-[11px] uppercase tracking-[0.22em] text-gold">
+            <p className="mb-2.5 text-[11px] uppercase tracking-[0.22em] text-gold">
               {section.label}
             </p>
-            <p className="text-sm leading-7 text-ink">{content}</p>
+            <p className="text-[15px] leading-7 text-ink sm:leading-8">{content}</p>
           </article>
         );
       })}

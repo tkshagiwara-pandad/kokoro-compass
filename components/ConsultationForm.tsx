@@ -63,12 +63,20 @@ export const ConsultationForm = ({
 
         <label className="block">
           <span className="mb-2 block text-sm text-ink/80">相談内容</span>
+          <div className="mb-3 rounded-[22px] border border-iris/28 bg-white/78 px-4 py-3 sm:px-5">
+            <p className="text-sm leading-7 text-stone">
+              うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることから、ひとことだけでも書いてみてください。
+            </p>
+            <p className="mt-2 text-xs leading-6 text-stone/80">
+              例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」 「人間関係で気になることがあります」
+            </p>
+          </div>
           <textarea
             value={input}
             onChange={(event) => onInputChange(event.target.value)}
-            rows={11}
-            placeholder="いま心に引っかかっていることを、そのまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
-            className="field-base min-h-[240px] bg-white/92"
+            rows={12}
+            placeholder="今いちばん心に引っかかっていることを、思いつくまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
+            className="field-base min-h-[260px] border-iris/38 bg-white shadow-[0_10px_24px_rgba(137,119,154,0.06)] sm:min-h-[280px]"
             disabled={isLoading}
           />
         </label>

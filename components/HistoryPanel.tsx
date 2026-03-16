@@ -24,7 +24,7 @@ export const HistoryPanel = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">History</p>
         <h2 className="mt-2 font-serif text-xl text-plum">相談履歴</h2>
         <p className="mt-2 text-sm leading-7 text-stone">
-          ローカルに保存された相談をあとから見返せます。
+          ローカルに残った記録を、あとから静かにたどれます。
         </p>
       </div>
 
@@ -35,19 +35,21 @@ export const HistoryPanel = ({
               key={record.id}
               className="rounded-[22px] border border-lilac/40 bg-mist/32 p-4 shadow-soft"
             >
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <span className="rounded-full bg-white px-3 py-1 text-xs text-plum shadow-soft">
-                  {record.topic}
-                </span>
-                <span className="text-xs text-stone">
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div className="space-y-2">
+                  <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs text-plum shadow-soft">
+                    {record.topic}
+                  </span>
+                  <p className="text-[11px] leading-5 text-stone/85">
+                    テーマ: {record.summary.topic}
+                  </p>
+                </div>
+                <span className="shrink-0 text-[11px] leading-5 text-stone">
                   {formatJapaneseDateTime(record.createdAt)}
                 </span>
               </div>
               <p className="line-clamp-4 text-sm leading-7 text-ink">{record.userInput}</p>
               <p className="mt-3 text-xs leading-6 text-stone">
-                最近のテーマ: {record.summary.topic}
-              </p>
-              <p className="mt-2 text-xs leading-6 text-stone">
                 感情: {record.emotion}
               </p>
               <p className="mt-2 text-xs leading-6 text-stone">
@@ -73,7 +75,9 @@ export const HistoryPanel = ({
           ))
         ) : (
           <div className="rounded-[22px] border border-lilac/45 bg-mist/35 p-5 text-sm leading-7 text-stone lg:col-span-2">
-            まだ保存された相談はありません。相談を保存すると、ここからあとで見返せます。
+            相談を重ねると
+            <br />
+            ここにあなたの記録が残ります。
           </div>
         )}
       </div>

@@ -68,7 +68,7 @@ const fallbackReply = (request: ChatRequest): SoraReply => ({
   insight:
     "今日の小さな気づきとして、あなたは答えよりもまず安心できる足場を求めているのかもしれません。",
   futureMessage:
-    "焦らなくて大丈夫です。今のあなたは、ちゃんと自分の心に耳を澄ませ始めています。",
+    "今振り返ると、あの頃の私は答えを急いでいたというより、安心して立ち止まれる場所を探していたのだと思います。",
   nextQuestion:
     "本当は、どんな時間や場所にいると少しほっとできるでしょうか。",
   emotionalState: defaultEmotionalState,

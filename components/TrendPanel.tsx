@@ -50,6 +50,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
   const recentRecords = getRecentInsights(records);
   const lifeMapCounts = getLifeMapCounts(records);
   const lifeMapComment = buildLifeMapComment(lifeMapCounts);
+  const hasRecords = records.length > 0;
 
   return (
     <section className="rounded-[24px] border border-lilac/40 bg-white/70 p-5 shadow-soft">
@@ -57,37 +58,68 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
         <p className="text-xs uppercase tracking-[0.24em] text-gold">My Log</p>
         <h2 className="mt-2 font-serif text-xl text-plum">人生の地図</h2>
         <p className="mt-2 text-sm leading-7 text-stone">
-          保存した相談から、最近のテーマや小さな気づきの流れを静かに見返せます。
+          {hasRecords
+            ? "保存した相談から、最近のテーマや小さな気づきの流れを静かに見返せます。"
+            : "相談が増えると、あなたの思考の傾向がここに少しずつ現れてきます。"}
         </p>
       </div>
 
       <div className="grid gap-3.5 lg:grid-cols-[1.05fr_1.1fr_0.95fr]">
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
           <p className="text-xs uppercase tracking-[0.22em] text-gold">最近のテーマ</p>
-          <div className="mt-3 grid gap-2">
-            {lifeMapThemes.map((theme) => (
-              <div
-                key={theme}
-                className="flex items-center justify-between rounded-2xl border border-lilac/35 bg-white/82 px-4 py-3"
-              >
-                <span className="text-sm text-ink">{theme}</span>
-                <span className="rounded-full bg-mist px-2.5 py-1 text-xs text-plum">
-                  {lifeMapCounts[theme]}件
-                </span>
+          {hasRecords ? (
+            <div className="mt-3 grid gap-2">
+              {lifeMapThemes.map((theme) => (
+                <div
+                  key={theme}
+                  className="flex items-center justify-between rounded-2xl border border-lilac/35 bg-white/82 px-4 py-3"
+                >
+                  <span className="text-sm text-ink">{theme}</span>
+                  <span className="rounded-full bg-mist px-2.5 py-1 text-xs text-plum">
+                    {lifeMapCounts[theme]}件
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-3 rounded-2xl border border-dashed border-lilac/38 bg-white/78 px-4 py-4">
+              <p className="text-sm leading-7 text-ink">
+                相談を重ねると、仕事や恋愛、人間関係、将来への気がかりがどのくらい現れやすいかが、ここに静かに残っていきます。
+              </p>
+              <div className="mt-3 grid gap-2">
+                {lifeMapThemes.map((theme) => (
+                  <div
+                    key={theme}
+                    className="flex items-center justify-between rounded-2xl border border-lilac/28 bg-mist/20 px-4 py-2.5"
+                  >
+                    <span className="text-sm text-stone">{theme}</span>
+                    <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-stone">
+                      記録が入る場所
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </article>
 
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
           <p className="text-xs uppercase tracking-[0.22em] text-gold">直近3件の気づき</p>
-          <div className="mt-3 space-y-2">
-            {recentRecords.map((record) => (
-              <div key={record.id} className="rounded-2xl bg-white/82 px-4 py-3 text-sm leading-7 text-ink">
-                {record.insight}
-              </div>
-            ))}
-          </div>
+          {recentRecords.length > 0 ? (
+            <div className="mt-3 space-y-2">
+              {recentRecords.map((record) => (
+                <div key={record.id} className="rounded-2xl bg-white/82 px-4 py-3 text-sm leading-7 text-ink">
+                  {record.insight}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-3 rounded-2xl border border-dashed border-lilac/38 bg-white/78 px-4 py-4">
+              <p className="text-sm leading-7 text-stone">
+                ここには、その時々の小さな気づきが残ります。あとから見返すと、同じような揺れ方や、少しずつ変わってきた視点に気づけることがあります。
+              </p>
+            </div>
+          )}
         </article>
 
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
@@ -116,7 +148,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
               ))
             ) : (
               <p className="text-sm leading-7 text-stone">
-                まだ相談ログがないため、ここに最近の流れが表示されます。
+                相談を重ねると、不安や疲れ、希望の流れがここに静かに表れてきます。
               </p>
             )}
           </div>

@@ -20,7 +20,7 @@ export default function LandingPage() {
     <LayoutShell
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
-      description="答えを探す前に、心を整える。恋愛・仕事・人間関係・将来不安の悩みを、AIとの対話で静かに整理するベータ版サービスです。"
+      description="答えをくれるAIではなく、答えに近づくためのAI。恋愛・仕事・人間関係・将来不安の悩みを、AIとの対話で静かに整理するベータ版サービスです。"
     >
       <main className="space-y-7 lg:space-y-9">
         <section className="surface-card overflow-hidden p-6 sm:p-8 lg:p-10">
@@ -30,13 +30,14 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <p className="text-sm tracking-[0.24em] text-gold">心を整理するAI相談</p>
                 <h2 className="font-serif text-4xl leading-tight text-plum sm:text-5xl">
-                  答えを探す前に、
+                  答えをくれるAIではなく
                   <br />
-                  心を整える。
+                  答えに近づくためのAI
                 </h2>
                 <p className="max-w-2xl text-base leading-8 text-stone">
                   こころの羅針盤は、ソラとのやさしい対話を通じて、
-                  恋愛や仕事、人間関係、将来不安などの悩みを静かに見つめ直すためのベータ版サービスです。
+                  恋愛や仕事、人間関係、将来不安などの悩みを静かに見つめ直し、
+                  自分の言葉で少しずつ整理していくためのベータ版サービスです。
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">

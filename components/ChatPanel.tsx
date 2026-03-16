@@ -82,14 +82,20 @@ export const ChatPanel = ({
           <p className="mb-3 text-sm leading-7 text-stone">
             いま感じていることを、そのまま続けてソラに話してみてください。
           </p>
+          <p className="mb-3 text-xs leading-6 text-stone/78">
+            うまく説明しようとしなくて大丈夫です。短い言葉でも、ひとつの感情だけでもかまいません。
+          </p>
           <textarea
             value={replyInput}
             onChange={(event) => onReplyInputChange(event.target.value)}
-            rows={4}
-            placeholder="いま感じていることを、そのまま書いてみてください。短い言葉でも、まだまとまっていない気持ちでも大丈夫です。"
-            className="field-base min-h-[152px] border-iris/50 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60"
+            rows={5}
+            placeholder="続けてソラに話してみてください。いま感じていることを、思いつくまま置いていけば大丈夫です。"
+            className="field-base min-h-[168px] border-iris/50 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[176px]"
             disabled={isLoading || (!canReply && !canSummarize)}
           />
+          <p className="mt-2 text-xs leading-6 text-stone/72">
+            例: 「少し不安です」 「気持ちがまだまとまりません」 「本当はどうしたいのか分からないです」
+          </p>
 
           {chatError ? (
             <div className="mt-3 rounded-2xl border border-rose-200 bg-rose-50/90 px-4 py-3 text-sm leading-6 text-rose-700">

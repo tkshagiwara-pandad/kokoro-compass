@@ -39,7 +39,7 @@ export const LogExperience = () => {
     <LayoutShell
       eyebrow="My Log"
       title="マイログ"
-      description="これまでの相談を静かに見返しながら、最近よく現れるテーマや気づきの流れをたどるためのページです。"
+      description="これまでの相談を静かに見返しながら、くり返し現れるテーマや気づきの流れをたどるための振り返りページです。"
       backLink={{ href: "/consultation", label: "相談画面へ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
