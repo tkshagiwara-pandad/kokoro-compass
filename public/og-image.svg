@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#FBF9FC"/>
+  <circle cx="880" cy="110" r="220" fill="#E8DDF3" fill-opacity=".7"/>
+  <circle cx="180" cy="560" r="240" fill="#F6EFFA"/>
+  <rect x="84" y="92" width="1032" height="446" rx="36" fill="white" stroke="#E8DDF3"/>
+  <text x="144" y="198" fill="#BEA06B" font-size="24" font-family="serif" letter-spacing="8">Kokoro Compass</text>
+  <text x="144" y="300" fill="#5B4D68" font-size="64" font-family="serif">こころの羅針盤</text>
+  <text x="144" y="378" fill="#6A6372" font-size="30" font-family="sans-serif">答えを探す前に、心を整える。</text>
+  <text x="144" y="434" fill="#6A6372" font-size="24" font-family="sans-serif">恋愛・仕事・人間関係・将来不安を、AIとの対話で静かに整理する。</text>
+  <circle cx="936" cy="315" r="78" fill="#E8DDF3"/>
+  <path d="M936 255L950 297L992 311L950 325L936 367L922 325L880 311L922 297L936 255Z" fill="#5B4D68"/>
+  <circle cx="936" cy="311" r="12" fill="#BEA06B"/>
+</svg>

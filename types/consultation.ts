@@ -1,0 +1,72 @@
+export const consultationTopics = [
+  "恋愛",
+  "仕事",
+  "人間関係",
+  "将来不安",
+  "なんとなく不安",
+] as const;
+
+export type ConsultationTopic = (typeof consultationTopics)[number];
+
+export type Sender = "user" | "sora";
+
+export type ChatMessage = {
+  id: string;
+  sender: Sender;
+  content: string;
+  createdAt: string;
+};
+
+export type ReflectionSummary = {
+  topic: string;
+  emotion: string;
+  coreIssue: string;
+  whatYouNeed: string;
+  soraMessage: string;
+  theme?: string;
+};
+
+export type EmotionalState = {
+  anxiety: number;
+  fatigue: number;
+  hope: number;
+};
+
+export type SoraReply = {
+  empathicMessage: string;
+  followUpQuestion: string;
+  insight: string;
+  futureMessage: string;
+  nextQuestion: string;
+  emotionalState: EmotionalState;
+  reflectionSummary: ReflectionSummary;
+};
+
+export type ChatAction = "start" | "continue" | "summarize";
+
+export type ChatRequest = {
+  action: ChatAction;
+  topic: ConsultationTopic;
+  userInput: string;
+  answers: string[];
+};
+
+export type ChatResponse = {
+  reply: SoraReply;
+};
+
+export type ConsultationRecord = {
+  id: string;
+  createdAt: string;
+  topic: ConsultationTopic;
+  userInput: string;
+  emotion: string;
+  summary: ReflectionSummary;
+  insight: string;
+  futureMessage: string;
+  nextQuestion: string;
+  emotionalState: EmotionalState;
+  messages: ChatMessage[];
+};
+
+export type ConsultationStage = 1 | 2 | 3;
