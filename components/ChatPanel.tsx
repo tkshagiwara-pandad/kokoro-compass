@@ -43,7 +43,7 @@ export const ChatPanel = ({
       </div>
 
       <div className="space-y-5.5">
-        <div className="max-h-[400px] min-h-[280px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/34 bg-mist/34 p-4 sm:p-5">
+        <div className="max-h-[380px] min-h-[260px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:p-5">
           {messages.length > 0 ? (
             messages.map((message) => (
               <div
@@ -72,7 +72,7 @@ export const ChatPanel = ({
           sections={["empathicMessage", "followUpQuestion"]}
         />
 
-        <div className="sticky bottom-2 z-10 rounded-[26px] border border-iris/48 bg-white/97 p-4 shadow-[0_20px_46px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
+        <div className="sticky bottom-2 z-10 rounded-[26px] border border-iris/50 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
               あなたの返答
@@ -87,7 +87,7 @@ export const ChatPanel = ({
             onChange={(event) => onReplyInputChange(event.target.value)}
             rows={4}
             placeholder="いま感じていることを、そのまま書いてみてください。短い言葉でも、まだまとまっていない気持ちでも大丈夫です。"
-            className="field-base min-h-[144px] border-iris/48 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.1)] disabled:bg-mist/60"
+            className="field-base min-h-[152px] border-iris/50 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60"
             disabled={isLoading || (!canReply && !canSummarize)}
           />
 
@@ -125,7 +125,7 @@ export const ChatPanel = ({
             </button>
           </div>
 
-          <p className="mt-3 text-xs leading-6 text-stone/72">{messageHint}</p>
+          <p className="mt-3 text-xs leading-6 text-stone/68">{messageHint}</p>
         </div>
 
         <SoraResponseCards

@@ -58,7 +58,7 @@ export const SummaryPanel = ({
             </article>
           ))}
 
-          <article className="rounded-[20px] border border-lilac/38 bg-mist/28 p-4">
+          <article className="rounded-[20px] border border-lilac/36 bg-mist/24 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               今日の小さな気づき
             </p>
@@ -72,15 +72,15 @@ export const SummaryPanel = ({
             <p className="text-sm leading-7 text-ink">{futureMessage}</p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/26 bg-mist/18 p-4">
+          <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               次の問い
             </p>
-            <p className="text-sm leading-7 text-ink">{nextQuestion}</p>
+            <p className="text-sm leading-7 text-ink/92">{nextQuestion}</p>
           </article>
 
           {emotionalState ? (
-            <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4">
+            <article className="rounded-[18px] border border-lilac/22 bg-mist/10 p-4">
               <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
                 心の状態メーター
               </p>

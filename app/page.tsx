@@ -22,7 +22,7 @@ export default function LandingPage() {
       title="こころの羅針盤"
       description="答えを探す前に、心を整える。恋愛・仕事・人間関係・将来不安の悩みを、AIとの対話で静かに整理するベータ版サービスです。"
     >
-      <main className="space-y-6 lg:space-y-8">
+      <main className="space-y-7 lg:space-y-9">
         <section className="surface-card overflow-hidden p-6 sm:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="space-y-5">
@@ -47,7 +47,11 @@ export default function LandingPage() {
                 >
                   無料で試してみる
                 </Link>
-                <FeedbackButton href={FEEDBACK_FORM_URL} label="ご意見を送る" />
+                <FeedbackButton
+                  href={FEEDBACK_FORM_URL}
+                  label="ご意見を送る"
+                  className="inline-flex items-center justify-center rounded-full border border-lilac/40 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+                />
               </div>
               <p className="text-sm leading-7 text-stone">
                 相談を続けて見返したいときは

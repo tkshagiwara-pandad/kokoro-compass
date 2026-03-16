@@ -390,21 +390,24 @@ export const ConsultationExperience = () => {
         <NoticePanel compact />
 
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[24px] border border-lilac/42 bg-white/66 p-5 shadow-soft">
+          <div className="rounded-[24px] border border-lilac/36 bg-white/62 p-5 shadow-soft">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">My Log</p>
             <h2 className="mt-2 font-serif text-xl text-plum">最近のログを見る</h2>
             <p className="mt-3 text-sm leading-7 text-stone">
               保存した相談はマイログにまとまっています。今の相談を終えたあとで、最近のテーマや気づきを静かに見返したいときに開いてください。
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/log" className="button-secondary">
+              <Link
+                href="/log"
+                className="inline-flex items-center justify-center rounded-full border border-lilac/42 bg-white/76 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+              >
                 マイログを見る
               </Link>
               {history.length > 0 ? (
                 <button
                   type="button"
                   onClick={() => handleSelectHistory(history[0])}
-                  className="button-secondary"
+                  className="inline-flex items-center justify-center rounded-full border border-lilac/38 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
                 >
                   最新の相談を開く
                 </button>
@@ -412,12 +415,16 @@ export const ConsultationExperience = () => {
             </div>
           </div>
 
-          <div className="rounded-[24px] border border-lilac/42 bg-white/66 px-5 py-4 shadow-soft">
+          <div className="rounded-[24px] border border-lilac/36 bg-white/62 px-5 py-4 shadow-soft">
             <p className="text-sm leading-7 text-stone">
               ベータ版のため、使いづらさや気になる点があれば短くても大丈夫です。感想をいただけると改善に役立ちます。
             </p>
             <div className="mt-4">
-              <FeedbackButton href={FEEDBACK_FORM_URL} label="フィードバックを送る" />
+              <FeedbackButton
+                href={FEEDBACK_FORM_URL}
+                label="フィードバックを送る"
+                className="inline-flex items-center justify-center rounded-full border border-lilac/40 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+              />
             </div>
           </div>
         </section>
