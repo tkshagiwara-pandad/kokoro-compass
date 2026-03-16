@@ -56,7 +56,7 @@ cp .env.example .env.local
 OPENAI_API_KEY=your_openai_api_key_here
 OPENAI_MODEL=gpt-4.1-mini
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_FEEDBACK_FORM_URL=https://example.com/kokoro-compass-feedback
+NEXT_PUBLIC_FEEDBACK_FORM_URL=https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform?usp=dialog
 ```
 
 `OPENAI_MODEL` は任意です。未設定時は `gpt-4.1-mini` を使います。
@@ -212,10 +212,11 @@ public/
 
 ## フィードバックフォーム URL の差し替え場所
 
+- 現在は Google Forms のフィードバックフォームを LP、相談画面、マイログ画面に設置しています
 - `NEXT_PUBLIC_FEEDBACK_FORM_URL`
 - または `lib/config.ts` の `FEEDBACK_FORM_URL`
 
-初期値は仮 URL です。テスト公開前に実際のフォーム URL へ差し替えてください。
+必要に応じて、`lib/config.ts` または `NEXT_PUBLIC_FEEDBACK_FORM_URL` を差し替えて運用してください。
 
 ## og:image と favicon の差し替え場所
 

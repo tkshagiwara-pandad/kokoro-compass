@@ -1,9 +1,9 @@
 export const FEEDBACK_FORM_URL =
   process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ||
-  "https://example.com/kokoro-compass-feedback";
+  "https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform?usp=dialog";
 
 export const DEFAULT_FEEDBACK_FORM_URL =
-  "https://example.com/kokoro-compass-feedback";
+  "https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform?usp=dialog";
 
 export const hasFeedbackFormUrl =
   Boolean(FEEDBACK_FORM_URL) && FEEDBACK_FORM_URL !== DEFAULT_FEEDBACK_FORM_URL;
