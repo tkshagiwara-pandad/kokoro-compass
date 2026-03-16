@@ -7,6 +7,10 @@ type VoiceInputPanelProps = {
   value: string;
   onChange: (value: string) => void;
   disabled: boolean;
+  introMessage?: string;
+  helperMessage?: string;
+  transcriptLabel?: string;
+  transcriptHint?: string;
 };
 
 const MIN_AUDIO_BYTES = 1024;
@@ -29,6 +33,10 @@ export const VoiceInputPanel = ({
   value,
   onChange,
   disabled,
+  introMessage,
+  helperMessage,
+  transcriptLabel,
+  transcriptHint,
 }: VoiceInputPanelProps) => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -145,10 +153,12 @@ export const VoiceInputPanel = ({
     <div className="space-y-3">
       <div className="rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
         <p className="text-sm leading-7 text-stone">
-          今の気持ちを、思いつくまま話してみてください。うまく話そうとしなくて大丈夫です。
+          {introMessage ||
+            "今の気持ちを、思いつくまま話してみてください。うまく話そうとしなくて大丈夫です。"}
         </p>
         <p className="mt-2 text-xs leading-6 text-stone/78">
-          声は一度文字に整えてから表示されます。必要なら少し直してから、ソラに送れます。
+          {helperMessage ||
+            "声は一度文字に整えてから表示されます。必要なら少し直してから、ソラに送れます。"}
         </p>
       </div>
 
@@ -213,7 +223,9 @@ export const VoiceInputPanel = ({
       ) : null}
 
       <label className="block">
-        <span className="mb-2 block text-sm text-ink/80">文字にした内容</span>
+        <span className="mb-2 block text-sm text-ink/80">
+          {transcriptLabel || "文字にした内容"}
+        </span>
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
@@ -226,7 +238,8 @@ export const VoiceInputPanel = ({
 
       {value.trim() ? (
         <p className="text-xs leading-6 text-stone/72">
-          内容を整えたら、下の「この内容でソラに話す」からそのまま相談を始められます。
+          {transcriptHint ||
+            "内容を整えたら、下の「この内容でソラに話す」からそのまま相談を始められます。"}
         </p>
       ) : null}
     </div>

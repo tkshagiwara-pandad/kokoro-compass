@@ -371,16 +371,18 @@ export const ConsultationExperience = () => {
               currentStage === 1 ? "opacity-72 xl:pt-4" : "opacity-100"
             }`}
           >
-            <ChatPanel
-              messages={messages}
-              replyInput={replyInput}
-              chatError={chatError}
-              canReply={canReply}
-              canSummarize={canSummarize}
-              onReplyInputChange={setReplyInput}
-              onNext={handleNext}
-              onSummarize={handleSummarize}
-              messageHint={messageHint}
+          <ChatPanel
+            messages={messages}
+            replyInput={replyInput}
+            chatError={chatError}
+            canReply={canReply}
+            canSummarize={canSummarize}
+            inputMode={inputMode}
+            onReplyInputChange={setReplyInput}
+            onInputModeChange={setInputMode}
+            onNext={handleNext}
+            onSummarize={handleSummarize}
+            messageHint={messageHint}
               isLoading={isLoading}
               onRetry={handleRetry}
               canRetry={Boolean(lastRequest)}
