@@ -196,7 +196,7 @@ export const VoiceInputPanel = ({
         </p>
         <p className="mt-1 text-xs leading-5 text-stone/74">
           {helperMessage ||
-            "声は一度文字に整えてから表示されます。必要なら少し直してから送れます。"}
+            "声は一度文字になってから見直せます。"}
         </p>
       </div>
 
@@ -215,11 +215,11 @@ export const VoiceInputPanel = ({
           </p>
         ) : value.trim() ? (
           <p className="text-sm leading-6 text-stone">
-            文字になった内容を見直して、そのまま次へ進めます。
+            文字になった内容を見直して、そのまま進めます。
           </p>
         ) : (
           <p className="text-sm leading-6 text-stone">
-            話した内容は、この下に文字として置かれていきます。
+            話した内容は、この下に文字として表示されます。
           </p>
         )}
       </div>
@@ -247,7 +247,7 @@ export const VoiceInputPanel = ({
       {value.trim() ? (
         <p className="text-xs leading-5 text-stone/70">
           {transcriptHint ||
-            "内容を整えたら、そのまま相談を始められます。"}
+            "内容を整えたら、そのまま送れます。"}
         </p>
       ) : null}
     </div>

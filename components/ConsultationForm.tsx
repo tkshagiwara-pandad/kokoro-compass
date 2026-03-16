@@ -40,6 +40,16 @@ export const ConsultationForm = ({
         <p className="mt-3 text-sm leading-7 text-stone">
           テーマを選び、今の気持ちを書いたり話したりして、ソラに送ります。
         </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {["1 テーマを選ぶ", "2 書く / 話す", "3 ソラに送る"].map((step) => (
+            <span
+              key={step}
+              className="inline-flex rounded-full border border-lilac/34 bg-white/78 px-3 py-1 text-xs text-stone"
+            >
+              {step}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-5">
@@ -71,7 +81,7 @@ export const ConsultationForm = ({
         <label className="block">
           <div className="mb-3">
             <span className="block text-sm text-ink">今の気持ちは、書いても話しても大丈夫です</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">自分に合う置き方を選べます。</p>
+            <p className="mt-1 text-xs leading-6 text-stone/76">今の自分に合う置き方を選べます。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([

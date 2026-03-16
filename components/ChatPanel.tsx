@@ -45,7 +45,7 @@ export const ChatPanel = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 2</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">ソラとの対話</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          共感と問いかけを通じて、今の心の輪郭をゆっくり見つけます。
+          ソラの言葉を受け取りながら、今の心の輪郭をゆっくり見つけます。
         </p>
       </div>
 
@@ -144,9 +144,9 @@ export const ChatPanel = ({
                 onChange={onReplyInputChange}
                 disabled={isLoading || (!canReply && !canSummarize)}
                 introMessage="いま感じていることを、そのまま続けて話してみてください。短くても大丈夫です。"
-                helperMessage="声は一度文字になってから見直せます。必要なら少し整えて、そのまま次へ進めます。"
+                helperMessage="声は一度文字になってから見直せます。"
                 transcriptLabel="返答を文字にした内容"
-                transcriptHint="内容を整えたら、下の「次へ」または「心の整理を見る」からそのまま進められます。"
+                transcriptHint="内容を整えたら、下のボタンからそのまま進められます。"
               />
             ) : (
               <>
