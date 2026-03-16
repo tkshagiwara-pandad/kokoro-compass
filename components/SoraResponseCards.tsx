@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { saveSoraNote } from "@/lib/sora-notes";
 import { SoraReply } from "@/types/consultation";
 
 type SoraResponseCardsProps = {
@@ -16,6 +20,8 @@ export const SoraResponseCards = ({
   reply,
   sections = ["empathicMessage", "followUpQuestion", "insight", "futureMessage"],
 }: SoraResponseCardsProps) => {
+  const [savedKey, setSavedKey] = useState<string | null>(null);
+
   if (!reply) {
     return null;
   }
@@ -41,6 +47,8 @@ export const SoraResponseCards = ({
         const isFuture = section.key === "futureMessage";
         const isQuestion = section.key === "followUpQuestion";
         const isEmpathic = section.key === "empathicMessage";
+        const canSave = !isQuestion;
+        const saveKey = `${section.key}:${content}`;
 
         return (
           <article
@@ -55,9 +63,29 @@ export const SoraResponseCards = ({
                     : "border-lilac/35 bg-mist/34"
             }`}
           >
-            <p className="mb-2.5 text-[11px] uppercase tracking-[0.22em] text-gold">
-              {section.label}
-            </p>
+            <div className="mb-2.5 flex items-center justify-between gap-3">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-gold">
+                {section.label}
+              </p>
+              {canSave ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const saved = saveSoraNote({
+                      label: section.label,
+                      content,
+                    });
+
+                    if (saved) {
+                      setSavedKey(saveKey);
+                    }
+                  }}
+                  className="text-xs text-stone/72 transition hover:text-plum"
+                >
+                  {savedKey === saveKey ? "保存しました" : "この言葉を残す"}
+                </button>
+              ) : null}
+            </div>
             <p className="text-[15px] leading-7 text-ink sm:leading-8">{content}</p>
           </article>
         );

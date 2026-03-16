@@ -67,6 +67,15 @@ export const ChatPanel = ({
                 <p>{message.content}</p>
               </div>
             ))
+          ) : isLoading ? (
+            <div className="flex h-full min-h-[300px] items-center justify-center">
+              <div className="max-w-md rounded-[24px] border border-lilac/36 bg-white/92 px-5 py-4 text-center shadow-soft">
+                <p className="text-xs uppercase tracking-[0.22em] text-gold">Thinking</p>
+                <p className="mt-2 text-sm leading-7 text-stone">
+                  ソラがあなたの言葉を整理しています…
+                </p>
+              </div>
+            </div>
           ) : (
             <div className="flex h-full min-h-[300px] items-center justify-center text-center text-sm leading-7 text-stone/75">
               相談を始めると、ここにソラからの問いかけが静かに届きます。

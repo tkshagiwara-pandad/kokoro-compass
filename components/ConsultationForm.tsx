@@ -152,10 +152,16 @@ export const ConsultationForm = ({
           </button>
         </div>
 
+        {isLoading && !started ? (
+          <div className="rounded-2xl border border-lilac/36 bg-mist/34 px-4 py-3 text-sm leading-7 text-stone">
+            ソラがあなたの言葉を整理しています…
+          </div>
+        ) : null}
+
         <p className="text-sm leading-7 text-stone">
           {started
             ? "いまは対話の途中です。ソラの問いに返してみてください。"
-            : "送信すると、次にソラとの対話が始まります。"}
+            : "送ると、次にソラとの対話が始まります。"}
         </p>
       </div>
     </section>
