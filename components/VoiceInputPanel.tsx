@@ -217,11 +217,7 @@ export const VoiceInputPanel = ({
           <p className="text-sm leading-6 text-stone">
             文字になった内容を見直して、そのまま進めます。
           </p>
-        ) : (
-          <p className="text-sm leading-6 text-stone">
-            話した内容は、この下に文字として表示されます。
-          </p>
-        )}
+        ) : null}
       </div>
 
       {error ? (

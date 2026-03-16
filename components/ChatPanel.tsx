@@ -50,39 +50,6 @@ export const ChatPanel = ({
       </div>
 
       <div className="space-y-5.5">
-        <div className="max-h-[320px] min-h-[220px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:max-h-[380px] sm:min-h-[260px] sm:p-5">
-          {messages.length > 0 ? (
-            messages.map((message) => (
-              <div
-                key={message.id}
-                className={`max-w-[90%] rounded-[24px] px-4 py-3 text-sm leading-7 ${
-                  message.sender === "sora"
-                    ? "border border-lilac/50 bg-white text-ink shadow-soft"
-                    : "ml-auto bg-plum text-white shadow-soft"
-                }`}
-              >
-                <p className="mb-1 text-xs uppercase tracking-[0.18em] opacity-60">
-                  {message.sender === "sora" ? "ソラ" : "あなた"}
-                </p>
-                <p>{message.content}</p>
-              </div>
-            ))
-          ) : isLoading ? (
-            <div className="flex h-full min-h-[300px] items-center justify-center">
-              <div className="max-w-md rounded-[24px] border border-lilac/36 bg-white/92 px-5 py-4 text-center shadow-soft">
-                <p className="text-xs uppercase tracking-[0.22em] text-gold">Thinking</p>
-                <p className="mt-2 text-sm leading-7 text-stone">
-                  ソラがあなたの言葉を整理しています…
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="flex h-full min-h-[300px] items-center justify-center text-center text-sm leading-7 text-stone/75">
-              相談を始めると、ここにソラからの問いかけが静かに届きます。
-            </div>
-          )}
-        </div>
-
         {latestReply?.empathicMessage ? (
           <div className="space-y-2">
             <p className="text-xs uppercase tracking-[0.2em] text-plum/62">ソラの言葉</p>
@@ -93,7 +60,42 @@ export const ChatPanel = ({
           </div>
         ) : null}
 
-        <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
+        {!latestReply?.empathicMessage ? (
+          <div className="max-h-[320px] min-h-[220px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:max-h-[380px] sm:min-h-[260px] sm:p-5">
+            {messages.length > 0 ? (
+              messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`max-w-[90%] rounded-[24px] px-4 py-3 text-sm leading-7 ${
+                    message.sender === "sora"
+                      ? "border border-lilac/50 bg-white text-ink shadow-soft"
+                      : "ml-auto bg-plum text-white shadow-soft"
+                  }`}
+                >
+                  <p className="mb-1 text-xs uppercase tracking-[0.18em] opacity-60">
+                    {message.sender === "sora" ? "ソラ" : "あなた"}
+                  </p>
+                  <p>{message.content}</p>
+                </div>
+              ))
+            ) : isLoading ? (
+              <div className="flex h-full min-h-[300px] items-center justify-center">
+                <div className="max-w-md rounded-[24px] border border-lilac/36 bg-white/92 px-5 py-4 text-center shadow-soft">
+                  <p className="text-xs uppercase tracking-[0.22em] text-gold">Thinking</p>
+                  <p className="mt-2 text-sm leading-7 text-stone">
+                    ソラがあなたの言葉を整理しています…
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-full min-h-[300px] items-center justify-center text-center text-sm leading-7 text-stone/75">
+                相談を始めると、ここにソラからの問いかけが静かに届きます。
+              </div>
+            )}
+          </div>
+        ) : null}
+
+        <div className="z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur lg:sticky lg:bottom-3 sm:p-5">
           <div className="rounded-[22px] border border-lilac/34 bg-mist/20 p-4 sm:p-5">
             {latestReply?.followUpQuestion ? (
               <div className="mb-4">
@@ -104,72 +106,58 @@ export const ChatPanel = ({
               </div>
             ) : null}
 
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
-                ここで返してみてください
-              </p>
-              <p className="text-xs text-stone">
-                {inputMode === "voice" ? "話して返す" : "書いて返す"}
-              </p>
-            </div>
+            <div className="space-y-3 rounded-[18px] bg-white/68 p-3.5 sm:p-4">
+              <div className="inline-flex rounded-full border border-lilac/44 bg-white/88 p-1">
+                {([
+                  { key: "text", label: "書く" },
+                  { key: "voice", label: "話す" },
+                ] as const).map((option) => {
+                  const isSelected = option.key === inputMode;
 
-            <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/88 p-1">
-              {([
-                { key: "text", label: "書く" },
-                { key: "voice", label: "話す" },
-              ] as const).map((option) => {
-                const isSelected = option.key === inputMode;
+                  return (
+                    <button
+                      key={option.key}
+                      type="button"
+                      onClick={() => onInputModeChange(option.key)}
+                      disabled={isLoading}
+                      className={`rounded-full px-4 py-2 text-sm transition ${
+                        isSelected
+                          ? "bg-lilac/44 text-plum shadow-soft"
+                          : "text-stone hover:text-plum"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
 
-                return (
-                  <button
-                    key={option.key}
-                    type="button"
-                    onClick={() => onInputModeChange(option.key)}
-                    disabled={isLoading}
-                    className={`rounded-full px-4 py-2 text-sm transition ${
-                      isSelected
-                        ? "bg-lilac/44 text-plum shadow-soft"
-                        : "text-stone hover:text-plum"
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {inputMode === "voice" ? (
-              <VoiceInputPanel
-                value={replyInput}
-                onChange={onReplyInputChange}
-                disabled={isLoading || (!canReply && !canSummarize)}
-                introMessage="いま感じていることを、そのまま続けて話してみてください。短くても大丈夫です。"
-                helperMessage="声は一度文字になってから見直せます。"
-                transcriptLabel="返答を文字にした内容"
-                transcriptHint="内容を整えたら、下のボタンからそのまま進められます。"
-              />
-            ) : (
-              <>
-                <p className="mb-3 text-sm leading-7 text-stone">
-                  いま感じていることを、そのまま続けてソラに話してみてください。
-                </p>
-                <p className="mb-3 text-xs leading-6 text-stone/78">
-                  うまく説明しようとしなくて大丈夫です。短い言葉でも、ひとつの感情だけでもかまいません。
-                </p>
-                <textarea
+              {inputMode === "voice" ? (
+                <VoiceInputPanel
                   value={replyInput}
-                  onChange={(event) => onReplyInputChange(event.target.value)}
-                  rows={5}
-                  placeholder="続けてソラに話してみてください。いま感じていることを、ひとことずつでも大丈夫です。"
-                  className="field-base min-h-[176px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[188px]"
+                  onChange={onReplyInputChange}
                   disabled={isLoading || (!canReply && !canSummarize)}
+                  introMessage="いま感じていることを、そのまま続けて話してみてください。"
+                  helperMessage="声は一度文字になってから見直せます。"
+                  transcriptHint="内容を整えたら、下のボタンからそのまま進められます。"
                 />
-                <p className="mt-2 text-xs leading-6 text-stone/72">
-                  例: 「少し不安です」 「気持ちがまだまとまりません」
-                  「本当はどうしたいのか分からないです」
-                </p>
-              </>
-            )}
+              ) : (
+                <>
+                  <textarea
+                    value={replyInput}
+                    onChange={(event) => onReplyInputChange(event.target.value)}
+                    rows={5}
+                    placeholder="いま感じていることを、ひとことずつでも置いてみてください。"
+                    className="field-base min-h-[168px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[180px]"
+                    disabled={isLoading || (!canReply && !canSummarize)}
+                  />
+                  <p className="text-xs leading-6 text-stone/72">
+                    例: 「少し不安です」 「気持ちがまだまとまりません」
+                    「本当はどうしたいのか分からないです」
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
           {chatError ? (
@@ -216,6 +204,26 @@ export const ChatPanel = ({
               reply={latestReply}
               sections={["insight"]}
             />
+          </div>
+        ) : null}
+
+        {messages.length > 0 ? (
+          <div className="max-h-[320px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:max-h-[380px] sm:p-5">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`max-w-[90%] rounded-[24px] px-4 py-3 text-sm leading-7 ${
+                  message.sender === "sora"
+                    ? "border border-lilac/50 bg-white text-ink shadow-soft"
+                    : "ml-auto bg-plum text-white shadow-soft"
+                }`}
+              >
+                <p className="mb-1 text-xs uppercase tracking-[0.18em] opacity-60">
+                  {message.sender === "sora" ? "ソラ" : "あなた"}
+                </p>
+                <p>{message.content}</p>
+              </div>
+            ))}
           </div>
         ) : null}
       </div>
