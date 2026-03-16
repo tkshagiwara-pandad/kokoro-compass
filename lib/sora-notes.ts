@@ -1,4 +1,4 @@
-const SORA_NOTES_STORAGE_KEY = "kokoro-compass-sora-notes";
+const SORA_NOTES_STORAGE_KEY = "savedInsights";
 
 export type SavedSoraNote = {
   id: string;

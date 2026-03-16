@@ -83,12 +83,26 @@ export const ChatPanel = ({
           )}
         </div>
 
-        <SoraResponseCards
-          reply={latestReply}
-          sections={["empathicMessage", "followUpQuestion"]}
-        />
+        {latestReply?.empathicMessage ? (
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.2em] text-plum/62">ソラの言葉</p>
+            <SoraResponseCards
+              reply={latestReply}
+              sections={["empathicMessage"]}
+            />
+          </div>
+        ) : null}
 
         <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
+          {latestReply?.followUpQuestion ? (
+            <div className="mb-4 rounded-[18px] border border-lilac/34 bg-mist/24 px-4 py-2.5">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-gold">いまの問い</p>
+              <p className="mt-1 text-sm leading-6.5 text-ink">
+                {latestReply.followUpQuestion}
+              </p>
+            </div>
+          ) : null}
+
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
               あなたの返答
@@ -97,6 +111,7 @@ export const ChatPanel = ({
               読む → {inputMode === "voice" ? "話す" : "書く"}
             </p>
           </div>
+
           <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/80 p-1">
             {([
               { key: "text", label: "書く" },
@@ -121,15 +136,6 @@ export const ChatPanel = ({
               );
             })}
           </div>
-
-          {latestReply?.followUpQuestion ? (
-            <div className="mb-3 rounded-[18px] border border-lilac/34 bg-mist/24 px-4 py-2.5">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-gold">いまの問い</p>
-              <p className="mt-1 text-sm leading-6.5 text-ink">
-                {latestReply.followUpQuestion}
-              </p>
-            </div>
-          ) : null}
 
           {inputMode === "voice" ? (
             <VoiceInputPanel
