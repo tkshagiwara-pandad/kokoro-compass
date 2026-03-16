@@ -94,81 +94,83 @@ export const ChatPanel = ({
         ) : null}
 
         <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
-          {latestReply?.followUpQuestion ? (
-            <div className="mb-4 rounded-[18px] border border-lilac/34 bg-mist/24 px-4 py-2.5">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-gold">いまの問い</p>
-              <p className="mt-1 text-sm leading-6.5 text-ink">
-                {latestReply.followUpQuestion}
+          <div className="rounded-[22px] border border-lilac/34 bg-mist/20 p-4 sm:p-5">
+            {latestReply?.followUpQuestion ? (
+              <div className="mb-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-gold">いまの問い</p>
+                <p className="mt-1 text-sm leading-6.5 text-ink">
+                  {latestReply.followUpQuestion}
+                </p>
+              </div>
+            ) : null}
+
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
+                ここで返してみてください
+              </p>
+              <p className="text-xs text-stone">
+                {inputMode === "voice" ? "話して返す" : "書いて返す"}
               </p>
             </div>
-          ) : null}
 
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-xs uppercase tracking-[0.22em] text-gold">
-              あなたの返答
-            </p>
-            <p className="text-xs text-stone">
-              読む → {inputMode === "voice" ? "話す" : "書く"}
-            </p>
-          </div>
+            <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/88 p-1">
+              {([
+                { key: "text", label: "書く" },
+                { key: "voice", label: "話す" },
+              ] as const).map((option) => {
+                const isSelected = option.key === inputMode;
 
-          <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/80 p-1">
-            {([
-              { key: "text", label: "書く" },
-              { key: "voice", label: "話す" },
-            ] as const).map((option) => {
-              const isSelected = option.key === inputMode;
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    onClick={() => onInputModeChange(option.key)}
+                    disabled={isLoading}
+                    className={`rounded-full px-4 py-2 text-sm transition ${
+                      isSelected
+                        ? "bg-lilac/44 text-plum shadow-soft"
+                        : "text-stone hover:text-plum"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
 
-              return (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={() => onInputModeChange(option.key)}
-                  disabled={isLoading}
-                  className={`rounded-full px-4 py-2 text-sm transition ${
-                    isSelected
-                      ? "bg-lilac/44 text-plum shadow-soft"
-                      : "text-stone hover:text-plum"
-                  }`}
-                >
-                  {option.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {inputMode === "voice" ? (
-            <VoiceInputPanel
-              value={replyInput}
-              onChange={onReplyInputChange}
-              disabled={isLoading || (!canReply && !canSummarize)}
-              introMessage="いま感じていることを、そのまま続けて話してみてください。短くても大丈夫です。"
-              helperMessage="声は一度文字になってから見直せます。必要なら少し整えて、そのまま次へ進めます。"
-              transcriptLabel="返答を文字にした内容"
-              transcriptHint="内容を整えたら、下の「次へ」または「心の整理を見る」からそのまま進められます。"
-            />
-          ) : (
-            <>
-              <p className="mb-3 text-sm leading-7 text-stone">
-                いま感じていることを、そのまま続けてソラに話してみてください。
-              </p>
-              <p className="mb-3 text-xs leading-6 text-stone/78">
-                うまく説明しようとしなくて大丈夫です。短い言葉でも、ひとつの感情だけでもかまいません。
-              </p>
-              <textarea
+            {inputMode === "voice" ? (
+              <VoiceInputPanel
                 value={replyInput}
-                onChange={(event) => onReplyInputChange(event.target.value)}
-                rows={5}
-                placeholder="続けてソラに話してみてください。いま感じていることを、ひとことずつでも大丈夫です。"
-                className="field-base min-h-[176px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[188px]"
+                onChange={onReplyInputChange}
                 disabled={isLoading || (!canReply && !canSummarize)}
+                introMessage="いま感じていることを、そのまま続けて話してみてください。短くても大丈夫です。"
+                helperMessage="声は一度文字になってから見直せます。必要なら少し整えて、そのまま次へ進めます。"
+                transcriptLabel="返答を文字にした内容"
+                transcriptHint="内容を整えたら、下の「次へ」または「心の整理を見る」からそのまま進められます。"
               />
-              <p className="mt-2 text-xs leading-6 text-stone/72">
-                例: 「少し不安です」 「気持ちがまだまとまりません」
-                「本当はどうしたいのか分からないです」
-              </p>
-            </>
-          )}
+            ) : (
+              <>
+                <p className="mb-3 text-sm leading-7 text-stone">
+                  いま感じていることを、そのまま続けてソラに話してみてください。
+                </p>
+                <p className="mb-3 text-xs leading-6 text-stone/78">
+                  うまく説明しようとしなくて大丈夫です。短い言葉でも、ひとつの感情だけでもかまいません。
+                </p>
+                <textarea
+                  value={replyInput}
+                  onChange={(event) => onReplyInputChange(event.target.value)}
+                  rows={5}
+                  placeholder="続けてソラに話してみてください。いま感じていることを、ひとことずつでも大丈夫です。"
+                  className="field-base min-h-[176px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[188px]"
+                  disabled={isLoading || (!canReply && !canSummarize)}
+                />
+                <p className="mt-2 text-xs leading-6 text-stone/72">
+                  例: 「少し不安です」 「気持ちがまだまとまりません」
+                  「本当はどうしたいのか分からないです」
+                </p>
+              </>
+            )}
+          </div>
 
           {chatError ? (
             <div className="mt-3 rounded-2xl border border-rose-200 bg-rose-50/90 px-4 py-3 text-sm leading-6 text-rose-700">
