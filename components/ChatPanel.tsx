@@ -43,7 +43,7 @@ export const ChatPanel = ({
       </div>
 
       <div className="space-y-5.5">
-        <div className="max-h-[380px] min-h-[260px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:p-5">
+        <div className="max-h-[320px] min-h-[220px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/30 bg-mist/28 p-4 sm:max-h-[380px] sm:min-h-[260px] sm:p-5">
           {messages.length > 0 ? (
             messages.map((message) => (
               <div
@@ -72,7 +72,7 @@ export const ChatPanel = ({
           sections={["empathicMessage", "followUpQuestion"]}
         />
 
-        <div className="sticky bottom-2 z-10 rounded-[26px] border border-iris/50 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
+        <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/50 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
               あなたの返答

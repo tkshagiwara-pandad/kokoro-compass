@@ -19,7 +19,7 @@ export const HistoryPanel = ({
   const visibleRecords = records.slice(0, visibleCount);
 
   return (
-    <section className="rounded-[24px] border border-lilac/45 bg-white/65 p-5 shadow-soft">
+    <section className="rounded-[24px] border border-lilac/42 bg-white/68 p-5 shadow-soft">
       <div className="mb-4">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">History</p>
         <h2 className="mt-2 font-serif text-xl text-plum">相談履歴</h2>
@@ -28,12 +28,12 @@ export const HistoryPanel = ({
         </p>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-2">
+      <div className="grid gap-3.5 lg:grid-cols-2">
         {visibleRecords.length > 0 ? (
           visibleRecords.map((record) => (
             <article
               key={record.id}
-              className="rounded-[22px] border border-lilac/45 bg-mist/40 p-4 shadow-soft"
+              className="rounded-[22px] border border-lilac/40 bg-mist/32 p-4 shadow-soft"
             >
               <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="rounded-full bg-white px-3 py-1 text-xs text-plum shadow-soft">
@@ -43,7 +43,7 @@ export const HistoryPanel = ({
                   {formatJapaneseDateTime(record.createdAt)}
                 </span>
               </div>
-              <p className="text-sm leading-7 text-ink">{record.userInput}</p>
+              <p className="line-clamp-4 text-sm leading-7 text-ink">{record.userInput}</p>
               <p className="mt-3 text-xs leading-6 text-stone">
                 最近のテーマ: {record.summary.topic}
               </p>
