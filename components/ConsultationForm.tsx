@@ -69,11 +69,16 @@ export const ConsultationForm = ({
         </div>
 
         <label className="block">
-          <span className="mb-3 block text-sm text-ink/80">入力方法</span>
-          <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/80 p-1">
+          <div className="mb-3">
+            <span className="block text-sm text-ink">言葉の置き方を選ぶ</span>
+            <p className="mt-1 text-xs leading-6 text-stone/76">
+              書いても、話してから文字に整えても大丈夫です。
+            </p>
+          </div>
+          <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
               { key: "text", label: "書く" },
-              { key: "voice", label: "話す" },
+              { key: "voice", label: "話す", icon: "○" },
             ] as const).map((option) => {
               const isSelected = option.key === inputMode;
 
@@ -83,12 +88,17 @@ export const ConsultationForm = ({
                   type="button"
                   onClick={() => onInputModeChange(option.key)}
                   disabled={isLoading}
-                  className={`rounded-full px-4 py-2 text-sm transition ${
+                  className={`inline-flex min-w-[88px] items-center justify-center gap-1.5 rounded-[14px] px-4 py-2.5 text-sm transition ${
                     isSelected
                       ? "bg-lilac/44 text-plum shadow-soft"
-                      : "text-stone hover:text-plum"
+                      : "text-stone hover:bg-mist/55 hover:text-plum"
                   }`}
                 >
+                  {"icon" in option ? (
+                    <span className="text-[11px] opacity-70" aria-hidden="true">
+                      {option.icon}
+                    </span>
+                  ) : null}
                   {option.label}
                 </button>
               );
