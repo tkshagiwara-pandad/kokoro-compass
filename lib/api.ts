@@ -2,6 +2,8 @@ import { ChatRequest, ChatResponse } from "@/types/consultation";
 
 const GENERIC_ERROR_MESSAGE =
   "うまく応答を作れませんでした。少し時間を置いてもう一度お試しください。";
+const GENERIC_TRANSCRIPTION_ERROR_MESSAGE =
+  "文字起こしに失敗しました。時間を置いてもう一度お試しください。";
 
 export const requestSoraReply = async (
   payload: ChatRequest,
@@ -50,4 +52,25 @@ export const requestSoraReply = async (
       },
     },
   };
+};
+
+export const requestTranscription = async (audioBlob: Blob): Promise<string> => {
+  const formData = new FormData();
+  const extension = audioBlob.type.includes("mp4") ? "m4a" : "webm";
+  formData.append("audio", audioBlob, `consultation.${extension}`);
+
+  const response = await fetch("/api/transcribe", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = (await response.json().catch(() => null)) as
+    | { text?: string; error?: string }
+    | null;
+
+  if (!response.ok || !data?.text) {
+    throw new Error(data?.error || GENERIC_TRANSCRIPTION_ERROR_MESSAGE);
+  }
+
+  return data.text;
 };

@@ -31,6 +31,7 @@ const INITIAL_TOPIC: ConsultationTopic = "恋愛";
 export const ConsultationExperience = () => {
   const router = useRouter();
   const [topic, setTopic] = useState<ConsultationTopic>(INITIAL_TOPIC);
+  const [inputMode, setInputMode] = useState<"text" | "voice">("text");
   const [userInput, setUserInput] = useState("");
   const [replyInput, setReplyInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -98,6 +99,7 @@ export const ConsultationExperience = () => {
 
   const resetAll = () => {
     setTopic(INITIAL_TOPIC);
+    setInputMode("text");
     setUserInput("");
     setReplyInput("");
     setMessages([]);
@@ -114,6 +116,7 @@ export const ConsultationExperience = () => {
 
   const applyRecord = (record: ConsultationRecord) => {
     setTopic(record.topic);
+    setInputMode("text");
     setUserInput(record.userInput);
     setMessages(record.messages);
     setSummary(record.summary);
@@ -349,12 +352,14 @@ export const ConsultationExperience = () => {
         <section className="grid gap-6 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
           <div className="transition duration-200">
             <ConsultationForm
-              topic={topic}
-              input={userInput}
-              error={formError}
-              onTopicChange={setTopic}
-              onInputChange={setUserInput}
-              onStart={handleStart}
+            topic={topic}
+            input={userInput}
+            error={formError}
+            inputMode={inputMode}
+            onTopicChange={setTopic}
+            onInputChange={setUserInput}
+            onInputModeChange={setInputMode}
+            onStart={handleStart}
               onReset={resetAll}
               started={messages.length > 0}
               isStartEnabled={isStartEnabled}

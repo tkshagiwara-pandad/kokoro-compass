@@ -1,11 +1,16 @@
+import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { consultationTopics, ConsultationTopic } from "@/types/consultation";
+
+type InputMode = "text" | "voice";
 
 type ConsultationFormProps = {
   topic: ConsultationTopic;
   input: string;
   error: string;
+  inputMode: InputMode;
   onTopicChange: (value: ConsultationTopic) => void;
   onInputChange: (value: string) => void;
+  onInputModeChange: (value: InputMode) => void;
   onStart: () => void;
   onReset: () => void;
   started: boolean;
@@ -17,8 +22,10 @@ export const ConsultationForm = ({
   topic,
   input,
   error,
+  inputMode,
   onTopicChange,
   onInputChange,
+  onInputModeChange,
   onStart,
   onReset,
   started,
@@ -62,24 +69,56 @@ export const ConsultationForm = ({
         </div>
 
         <label className="block">
-          <span className="mb-2 block text-sm text-ink/80">相談内容</span>
-          <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
-            <p className="text-sm leading-7 text-stone">
-              うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
-            </p>
-            <p className="mt-2 text-xs leading-6 text-stone/78">
-              例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」
-              「人間関係で気になることがあります」
-            </p>
+          <span className="mb-3 block text-sm text-ink/80">入力方法</span>
+          <div className="mb-4 inline-flex rounded-full border border-lilac/44 bg-white/80 p-1">
+            {([
+              { key: "text", label: "書く" },
+              { key: "voice", label: "話す" },
+            ] as const).map((option) => {
+              const isSelected = option.key === inputMode;
+
+              return (
+                <button
+                  key={option.key}
+                  type="button"
+                  onClick={() => onInputModeChange(option.key)}
+                  disabled={isLoading}
+                  className={`rounded-full px-4 py-2 text-sm transition ${
+                    isSelected
+                      ? "bg-lilac/44 text-plum shadow-soft"
+                      : "text-stone hover:text-plum"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
           </div>
-          <textarea
-            value={input}
-            onChange={(event) => onInputChange(event.target.value)}
-            rows={12}
-            placeholder="今いちばん心に引っかかっていることを、思いつくまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
-            className="field-base min-h-[272px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[296px]"
-            disabled={isLoading}
-          />
+
+          <span className="mb-2 block text-sm text-ink/80">相談内容</span>
+          {inputMode === "text" ? (
+            <>
+              <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
+                <p className="text-sm leading-7 text-stone">
+                  うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
+                </p>
+                <p className="mt-2 text-xs leading-6 text-stone/78">
+                  例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」
+                  「人間関係で気になることがあります」
+                </p>
+              </div>
+              <textarea
+                value={input}
+                onChange={(event) => onInputChange(event.target.value)}
+                rows={12}
+                placeholder="今いちばん心に引っかかっていることを、思いつくまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
+                className="field-base min-h-[272px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[296px]"
+                disabled={isLoading}
+              />
+            </>
+          ) : (
+            <VoiceInputPanel value={input} onChange={onInputChange} disabled={isLoading} />
+          )}
         </label>
 
         {error ? (
