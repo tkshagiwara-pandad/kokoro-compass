@@ -37,9 +37,7 @@ export const ConsultationForm = ({
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">相談入力</h2>
-        <p className="mt-3 text-sm leading-7 text-stone">
-          まずはここから、今の気持ちをそのままの言葉で書いてみてください。うまくまとまっていなくても大丈夫です。
-        </p>
+        <p className="mt-3 text-sm leading-7 text-stone">テーマを選び、気持ちを置いて、ソラに送ります。</p>
       </div>
 
       <div className="space-y-5">
@@ -70,10 +68,8 @@ export const ConsultationForm = ({
 
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">言葉の置き方を選ぶ</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">
-              書いても、話してから文字に整えても大丈夫です。
-            </p>
+            <span className="block text-sm text-ink">気持ちの置き方</span>
+            <p className="mt-1 text-xs leading-6 text-stone/76">書く / 話す を選べます。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
@@ -110,7 +106,7 @@ export const ConsultationForm = ({
             <>
               <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
                 <p className="text-sm leading-7 text-stone">
-                  うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
+                  今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
                 </p>
                 <p className="mt-2 text-xs leading-6 text-stone/78">
                   例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」
@@ -144,7 +140,7 @@ export const ConsultationForm = ({
             disabled={!isStartEnabled || isLoading}
             className="button-primary min-w-[168px]"
           >
-            {isLoading ? "ソラが整えています..." : "この内容でソラに話す"}
+            {isLoading ? "STEP2へ進んでいます..." : "この内容で相談を始める"}
           </button>
           <button
             type="button"
@@ -156,14 +152,11 @@ export const ConsultationForm = ({
           </button>
         </div>
 
-        <div className="soft-panel p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-gold">Guide</p>
-          <p className="mt-2 text-sm leading-7 text-stone">
-            {started
-              ? "相談は始まっています。このままソラの問いに、短い言葉で返してみてください。"
-              : "まずはここに、心に引っかかっていることを一つだけ置いてみてください。長くなくても大丈夫です。"}
-          </p>
-        </div>
+        <p className="text-sm leading-7 text-stone">
+          {started
+            ? "いまは対話の途中です。ソラの問いに返してみてください。"
+            : "送信すると、次にソラとの対話が始まります。"}
+        </p>
       </div>
     </section>
   );

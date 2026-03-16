@@ -192,11 +192,11 @@ export const VoiceInputPanel = ({
       <div className="rounded-[20px] border border-iris/24 bg-white/78 px-4 py-2.5 sm:px-5">
         <p className="text-sm leading-6 text-stone">
           {introMessage ||
-            "今の気持ちを、思いつくまま話してみてください。うまく話そうとしなくて大丈夫です。"}
+            "今の気持ちを、そのまま話してみてください。"}
         </p>
         <p className="mt-1 text-xs leading-5 text-stone/74">
           {helperMessage ||
-            "声は一度文字に整えてから表示されます。必要なら少し直してから、ソラに送れます。"}
+            "声は一度文字に整えてから表示されます。必要なら少し直してから送れます。"}
         </p>
       </div>
 
@@ -247,7 +247,7 @@ export const VoiceInputPanel = ({
       {value.trim() ? (
         <p className="text-xs leading-5 text-stone/70">
           {transcriptHint ||
-            "内容を整えたら、下の「この内容でソラに話す」からそのまま相談を始められます。"}
+            "内容を整えたら、そのまま相談を始められます。"}
         </p>
       ) : null}
     </div>

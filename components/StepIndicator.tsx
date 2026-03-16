@@ -13,6 +13,15 @@ type StepIndicatorProps = {
 export const StepIndicator = ({ currentStage }: StepIndicatorProps) => {
   return (
     <section className="surface-card w-full p-4 sm:p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.24em] text-gold">Progress</p>
+          <p className="mt-1 text-sm text-stone">いまの流れが分かるように、3つの段階で表示しています。</p>
+        </div>
+        <div className="rounded-full border border-lilac/45 bg-white/84 px-4 py-2 text-sm text-plum shadow-soft">
+          STEP {currentStage} / 3
+        </div>
+      </div>
       <div className="grid gap-3 md:grid-cols-3">
         {steps.map((step) => {
           const isActive = step.id === currentStage;

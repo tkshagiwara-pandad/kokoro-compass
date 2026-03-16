@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatPanel } from "@/components/ChatPanel";
 import { ConsultationForm } from "@/components/ConsultationForm";
@@ -30,6 +30,7 @@ const INITIAL_TOPIC: ConsultationTopic = "恋愛";
 
 export const ConsultationExperience = () => {
   const router = useRouter();
+  const stepTwoRef = useRef<HTMLDivElement | null>(null);
   const [topic, setTopic] = useState<ConsultationTopic>(INITIAL_TOPIC);
   const [inputMode, setInputMode] = useState<"text" | "voice">("text");
   const [userInput, setUserInput] = useState("");
@@ -76,6 +77,22 @@ export const ConsultationExperience = () => {
   );
 
   const isStartEnabled = userInput.trim().length > 0;
+
+  const latestMemo = useMemo(() => {
+    const latestRecord = history[0];
+
+    if (!latestRecord) {
+      return null;
+    }
+
+    return {
+      label: latestRecord.createdAt,
+      text:
+        latestRecord.insight ||
+        latestRecord.summary?.emotion ||
+        "前回の相談で残した気づきを、ここで静かに見返せます。",
+    };
+  }, [history]);
 
   const messageHint = useMemo(() => {
     if (summary) {
@@ -184,6 +201,7 @@ export const ConsultationExperience = () => {
       setReplyInput("");
       setSummary(null);
       setChatError("");
+      scrollToStepTwo();
     } catch (error) {
       setChatError(
         error instanceof Error
@@ -337,6 +355,15 @@ export const ConsultationExperience = () => {
     await handleSummarize();
   };
 
+  const scrollToStepTwo = () => {
+    requestAnimationFrame(() => {
+      stepTwoRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
   return (
     <LayoutShell
       eyebrow="Kokoro Compass"
@@ -345,6 +372,13 @@ export const ConsultationExperience = () => {
       backLink={{ href: "/", label: "トップへ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
+        {latestMemo ? (
+          <section className="rounded-lg border border-lilac/40 bg-purple-50/70 px-4 py-3 text-sm text-stone shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回の心のメモ</p>
+            <p className="mt-2 leading-7 text-ink/82">「{latestMemo.text}」</p>
+          </section>
+        ) : null}
+
         <div className="flex flex-wrap items-center justify-between gap-3">
           <StepIndicator currentStage={currentStage} />
         </div>
@@ -367,6 +401,7 @@ export const ConsultationExperience = () => {
             />
           </div>
           <div
+            ref={stepTwoRef}
             className={`transition duration-200 ${
               currentStage === 1 ? "opacity-72 xl:pt-4" : "opacity-100"
             }`}
