@@ -207,10 +207,15 @@ export const ChatPanel = ({
           <p className="mt-3 text-xs leading-6 text-stone/68">{messageHint}</p>
         </div>
 
-        <SoraResponseCards
-          reply={latestReply}
-          sections={["insight", "futureMessage"]}
-        />
+        {latestReply?.insight ? (
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.2em] text-plum/62">今日の小さな気づき</p>
+            <SoraResponseCards
+              reply={latestReply}
+              sections={["insight"]}
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   );
