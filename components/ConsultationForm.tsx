@@ -37,7 +37,9 @@ export const ConsultationForm = ({
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">相談入力</h2>
-        <p className="mt-3 text-sm leading-7 text-stone">テーマを選び、気持ちを置いて、ソラに送ります。</p>
+        <p className="mt-3 text-sm leading-7 text-stone">
+          テーマを選び、今の気持ちを書いたり話したりして、ソラに送ります。
+        </p>
       </div>
 
       <div className="space-y-5">
@@ -68,8 +70,8 @@ export const ConsultationForm = ({
 
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">気持ちの置き方</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">書く / 話す を選べます。</p>
+            <span className="block text-sm text-ink">今の気持ちは、書いても話しても大丈夫です</span>
+            <p className="mt-1 text-xs leading-6 text-stone/76">自分に合う置き方を選べます。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
@@ -140,7 +142,7 @@ export const ConsultationForm = ({
             disabled={!isStartEnabled || isLoading}
             className="button-primary min-w-[168px]"
           >
-            {isLoading ? "STEP2へ進んでいます..." : "この内容で相談を始める"}
+            {isLoading ? "STEP2へ進んでいます..." : "ソラに送る"}
           </button>
           <button
             type="button"
@@ -161,7 +163,7 @@ export const ConsultationForm = ({
         <p className="text-sm leading-7 text-stone">
           {started
             ? "いまは対話の途中です。ソラの問いに返してみてください。"
-            : "送ると、次にソラとの対話が始まります。"}
+            : "送ると、ソラとの対話が始まります。"}
         </p>
       </div>
     </section>

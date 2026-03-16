@@ -97,7 +97,7 @@ export const SummaryPanel = ({
               onClick={onOpenHistory}
               className="button-secondary"
             >
-              履歴を開く
+              マイログを見る
             </button>
           </div>
 

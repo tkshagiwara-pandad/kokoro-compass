@@ -448,16 +448,16 @@ export const ConsultationExperience = () => {
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[24px] border border-lilac/36 bg-white/62 p-5 shadow-soft">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">My Log</p>
-            <h2 className="mt-2 font-serif text-xl text-plum">最近のログを見る</h2>
+            <h2 className="mt-2 font-serif text-xl text-plum">マイログと人生の地図</h2>
             <p className="mt-3 text-sm leading-7 text-stone">
-              保存した相談はマイログにまとまっています。今の相談を終えたあとで、最近のテーマや気づきを静かに見返したいときに開いてください。
+              保存した相談は、あとから気づきや最近のテーマを静かに見返せます。今の相談を終えたあとで、自分の流れをたどりたいときに開いてください。
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href="/log"
                 className="inline-flex items-center justify-center rounded-full border border-lilac/42 bg-white/76 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
               >
-                マイログを見る
+                人生の地図を見る
               </Link>
               {history.length > 0 ? (
                 <button
