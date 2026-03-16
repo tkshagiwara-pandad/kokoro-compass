@@ -63,12 +63,13 @@ export const ConsultationForm = ({
 
         <label className="block">
           <span className="mb-2 block text-sm text-ink/80">相談内容</span>
-          <div className="mb-3 rounded-[22px] border border-iris/28 bg-white/78 px-4 py-3 sm:px-5">
+          <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
             <p className="text-sm leading-7 text-stone">
-              うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることから、ひとことだけでも書いてみてください。
+              うまく書こうとしなくて大丈夫です。今いちばん心に引っかかっていることを、ひとことだけでも置いてみてください。
             </p>
-            <p className="mt-2 text-xs leading-6 text-stone/80">
-              例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」 「人間関係で気になることがあります」
+            <p className="mt-2 text-xs leading-6 text-stone/78">
+              例: 「最近仕事で少し疲れています」 「将来のことがなんとなく不安です」
+              「人間関係で気になることがあります」
             </p>
           </div>
           <textarea
@@ -76,7 +77,7 @@ export const ConsultationForm = ({
             onChange={(event) => onInputChange(event.target.value)}
             rows={12}
             placeholder="今いちばん心に引っかかっていることを、思いつくまま書いてみてください。まだ整理できていない気持ちでも大丈夫です。"
-            className="field-base min-h-[260px] border-iris/38 bg-white shadow-[0_10px_24px_rgba(137,119,154,0.06)] sm:min-h-[280px]"
+            className="field-base min-h-[272px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[296px]"
             disabled={isLoading}
           />
         </label>

@@ -72,7 +72,7 @@ export const ChatPanel = ({
           sections={["empathicMessage", "followUpQuestion"]}
         />
 
-        <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/50 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
+        <div className="sticky bottom-0 z-10 rounded-[26px] border border-iris/55 bg-white/98 p-4 shadow-[0_22px_48px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
               あなたの返答
@@ -89,12 +89,13 @@ export const ChatPanel = ({
             value={replyInput}
             onChange={(event) => onReplyInputChange(event.target.value)}
             rows={5}
-            placeholder="続けてソラに話してみてください。いま感じていることを、思いつくまま置いていけば大丈夫です。"
-            className="field-base min-h-[168px] border-iris/50 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[176px]"
+            placeholder="続けてソラに話してみてください。いま感じていることを、ひとことずつでも大丈夫です。"
+            className="field-base min-h-[176px] border-iris/52 bg-white shadow-[0_14px_30px_rgba(137,119,154,0.1)] disabled:bg-mist/60 sm:min-h-[188px]"
             disabled={isLoading || (!canReply && !canSummarize)}
           />
           <p className="mt-2 text-xs leading-6 text-stone/72">
-            例: 「少し不安です」 「気持ちがまだまとまりません」 「本当はどうしたいのか分からないです」
+            例: 「少し不安です」 「気持ちがまだまとまりません」
+            「本当はどうしたいのか分からないです」
           </p>
 
           {chatError ? (
