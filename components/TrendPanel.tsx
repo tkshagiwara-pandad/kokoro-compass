@@ -52,7 +52,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
   const lifeMapComment = buildLifeMapComment(lifeMapCounts);
 
   return (
-    <section className="rounded-[24px] border border-lilac/45 bg-white/65 p-5 shadow-soft">
+    <section className="rounded-[24px] border border-lilac/42 bg-white/68 p-5 shadow-soft">
       <div className="mb-4">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">My Log</p>
         <h2 className="mt-2 font-serif text-xl text-plum">人生の地図</h2>
@@ -61,8 +61,8 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
         </p>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-[1.1fr_1.2fr_0.9fr]">
-        <article className="rounded-[20px] border border-lilac/45 bg-mist/40 p-4">
+      <div className="grid gap-3.5 lg:grid-cols-[1.05fr_1.1fr_0.95fr]">
+        <article className="rounded-[20px] border border-lilac/40 bg-mist/34 p-4">
           <p className="text-xs uppercase tracking-[0.22em] text-gold">最近のテーマ</p>
           <div className="mt-3 grid gap-2">
             {lifeMapThemes.map((theme) => (
@@ -79,7 +79,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
           </div>
         </article>
 
-        <article className="rounded-[20px] border border-lilac/45 bg-mist/40 p-4">
+        <article className="rounded-[20px] border border-lilac/40 bg-mist/34 p-4">
           <p className="text-xs uppercase tracking-[0.22em] text-gold">直近3件の気づき</p>
           <div className="mt-3 space-y-2">
             {recentRecords.map((record) => (
@@ -90,7 +90,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
           </div>
         </article>
 
-        <article className="rounded-[20px] border border-lilac/45 bg-mist/40 p-4">
+        <article className="rounded-[20px] border border-lilac/40 bg-mist/34 p-4">
           <p className="text-xs uppercase tracking-[0.22em] text-gold">AIコメント</p>
           <p className="mt-3 text-sm leading-7 text-ink">{lifeMapComment}</p>
           <div className="mt-4 border-t border-lilac/30 pt-4">

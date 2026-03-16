@@ -42,8 +42,8 @@ export const ChatPanel = ({
         </p>
       </div>
 
-      <div className="space-y-5">
-        <div className="max-h-[420px] min-h-[300px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/38 bg-mist/42 p-4 sm:p-5">
+      <div className="space-y-5.5">
+        <div className="max-h-[400px] min-h-[280px] space-y-3 overflow-y-auto rounded-[28px] border border-lilac/34 bg-mist/34 p-4 sm:p-5">
           {messages.length > 0 ? (
             messages.map((message) => (
               <div
@@ -72,7 +72,7 @@ export const ChatPanel = ({
           sections={["empathicMessage", "followUpQuestion"]}
         />
 
-        <div className="sticky bottom-2 z-10 rounded-[26px] border border-iris/45 bg-white/96 p-4 shadow-[0_18px_44px_rgba(91,77,104,0.14)] backdrop-blur sm:bottom-3 sm:p-5">
+        <div className="sticky bottom-2 z-10 rounded-[26px] border border-iris/48 bg-white/97 p-4 shadow-[0_20px_46px_rgba(91,77,104,0.16)] backdrop-blur sm:bottom-3 sm:p-5">
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
               あなたの返答
@@ -86,8 +86,8 @@ export const ChatPanel = ({
             value={replyInput}
             onChange={(event) => onReplyInputChange(event.target.value)}
             rows={4}
-            placeholder="いま感じていることを、そのまま書いてみてください。短い言葉でも、まだ整理しきれていない気持ちでも大丈夫です。"
-            className="field-base min-h-[132px] border-iris/45 bg-white shadow-[0_10px_24px_rgba(137,119,154,0.08)] disabled:bg-mist/60"
+            placeholder="いま感じていることを、そのまま書いてみてください。短い言葉でも、まだまとまっていない気持ちでも大丈夫です。"
+            className="field-base min-h-[144px] border-iris/48 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.1)] disabled:bg-mist/60"
             disabled={isLoading || (!canReply && !canSummarize)}
           />
 
@@ -111,7 +111,7 @@ export const ChatPanel = ({
               type="button"
               onClick={onNext}
               disabled={isLoading || !canReply}
-              className="button-secondary min-w-[120px] border-iris bg-white"
+              className="button-secondary min-w-[126px] border-iris bg-white"
             >
               {isLoading ? "ソラが少し考えています..." : "次へ"}
             </button>
@@ -119,13 +119,13 @@ export const ChatPanel = ({
               type="button"
               onClick={onSummarize}
               disabled={isLoading || !canSummarize}
-              className="button-accent min-w-[150px]"
+              className="button-accent min-w-[158px]"
             >
               心の整理を見る
             </button>
           </div>
 
-          <p className="mt-3 text-xs leading-6 text-stone/78">{messageHint}</p>
+          <p className="mt-3 text-xs leading-6 text-stone/72">{messageHint}</p>
         </div>
 
         <SoraResponseCards

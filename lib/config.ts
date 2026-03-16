@@ -1,12 +1,6 @@
 export const FEEDBACK_FORM_URL =
-  process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ||
-  "https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform?usp=dialog";
-
-export const DEFAULT_FEEDBACK_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform?usp=dialog";
-
-export const hasFeedbackFormUrl =
-  Boolean(FEEDBACK_FORM_URL) && FEEDBACK_FORM_URL !== DEFAULT_FEEDBACK_FORM_URL;
+  process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ??
+  "https://docs.google.com/forms/d/e/1FAIpQLSfbjCTebmrcvphOcg9eNiUTwlfQAlv48TPfvwUXDV4QcVVQ2A/viewform";
 
 export const BETA_NOTICE_ITEMS = [
   "本サービスは医療行為や診断を行うものではありません。",

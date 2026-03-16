@@ -7,7 +7,7 @@ import { FeedbackButton } from "@/components/FeedbackButton";
 import { HistoryPanel } from "@/components/HistoryPanel";
 import { LayoutShell } from "@/components/LayoutShell";
 import { TrendPanel } from "@/components/TrendPanel";
-import { FEEDBACK_FORM_URL, hasFeedbackFormUrl } from "@/lib/config";
+import { FEEDBACK_FORM_URL } from "@/lib/config";
 import { loadHistory, saveHistory, setActiveRecordId } from "@/lib/storage";
 import { ConsultationRecord } from "@/types/consultation";
 
@@ -59,7 +59,7 @@ export const LogExperience = () => {
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-lilac/60 bg-white/70 px-5 py-4 shadow-soft">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-lilac/42 bg-white/68 px-5 py-4 shadow-soft">
           <p className="text-sm leading-7 text-stone">
             ログはこの端末の `localStorage` に保存されています。必要に応じて相談画面へ戻り、続きを整理できます。
           </p>
@@ -67,16 +67,9 @@ export const LogExperience = () => {
             <Link href="/consultation" className="button-secondary">
               相談画面へ戻る
             </Link>
-            <FeedbackButton href={FEEDBACK_FORM_URL} label="感想を送る" />
+            <FeedbackButton href={FEEDBACK_FORM_URL} label="使ってみた感想を送る" />
           </div>
         </div>
-
-        {!hasFeedbackFormUrl ? (
-          <p className="text-sm leading-7 text-stone">
-            フィードバック導線は公開前に設定してください。差し替え場所は
-            `lib/config.ts` または `NEXT_PUBLIC_FEEDBACK_FORM_URL` です。
-          </p>
-        ) : null}
       </main>
     </LayoutShell>
   );

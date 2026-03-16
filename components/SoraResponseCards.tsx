@@ -21,7 +21,7 @@ export const SoraResponseCards = ({
   }
 
   return (
-    <div className="grid gap-3">
+    <div className="grid gap-3.5">
       {allSections
         .filter((section) =>
           sections.includes(
@@ -47,11 +47,11 @@ export const SoraResponseCards = ({
             key={section.key}
             className={`rounded-[24px] border p-4 sm:p-5 ${
               isFuture
-                ? "border-gold/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(247,242,250,0.92))] shadow-soft"
+                ? "border-gold/32 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.9))] shadow-[0_12px_30px_rgba(120,106,82,0.08)]"
                 : isQuestion
-                  ? "border-iris/50 bg-white shadow-[0_14px_36px_rgba(91,77,104,0.1)]"
+                  ? "border-iris/55 bg-white shadow-[0_18px_42px_rgba(91,77,104,0.12)]"
                   : isEmpathic
-                    ? "border-lilac/45 bg-white/88"
+                    ? "border-lilac/40 bg-white/90"
                     : "border-lilac/35 bg-mist/34"
             }`}
           >

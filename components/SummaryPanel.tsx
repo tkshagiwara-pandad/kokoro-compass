@@ -43,7 +43,7 @@ export const SummaryPanel = ({
       </div>
 
       {summary ? (
-        <div className="space-y-3.5">
+        <div className="space-y-4">
           {summaryItems.map((item) => (
             <article
               key={item.key}
@@ -58,21 +58,21 @@ export const SummaryPanel = ({
             </article>
           ))}
 
-          <article className="rounded-[20px] border border-lilac/40 bg-mist/32 p-4">
+          <article className="rounded-[20px] border border-lilac/38 bg-mist/28 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               今日の小さな気づき
             </p>
             <p className="text-sm leading-7 text-ink">{insight}</p>
           </article>
 
-          <article className="rounded-[24px] border border-gold/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(248,244,250,0.92))] p-4 sm:p-5 shadow-soft">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+          <article className="rounded-[24px] border border-gold/32 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.9))] p-4 sm:p-5 shadow-[0_14px_32px_rgba(120,106,82,0.08)]">
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
               未来のあなたからの言葉
             </p>
             <p className="text-sm leading-7 text-ink">{futureMessage}</p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/30 bg-mist/22 p-4">
+          <article className="rounded-[18px] border border-lilac/26 bg-mist/18 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               次の問い
             </p>
@@ -80,7 +80,7 @@ export const SummaryPanel = ({
           </article>
 
           {emotionalState ? (
-            <article className="rounded-[18px] border border-lilac/28 bg-mist/18 p-4">
+            <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4">
               <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
                 心の状態メーター
               </p>

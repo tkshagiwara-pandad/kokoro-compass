@@ -13,7 +13,7 @@ import { SummaryPanel } from "@/components/SummaryPanel";
 import { trackEvent } from "@/lib/analytics";
 import { requestSoraReply } from "@/lib/api";
 import { createChatMessage } from "@/lib/chat";
-import { FEEDBACK_FORM_URL, hasFeedbackFormUrl } from "@/lib/config";
+import { FEEDBACK_FORM_URL } from "@/lib/config";
 import { loadHistory, saveHistory, takeActiveRecordId } from "@/lib/storage";
 import {
   ChatMessage,
@@ -417,14 +417,8 @@ export const ConsultationExperience = () => {
               ベータ版のため、使いづらさや気になる点があれば短くても大丈夫です。感想をいただけると改善に役立ちます。
             </p>
             <div className="mt-4">
-              <FeedbackButton href={FEEDBACK_FORM_URL} />
+              <FeedbackButton href={FEEDBACK_FORM_URL} label="フィードバックを送る" />
             </div>
-            {!hasFeedbackFormUrl ? (
-              <p className="mt-3 text-sm leading-7 text-stone">
-                フィードバック導線は公開前に設定してください。差し替え場所は
-                `lib/config.ts` または `NEXT_PUBLIC_FEEDBACK_FORM_URL` です。
-              </p>
-            ) : null}
           </div>
         </section>
 

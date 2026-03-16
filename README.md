@@ -2,6 +2,8 @@
 
 Next.js + TypeScript + Tailwind CSS で作成した、スピリチュアル寄りの AI 相談サービス「こころの羅針盤」のベータ版 MVP です。AI 役は「ソラ」で、答えを断定するのではなく、相談者の心を整理するためのやさしい対話を行います。
 
+現在は β版として公開しており、LP、相談画面、マイログ画面からフィードバック導線を利用できます。
+
 ## サービス説明
 
 こころの羅針盤は、ユーザーの悩みに対して答えを断定するのではなく、AI との対話を通して感情やテーマを整理する相談サービスです。恋愛、仕事、人間関係、将来への不安などを静かに見つめ直し、いま必要な視点を見つける体験を目指しています。
@@ -217,6 +219,16 @@ public/
 - または `lib/config.ts` の `FEEDBACK_FORM_URL`
 
 必要に応じて、`lib/config.ts` または `NEXT_PUBLIC_FEEDBACK_FORM_URL` を差し替えて運用してください。
+
+## Feedback form
+
+Feedback can be sent via Google Form.
+
+Environment variable (optional):
+
+`NEXT_PUBLIC_FEEDBACK_FORM_URL`
+
+If not provided, the default Google Form URL will be used.
 
 ## og:image と favicon の差し替え場所
 
