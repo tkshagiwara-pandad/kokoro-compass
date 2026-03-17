@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { SoraResponseCards } from "@/components/SoraResponseCards";
 import { ChatMessage, EmotionTag, emotionTagOptions, SoraReply } from "@/types/consultation";
@@ -57,6 +57,18 @@ export const ChatPanel = ({
     onEmotionTagChange(value);
   };
 
+  const handleEmotionTagPointerDown = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+    value: EmotionTag,
+  ) => {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+
+    event.preventDefault();
+    handleEmotionTagSelect(value);
+  };
+
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
       <div className="mb-6">
@@ -91,11 +103,11 @@ export const ChatPanel = ({
         ) : null}
 
         {latestReply?.empathicMessage ? (
-          <div className="relative z-20 rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
+          <div className="relative z-20 isolate overflow-visible rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4 touch-manipulation pointer-events-auto">
+            <p className="pointer-events-none text-[11px] uppercase tracking-[0.2em] text-plum/62">
               今の気持ちはどれに近いですか
             </p>
-            <div className="mt-3 flex flex-wrap gap-2 pointer-events-auto">
+            <div className="relative z-10 mt-3 flex flex-wrap gap-2 pointer-events-auto">
               {emotionTagOptions.map((option) => {
                 const selected = option === emotionTag;
 
@@ -104,15 +116,14 @@ export const ChatPanel = ({
                     key={option}
                     type="button"
                     onClick={() => handleEmotionTagSelect(option)}
-                    onTouchEnd={(event) => {
-                      event.preventDefault();
-                      handleEmotionTagSelect(option);
-                    }}
-                    className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
+                    onPointerDown={(event) => handleEmotionTagPointerDown(event, option)}
+                    aria-pressed={selected}
+                    className={`relative z-10 inline-flex select-none items-center justify-center touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       selected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
                         : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
                     }`}
+                    style={{ WebkitTapHighlightColor: "transparent" }}
                   >
                     {option}
                   </button>

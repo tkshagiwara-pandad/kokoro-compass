@@ -1,3 +1,4 @@
+import { PointerEvent as ReactPointerEvent } from "react";
 import { EmotionalStateMeter } from "@/components/EmotionalStateMeter";
 import { EmotionalState, HeartState, heartStateOptions, ReflectionSummary } from "@/types/consultation";
 
@@ -45,6 +46,18 @@ export const SummaryPanel = ({
       console.log("[SummaryPanel] heartState selected:", value);
     }
     onHeartStateChange(value);
+  };
+
+  const handleHeartStatePointerDown = (
+    event: ReactPointerEvent<HTMLButtonElement>,
+    value: HeartState,
+  ) => {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+
+    event.preventDefault();
+    handleHeartStateSelect(value);
   };
 
   const handleSaveClick = () => {
@@ -110,14 +123,14 @@ export const SummaryPanel = ({
             </article>
           ) : null}
 
-          <article className="relative z-20 rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+          <article className="relative z-20 isolate overflow-visible rounded-[18px] border border-lilac/24 bg-mist/12 p-4 touch-manipulation pointer-events-auto">
+            <p className="mb-2 pointer-events-none text-xs uppercase tracking-[0.22em] text-gold">
               心の現在地
             </p>
-            <p className="text-sm leading-7 text-stone">
+            <p className="pointer-events-none text-sm leading-7 text-stone">
               今のあなたはどこに近いですか？
             </p>
-            <div className="mt-4 flex flex-wrap gap-2 pointer-events-auto">
+            <div className="relative z-10 mt-4 flex flex-wrap gap-2 pointer-events-auto">
               {heartStateOptions.map((option) => {
                 const isSelected = option === heartState;
 
@@ -126,15 +139,14 @@ export const SummaryPanel = ({
                     key={option}
                     type="button"
                     onClick={() => handleHeartStateSelect(option)}
-                    onTouchEnd={(event) => {
-                      event.preventDefault();
-                      handleHeartStateSelect(option);
-                    }}
-                    className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
+                    onPointerDown={(event) => handleHeartStatePointerDown(event, option)}
+                    aria-pressed={isSelected}
+                    className={`relative z-10 inline-flex select-none items-center justify-center touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       isSelected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
                         : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
                     }`}
+                    style={{ WebkitTapHighlightColor: "transparent" }}
                   >
                     {option}
                   </button>
