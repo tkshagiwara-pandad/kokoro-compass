@@ -141,7 +141,7 @@ export const SummaryPanel = ({
                     onClick={() => handleHeartStateSelect(option)}
                     onPointerDown={(event) => handleHeartStatePointerDown(event, option)}
                     aria-pressed={isSelected}
-                    className={`relative z-10 inline-flex select-none items-center justify-center touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
+                    className={`relative z-10 inline-flex min-h-11 cursor-pointer select-none items-center justify-center pointer-events-auto touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       isSelected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
                         : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
