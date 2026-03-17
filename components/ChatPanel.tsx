@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { SoraResponseCards } from "@/components/SoraResponseCards";
 import { ChatMessage, EmotionTag, emotionTagOptions, SoraReply } from "@/types/consultation";
@@ -24,6 +25,7 @@ type ChatPanelProps = {
   onEmotionTagChange: (value: EmotionTag) => void;
   reflectionShift: string | null;
   soraPresenceLine: string;
+  responseTopRef?: RefObject<HTMLDivElement | null>;
 };
 
 export const ChatPanel = ({
@@ -46,6 +48,7 @@ export const ChatPanel = ({
   onEmotionTagChange,
   reflectionShift,
   soraPresenceLine,
+  responseTopRef,
 }: ChatPanelProps) => {
   const handleEmotionTagSelect = (value: EmotionTag) => {
     if (process.env.NODE_ENV !== "production") {
@@ -65,7 +68,10 @@ export const ChatPanel = ({
       </div>
 
       <div className="space-y-5.5">
-        <div className="rounded-[20px] border border-lilac/30 bg-white/84 px-4 py-3.5">
+        <div
+          ref={responseTopRef}
+          className="rounded-[20px] border border-lilac/30 bg-white/84 px-4 py-3.5"
+        >
           <div className="flex items-center gap-2">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
             <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">ソラの言葉</p>
@@ -98,6 +104,10 @@ export const ChatPanel = ({
                     key={option}
                     type="button"
                     onClick={() => handleEmotionTagSelect(option)}
+                    onTouchEnd={(event) => {
+                      event.preventDefault();
+                      handleEmotionTagSelect(option);
+                    }}
                     className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       selected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"

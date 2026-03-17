@@ -126,6 +126,10 @@ export const SummaryPanel = ({
                     key={option}
                     type="button"
                     onClick={() => handleHeartStateSelect(option)}
+                    onTouchEnd={(event) => {
+                      event.preventDefault();
+                      handleHeartStateSelect(option);
+                    }}
                     className={`relative z-10 touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
                       isSelected
                         ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"

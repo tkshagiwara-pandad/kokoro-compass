@@ -49,7 +49,9 @@ const formatRelativeDay = (createdAt: string) => {
 export const ConsultationExperience = () => {
   const router = useRouter();
   const stepTwoRef = useRef<HTMLDivElement | null>(null);
+  const stepTwoResponseRef = useRef<HTMLDivElement | null>(null);
   const lastStepTwoScrollKeyRef = useRef("");
+  const scrollTimeoutRef = useRef<number | null>(null);
   const [topic, setTopic] = useState<ConsultationTopic>(INITIAL_TOPIC);
   const [inputMode, setInputMode] = useState<"text" | "voice">("text");
   const [userInput, setUserInput] = useState("");
@@ -79,6 +81,14 @@ export const ConsultationExperience = () => {
         applyRecord(activeRecord);
       }
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, []);
 
   const currentStage: ConsultationStage = summary
@@ -429,6 +439,32 @@ export const ConsultationExperience = () => {
     });
   };
 
+  const scrollToStepTwoResponse = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const element = stepTwoResponseRef.current;
+
+    if (!element) {
+      scrollToStepTwo();
+      return;
+    }
+
+    if (scrollTimeoutRef.current) {
+      window.clearTimeout(scrollTimeoutRef.current);
+    }
+
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      const top = window.scrollY + element.getBoundingClientRect().top - 20;
+
+      window.scrollTo({
+        top: Math.max(top, 0),
+        behavior: "smooth",
+      });
+    }, 80);
+  };
+
   useEffect(() => {
     if (isLoading || currentStage !== 2 || !latestReply) {
       return;
@@ -446,7 +482,7 @@ export const ConsultationExperience = () => {
     }
 
     lastStepTwoScrollKeyRef.current = scrollKey;
-    scrollToStepTwo();
+    scrollToStepTwoResponse();
   }, [currentStage, isLoading, latestReply, messages.length]);
 
   return (
@@ -513,6 +549,7 @@ export const ConsultationExperience = () => {
             onEmotionTagChange={setEmotionTag}
             reflectionShift={reflectionShift}
             soraPresenceLine={soraPresenceLine}
+            responseTopRef={stepTwoResponseRef}
           />
           </div>
           <div
