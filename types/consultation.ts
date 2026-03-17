@@ -67,6 +67,8 @@ export type ChatRequest = {
   topic: ConsultationTopic;
   userInput: string;
   answers: string[];
+  previousInsight?: string;
+  previousTitle?: string;
 };
 
 export type ChatResponse = {
@@ -77,6 +79,7 @@ export type ConsultationRecord = {
   id: string;
   createdAt: string;
   topic: ConsultationTopic;
+  title?: string;
   userInput: string;
   emotion: string;
   emotionTag?: EmotionTag;

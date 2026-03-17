@@ -87,6 +87,9 @@ const fallbackReply = (request: ChatRequest): SoraReply => ({
 const getTrimmedString = (value: unknown) =>
   typeof value === "string" ? value.trim() : "";
 
+const clampReplyText = (value: string, maxLength = 500) =>
+  value.length > maxLength ? `${value.slice(0, maxLength).trim()}…` : value;
+
 const getObject = (value: unknown) =>
   value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
@@ -133,17 +136,27 @@ const normalizeReflectionSummary = (
 
   return {
     topic:
-      getTrimmedString(summary?.topic) ||
-      getTrimmedString(summary?.theme) ||
-      fallback.topic,
-    emotion: getTrimmedString(summary?.emotion) || fallback.emotion,
-    coreIssue: getTrimmedString(summary?.coreIssue) || fallback.coreIssue,
-    whatYouNeed: getTrimmedString(summary?.whatYouNeed) || fallback.whatYouNeed,
-    soraMessage: getTrimmedString(summary?.soraMessage) || fallback.soraMessage,
+      clampReplyText(
+        getTrimmedString(summary?.topic) ||
+          getTrimmedString(summary?.theme) ||
+          fallback.topic,
+      ),
+    emotion: clampReplyText(getTrimmedString(summary?.emotion) || fallback.emotion),
+    coreIssue: clampReplyText(
+      getTrimmedString(summary?.coreIssue) || fallback.coreIssue,
+    ),
+    whatYouNeed: clampReplyText(
+      getTrimmedString(summary?.whatYouNeed) || fallback.whatYouNeed,
+    ),
+    soraMessage: clampReplyText(
+      getTrimmedString(summary?.soraMessage) || fallback.soraMessage,
+    ),
     theme:
-      getTrimmedString(summary?.topic) ||
-      getTrimmedString(summary?.theme) ||
-      fallback.topic,
+      clampReplyText(
+        getTrimmedString(summary?.topic) ||
+          getTrimmedString(summary?.theme) ||
+          fallback.topic,
+      ),
   };
 };
 
@@ -153,17 +166,25 @@ const sanitizeReply = (reply: Partial<SoraReply>, request: ChatRequest): SoraRep
 
   return {
     empathicMessage:
-      getTrimmedString(normalizedReply?.empathicMessage) || fallback.empathicMessage,
+      clampReplyText(
+        getTrimmedString(normalizedReply?.empathicMessage) || fallback.empathicMessage,
+      ),
     followUpQuestion:
       request.action === "summarize"
         ? ""
-        : getTrimmedString(normalizedReply?.followUpQuestion) ||
-          fallback.followUpQuestion,
-    insight: getTrimmedString(normalizedReply?.insight) || fallback.insight,
+        : clampReplyText(
+            getTrimmedString(normalizedReply?.followUpQuestion) ||
+              fallback.followUpQuestion,
+          ),
+    insight: clampReplyText(getTrimmedString(normalizedReply?.insight) || fallback.insight),
     futureMessage:
-      getTrimmedString(normalizedReply?.futureMessage) || fallback.futureMessage,
+      clampReplyText(
+        getTrimmedString(normalizedReply?.futureMessage) || fallback.futureMessage,
+      ),
     nextQuestion:
-      getTrimmedString(normalizedReply?.nextQuestion) || fallback.nextQuestion,
+      clampReplyText(
+        getTrimmedString(normalizedReply?.nextQuestion) || fallback.nextQuestion,
+      ),
     emotionalState: normalizeEmotionalState(
       getObject(normalizedReply?.emotionalState) as Partial<EmotionalState> | undefined,
     ),

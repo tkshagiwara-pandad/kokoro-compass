@@ -1,8 +1,20 @@
 import { defaultEmotionalState, normalizeEmotionalState } from "@/lib/emotional-state";
+import { buildConsultationTitle } from "@/lib/consultation-title";
 import { ConsultationRecord, EmotionalState, EmotionTag, HeartState } from "@/types/consultation";
 
 const STORAGE_KEY = "kokoro-compass-history";
 const ACTIVE_RECORD_KEY = "kokoro-compass-active-record-id";
+const DRAFT_KEY = "kokoro-compass-draft";
+const SESSION_COUNT_KEY = "sora_sessions_count";
+const HAS_SEEN_INTRO_KEY = "kokoro-compass-has-seen-intro";
+export const MAX_LOGS_FREE = 1000;
+
+export type ConsultationDraft = {
+  topic: ConsultationRecord["topic"];
+  inputMode: "text" | "voice";
+  userInput: string;
+  replyInput: string;
+};
 
 const sortRecords = (records: ConsultationRecord[]) =>
   [...records].sort(
@@ -15,6 +27,7 @@ const normalizeRecord = (
     emotion?: string;
     emotionTag?: EmotionTag;
     heartState?: HeartState;
+    title?: string;
     insight?: string;
     futureMessage?: string;
     nextQuestion?: string;
@@ -23,6 +36,14 @@ const normalizeRecord = (
   },
 ): ConsultationRecord => ({
   ...record,
+  title:
+    record.title ||
+    buildConsultationTitle({
+      topic: record.topic,
+      insight: record.insight,
+      userInput: record.userInput,
+      summary: record.summary,
+    }),
   summary: {
     ...record.summary,
     topic:
@@ -57,6 +78,7 @@ export const sampleRecords: ConsultationRecord[] = sortRecords([
     id: "sample-record-love",
     createdAt: "2026-03-15T20:15:00.000Z",
     topic: "恋愛",
+    title: "まだ手放せない気持ち",
     emotion: "寂しさと確かめたい気持ちが重なり、心が敏感になっているようです。",
     userInput:
       "相手のことを大切に思っているのに、連絡の間が空くたびに気持ちが離れてしまったのではと不安になります。",
@@ -101,6 +123,7 @@ export const sampleRecords: ConsultationRecord[] = sortRecords([
     id: "sample-record-work",
     createdAt: "2026-03-14T09:30:00.000Z",
     topic: "仕事",
+    title: "このままでいいのか",
     emotion: "安心を手放したくない気持ちと、変化を望む気持ちが並んでいます。",
     userInput:
       "今の仕事を続けるべきか迷っています。安定はあるけれど、このままでよいのかという思いが消えません。",
@@ -145,6 +168,7 @@ export const sampleRecords: ConsultationRecord[] = sortRecords([
     id: "sample-record-relationship",
     createdAt: "2026-03-12T18:40:00.000Z",
     topic: "人間関係",
+    title: "距離の取り方に迷う",
     emotion: "疲れと罪悪感が重なり、心の休まる場所が少なくなっているようです。",
     userInput:
       "人に気を遣いすぎてしまい、会ったあとにどっと疲れます。距離を取りたいのに、冷たいと思われそうで怖いです。",
@@ -187,15 +211,6 @@ export const sampleRecords: ConsultationRecord[] = sortRecords([
   },
 ]).map(normalizeRecord);
 
-const seedHistory = () => {
-  if (typeof window === "undefined") {
-    return sampleRecords;
-  }
-
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleRecords));
-  return sampleRecords;
-};
-
 export const loadHistory = (): ConsultationRecord[] => {
   if (typeof window === "undefined") {
     return [];
@@ -204,7 +219,7 @@ export const loadHistory = (): ConsultationRecord[] => {
   const raw = window.localStorage.getItem(STORAGE_KEY);
 
   if (!raw) {
-    return seedHistory();
+    return [];
   }
 
   try {
@@ -213,17 +228,16 @@ export const loadHistory = (): ConsultationRecord[] => {
         emotion?: string;
         emotionTag?: EmotionTag;
         heartState?: HeartState;
+        title?: string;
         insight?: string;
         futureMessage?: string;
         nextQuestion?: string;
         emotionalState?: Partial<EmotionalState>;
       }
     >;
-    return parsed.length > 0
-      ? sortRecords(parsed.map(normalizeRecord))
-      : seedHistory();
+    return parsed.length > 0 ? sortRecords(parsed.map(normalizeRecord)) : [];
   } catch {
-    return seedHistory();
+    return [];
   }
 };
 
@@ -244,6 +258,67 @@ export const setActiveRecordId = (id: string) => {
   }
 
   window.localStorage.setItem(ACTIVE_RECORD_KEY, id);
+};
+
+export const loadDraft = (): ConsultationDraft | null => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const raw = window.localStorage.getItem(DRAFT_KEY);
+
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(raw) as ConsultationDraft;
+  } catch {
+    return null;
+  }
+};
+
+export const saveDraft = (draft: ConsultationDraft) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+};
+
+export const clearDraft = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.removeItem(DRAFT_KEY);
+};
+
+export const incrementSessionCount = () => {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  const current = Number(window.localStorage.getItem(SESSION_COUNT_KEY) || "0");
+  const next = current + 1;
+  window.localStorage.setItem(SESSION_COUNT_KEY, String(next));
+  return next;
+};
+
+export const loadHasSeenIntro = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.localStorage.getItem(HAS_SEEN_INTRO_KEY) === "true";
+};
+
+export const saveHasSeenIntro = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(HAS_SEEN_INTRO_KEY, "true");
 };
 
 export const takeActiveRecordId = () => {

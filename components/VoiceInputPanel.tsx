@@ -7,6 +7,7 @@ type VoiceInputPanelProps = {
   value: string;
   onChange: (value: string) => void;
   disabled: boolean;
+  maxLength?: number;
   introMessage?: string;
   helperMessage?: string;
   transcriptLabel?: string;
@@ -33,6 +34,7 @@ export const VoiceInputPanel = ({
   value,
   onChange,
   disabled,
+  maxLength = 1200,
   introMessage,
   helperMessage,
   transcriptLabel,
@@ -107,7 +109,7 @@ export const VoiceInputPanel = ({
         chunksRef.current = [];
 
         if (blob.size < MIN_AUDIO_BYTES) {
-          setError("声がまだ短すぎるようです。もう少しだけ話してみてください。");
+          setError("音声を認識できませんでした。もう一度試してみてください。");
           return;
         }
 
@@ -117,7 +119,7 @@ export const VoiceInputPanel = ({
           const text = await requestTranscription(blob);
 
           if (!text.trim()) {
-            setError("声をうまく文字に整えられませんでした。もう一度お試しください。");
+            setError("音声を認識できませんでした。もう一度試してみてください。");
             return;
           }
 
@@ -127,7 +129,7 @@ export const VoiceInputPanel = ({
           setError(
             transcriptionError instanceof Error
               ? transcriptionError.message
-              : "文字起こしに失敗しました。時間を置いてもう一度お試しください。",
+              : "音声を認識できませんでした。もう一度試してみてください。",
           );
         } finally {
           setIsTranscribing(false);
@@ -234,6 +236,7 @@ export const VoiceInputPanel = ({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           rows={4}
+          maxLength={maxLength}
           placeholder="思いついたことがここに入ります。必要なら少し整えてから、そのまま送れます。"
           className="field-base min-h-[124px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[140px]"
           disabled={disabled || isTranscribing}

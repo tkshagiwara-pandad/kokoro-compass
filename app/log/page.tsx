@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { LogExperience } from "@/components/LogExperience";
 
 export const metadata: Metadata = {
-  title: "マイログ",
+  title: "あなたの心の地図",
   description:
-    "保存した相談履歴から、最近のテーマや気づきの流れを見返せるマイログ画面です。",
+    "こころの羅針盤で残された言葉から、あなたの心の動きを静かにたどることができます。",
 };
 
 export default function LogPage() {

@@ -3,7 +3,7 @@ import { ChatRequest, ChatResponse } from "@/types/consultation";
 const GENERIC_ERROR_MESSAGE =
   "うまく応答を作れませんでした。少し時間を置いてもう一度お試しください。";
 const GENERIC_TRANSCRIPTION_ERROR_MESSAGE =
-  "文字起こしに失敗しました。時間を置いてもう一度お試しください。";
+  "音声を認識できませんでした。もう一度試してみてください。";
 
 export const requestSoraReply = async (
   payload: ChatRequest,

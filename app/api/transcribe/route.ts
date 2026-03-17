@@ -41,7 +41,7 @@ export async function POST(request: Request) {
 
     if (!text) {
       return NextResponse.json(
-        { error: "声をうまく文字に整えられませんでした。もう一度お試しください。" },
+        { error: "音声を認識できませんでした。もう一度試してみてください。" },
         { status: 422 },
       );
     }
@@ -52,8 +52,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        error:
-          "文字起こしに失敗しました。時間を置いてもう一度お試しください。",
+        error: "音声を認識できませんでした。もう一度試してみてください。",
       },
       { status: 500 },
     );

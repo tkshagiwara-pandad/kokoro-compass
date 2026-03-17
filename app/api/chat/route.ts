@@ -22,6 +22,10 @@ const isValidRequest = (body: unknown): body is ChatRequest => {
   );
 };
 
+const exceedsInputLimit = (body: ChatRequest) =>
+  body.userInput.trim().length > 1200 ||
+  body.answers.some((answer) => answer.trim().length > 1200);
+
 export async function POST(request: Request) {
   try {
     if (!getServerEnv().isOpenAiConfigured) {
@@ -39,6 +43,13 @@ export async function POST(request: Request) {
     if (!isValidRequest(body)) {
       return NextResponse.json(
         { error: "不正なリクエストです。" },
+        { status: 400 },
+      );
+    }
+
+    if (exceedsInputLimit(body)) {
+      return NextResponse.json(
+        { error: "少し長いようです。1200文字以内でお願いします。" },
         { status: 400 },
       );
     }

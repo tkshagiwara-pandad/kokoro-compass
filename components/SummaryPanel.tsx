@@ -9,9 +9,11 @@ type SummaryPanelProps = {
   emotionalState: EmotionalState | null;
   saveError: string;
   saveSuccess: string;
+  isSaved: boolean;
   onSave: () => void;
   onOpenHistory: () => void;
   onContinueThinking: () => void;
+  onRestart: () => void;
   soraClosingLine: string;
 };
 
@@ -31,9 +33,11 @@ export const SummaryPanel = ({
   emotionalState,
   saveError,
   saveSuccess,
+  isSaved,
   onSave,
   onOpenHistory,
   onContinueThinking,
+  onRestart,
   soraClosingLine,
 }: SummaryPanelProps) => {
   const handleSaveClick = () => {
@@ -99,33 +103,64 @@ export const SummaryPanel = ({
             </article>
           ) : null}
 
-          <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-              今日はここまでにしますか？
-            </p>
-            <p className="text-sm leading-7 text-stone">
-              ここまでで少し整理できたら、記録として残して終えても大丈夫です。
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button type="button" onClick={handleSaveClick} className="button-primary touch-manipulation">
-                保存して終わる
-              </button>
-              <button
-                type="button"
-                onClick={onContinueThinking}
-                className="button-secondary touch-manipulation"
-              >
-                もう少し考える
-              </button>
-              <button
-                type="button"
-                onClick={onOpenHistory}
-                className="button-secondary touch-manipulation"
-              >
-                マイログを見る
-              </button>
-            </div>
-          </article>
+          {isSaved ? (
+            <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
+              <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+                今日の対話を残しました
+              </p>
+              <p className="text-sm leading-7 text-stone">
+                今日ここまで言葉にできたことも、
+                ひとつの整理です。
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={onOpenHistory}
+                  className="button-primary touch-manipulation"
+                >
+                  心の地図を見る
+                </button>
+                <button
+                  type="button"
+                  onClick={onRestart}
+                  className="button-secondary touch-manipulation"
+                >
+                  もう一度話す
+                </button>
+              </div>
+              <p className="mt-3 text-xs leading-6 text-stone/72">
+                また必要なときに、ここへ戻ってきてください。
+              </p>
+            </article>
+          ) : (
+            <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
+              <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+                今日はここまでにしますか？
+              </p>
+              <p className="text-sm leading-7 text-stone">
+                ここまでで少し整理できたら、記録として残して終えても大丈夫です。
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <button type="button" onClick={handleSaveClick} className="button-primary touch-manipulation">
+                  保存して終わる
+                </button>
+                <button
+                  type="button"
+                  onClick={onContinueThinking}
+                  className="button-secondary touch-manipulation"
+                >
+                  もう少し考える
+                </button>
+                <button
+                  type="button"
+                  onClick={onOpenHistory}
+                  className="button-secondary touch-manipulation"
+                >
+                  マイログを見る
+                </button>
+              </div>
+            </article>
+          )}
 
           <article className="rounded-[18px] border border-lilac/24 bg-white/84 px-4 py-4">
             <div className="flex items-center gap-2">

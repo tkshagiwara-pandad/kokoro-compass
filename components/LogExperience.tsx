@@ -38,11 +38,16 @@ export const LogExperience = () => {
   return (
     <LayoutShell
       eyebrow="My Log"
-      title="マイログ"
-      description="これまでの相談を静かに見返しながら、くり返し現れるテーマや気づきの流れをたどるための振り返りページです。"
+      title="あなたの心の地図"
+      description="こころの羅針盤で残された言葉から、あなたの心の動きや小さな気づきの流れを静かにたどるためのページです。"
       backLink={{ href: "/consultation", label: "相談画面へ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
+        <section className="rounded-[24px] border border-lilac/36 bg-white/68 px-5 py-4 shadow-soft">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">これまでの記録</p>
+          <p className="mt-2 font-serif text-2xl text-plum">{history.length}件</p>
+        </section>
+
         <TrendPanel records={history} />
 
         <HistoryPanel
@@ -60,20 +65,31 @@ export const LogExperience = () => {
         ) : null}
 
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-lilac/38 bg-white/68 px-5 py-4 shadow-soft">
-          <p className="text-sm leading-7 text-stone">
-            ログはこの端末の `localStorage` に保存されています。必要に応じて相談画面へ戻り、続きを整理できます。
-          </p>
+          <div className="space-y-2">
+            <p className="text-sm leading-7 text-stone">
+              ログはこの端末の `localStorage` に保存されています。必要に応じて相談画面へ戻り、続きを整理できます。
+            </p>
+            <p className="text-sm leading-7 text-stone/88">
+              今日の体験はいかがでしたか？30秒で終わります。
+            </p>
+          </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/consultation" className="button-secondary">
               相談画面へ戻る
             </Link>
             <FeedbackButton
               href={FEEDBACK_FORM_URL}
-              label="使ってみた感想を送る"
+              label="フィードバック"
               className="inline-flex items-center justify-center rounded-full border border-lilac/40 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
             />
           </div>
         </div>
+
+        <p className="text-center text-sm leading-7 text-stone/78">
+          また必要なときに、
+          <br />
+          ここへ戻ってきてください。
+        </p>
       </main>
     </LayoutShell>
   );

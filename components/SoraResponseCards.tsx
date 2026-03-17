@@ -53,22 +53,22 @@ export const SoraResponseCards = ({
         return (
           <article
             key={section.key}
-            className={`rounded-[24px] border p-4 sm:p-5 ${
+            className={`rounded-xl border bg-white p-4 shadow-sm sm:p-5 ${
               isFuture
-                ? "border-gold/32 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.9))] shadow-[0_12px_30px_rgba(120,106,82,0.08)]"
+                ? "border-gold/22 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.75))]"
                 : isQuestion
-                  ? "border-iris/55 bg-white shadow-[0_18px_42px_rgba(91,77,104,0.12)]"
+                  ? "border-gray-100"
                   : isEmpathic
-                    ? "border-lilac/40 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,244,250,0.72))] shadow-[0_12px_30px_rgba(137,119,154,0.08)]"
-                    : "border-lilac/35 bg-mist/34"
+                    ? "border-gray-100"
+                    : "border-gray-100 bg-mist/16"
             }`}
           >
-            <div className="mb-2.5 flex items-center justify-between gap-3">
+            <div className="mb-3 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 {isEmpathic ? (
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
                 ) : null}
-                <p className="text-[11px] uppercase tracking-[0.22em] text-gold">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-plum/62">
                   {isEmpathic ? "ソラ" : section.label}
                 </p>
               </div>
@@ -91,7 +91,13 @@ export const SoraResponseCards = ({
                 </button>
               ) : null}
             </div>
-            <p className="text-[15px] leading-7.5 text-ink sm:leading-8">{content}</p>
+            <div className="max-w-prose space-y-4">
+              {content.split("\n").filter(Boolean).map((paragraph, index) => (
+                <p key={`${section.key}-${index}`} className="text-[15px] leading-relaxed text-ink sm:leading-8">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </article>
         );
       })}

@@ -16,6 +16,7 @@ type ConsultationFormProps = {
   started: boolean;
   isStartEnabled: boolean;
   isLoading: boolean;
+  maxLength: number;
 };
 
 export const ConsultationForm = ({
@@ -31,6 +32,7 @@ export const ConsultationForm = ({
   started,
   isStartEnabled,
   isLoading,
+  maxLength,
 }: ConsultationFormProps) => {
   return (
     <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
@@ -38,7 +40,9 @@ export const ConsultationForm = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">相談入力</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          テーマを選び、今の気持ちを少しずつ言葉にして、ソラに送ります。
+          ここは、あなたの心を整理するための場所です。
+          正しい答えを書く必要はありません。
+          思いつくままの言葉で大丈夫です。
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {["1 テーマを選ぶ", "2 書く / 話す", "3 ソラに送る"].map((step) => (
@@ -80,8 +84,8 @@ export const ConsultationForm = ({
 
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">今の気持ちを、書いても話しても大丈夫です</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">少し言葉にしやすい置き方を選べます。</p>
+            <span className="block text-sm text-ink">いま心にあることを書いてください</span>
+            <p className="mt-1 text-xs leading-6 text-stone/76">書いても、話しても大丈夫です。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
@@ -129,13 +133,19 @@ export const ConsultationForm = ({
                 value={input}
                 onChange={(event) => onInputChange(event.target.value)}
                 rows={12}
-                placeholder="思いつくことを、そのまま書いて大丈夫です。まだ整理できていない気持ちでも、そのまま置いてみてください。"
-                className="field-base min-h-[272px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[296px]"
+                maxLength={maxLength}
+                placeholder="思いつくことを、そのまま書いて大丈夫です"
+                className="field-base min-h-[288px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
                 disabled={isLoading}
               />
             </>
           ) : (
-            <VoiceInputPanel value={input} onChange={onInputChange} disabled={isLoading} />
+            <VoiceInputPanel
+              value={input}
+              onChange={onInputChange}
+              disabled={isLoading}
+              maxLength={maxLength}
+            />
           )}
         </label>
 
@@ -145,7 +155,7 @@ export const ConsultationForm = ({
           </p>
         ) : null}
 
-        <div className="flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <button
             type="button"
             onClick={onStart}

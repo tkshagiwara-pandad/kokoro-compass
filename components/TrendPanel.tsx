@@ -56,10 +56,10 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
     <section className="rounded-[24px] border border-lilac/40 bg-white/70 p-5 shadow-soft">
       <div className="mb-4">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">My Log</p>
-        <h2 className="mt-2 font-serif text-xl text-plum">人生の地図</h2>
+        <h2 className="mt-2 font-serif text-xl text-plum">あなたの心の地図</h2>
         <p className="mt-2 text-sm leading-7 text-stone">
           {hasRecords
-            ? "保存した相談から、最近のテーマや小さな気づきの流れを静かに見返せます。"
+            ? "こころの羅針盤で残された言葉から、あなたの心の動きを静かにたどることができます。"
             : "相談が増えると、あなたの思考の傾向がここに少しずつ現れてきます。"}
         </p>
       </div>
@@ -116,7 +116,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
         </article>
 
         <article className="rounded-[20px] border border-lilac/38 bg-mist/30 p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-gold">直近3件の気づき</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-gold">最近の気づき</p>
           {recentRecords.length > 0 ? (
             <div className="mt-3 space-y-2">
               {recentRecords.map((record) => (

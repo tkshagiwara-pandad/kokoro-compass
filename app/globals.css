@@ -61,6 +61,6 @@ textarea {
   }
 
   .field-base {
-    @apply w-full rounded-2xl border border-lilac/80 bg-white px-4 py-3 text-sm leading-7 text-ink outline-none transition placeholder:text-ink/35 focus:border-iris focus:ring-4 focus:ring-lilac/30;
+    @apply w-full rounded-2xl border border-lilac/80 bg-white px-4 py-3 text-sm leading-7 text-ink outline-none transition placeholder:text-ink/35 focus:border-violet-300 focus:shadow-sm;
   }
 }

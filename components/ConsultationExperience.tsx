@@ -13,9 +13,20 @@ import { SummaryPanel } from "@/components/SummaryPanel";
 import { trackEvent } from "@/lib/analytics";
 import { requestSoraReply } from "@/lib/api";
 import { createChatMessage } from "@/lib/chat";
+import { buildConsultationTitle } from "@/lib/consultation-title";
 import { FEEDBACK_FORM_URL } from "@/lib/config";
 import { pickSoraClosingLine, pickSoraPresenceLine } from "@/lib/sora-presence";
-import { loadHistory, saveHistory, takeActiveRecordId } from "@/lib/storage";
+import {
+  clearDraft,
+  incrementSessionCount,
+  loadDraft,
+  loadHasSeenIntro,
+  loadHistory,
+  saveDraft,
+  saveHasSeenIntro,
+  saveHistory,
+  takeActiveRecordId,
+} from "@/lib/storage";
 import {
   ChatMessage,
   ChatRequest,
@@ -28,6 +39,7 @@ import {
 } from "@/types/consultation";
 
 const INITIAL_TOPIC: ConsultationTopic = "恋愛";
+const MAX_INPUT_LENGTH = 1200;
 
 const formatRelativeDay = (createdAt: string) => {
   const diff = Date.now() - new Date(createdAt).getTime();
@@ -62,20 +74,33 @@ export const ConsultationExperience = () => {
   const [chatError, setChatError] = useState("");
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
+  const [saveCompleted, setSaveCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [lastRequest, setLastRequest] = useState<ChatRequest | null>(null);
   const [latestReply, setLatestReply] = useState<SoraReply | null>(null);
+  const [showIntroCard, setShowIntroCard] = useState(false);
+  const saveFeedbackTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const loadedHistory = loadHistory();
     setHistory(loadedHistory);
+    setShowIntroCard(!loadHasSeenIntro());
 
     const activeRecordId = takeActiveRecordId();
     if (activeRecordId) {
       const activeRecord = loadedHistory.find((record) => record.id === activeRecordId);
       if (activeRecord) {
         applyRecord(activeRecord);
+        return;
       }
+    }
+
+    const draft = loadDraft();
+    if (draft) {
+      setTopic(draft.topic);
+      setInputMode(draft.inputMode);
+      setUserInput(draft.userInput);
+      setReplyInput(draft.replyInput);
     }
   }, []);
 
@@ -84,8 +109,24 @@ export const ConsultationExperience = () => {
       if (scrollTimeoutRef.current) {
         window.clearTimeout(scrollTimeoutRef.current);
       }
+      if (saveFeedbackTimeoutRef.current) {
+        window.clearTimeout(saveFeedbackTimeoutRef.current);
+      }
     };
   }, []);
+
+  useEffect(() => {
+    if (summary) {
+      return;
+    }
+
+    saveDraft({
+      topic,
+      inputMode,
+      userInput,
+      replyInput,
+    });
+  }, [inputMode, replyInput, summary, topic, userInput]);
 
   const currentStage: ConsultationStage = summary
     ? 3
@@ -105,7 +146,7 @@ export const ConsultationExperience = () => {
 
   const isStartEnabled = userInput.trim().length > 0;
 
-  const latestMemo = useMemo(() => {
+  const previousMemory = useMemo(() => {
     const latestRecord = history[0];
 
     if (!latestRecord) {
@@ -113,11 +154,14 @@ export const ConsultationExperience = () => {
     }
 
     return {
-      label: `${formatRelativeDay(latestRecord.createdAt)} / ${latestRecord.topic}`,
-      text:
-        latestRecord.insight ||
-        latestRecord.summary?.emotion ||
-        "前回の相談で残した気づきを、ここで静かに見返せます。",
+      title: latestRecord.title || buildConsultationTitle({
+        topic: latestRecord.topic,
+        insight: latestRecord.insight,
+        userInput: latestRecord.userInput,
+        summary: latestRecord.summary,
+      }),
+      insight: latestRecord.insight || latestRecord.userInput,
+      label: `${formatRelativeDay(latestRecord.createdAt)}の気づき`,
     };
   }, [history]);
 
@@ -158,7 +202,7 @@ export const ConsultationExperience = () => {
     }
 
     if (isLoading) {
-      return "ソラが少し考えています。深呼吸するような気持ちで、少しだけお待ちください。";
+      return "ソラが言葉を整えています。少しだけ、このままでお待ちください。";
     }
 
     if (messages.length === 0) {
@@ -184,9 +228,39 @@ export const ConsultationExperience = () => {
     setChatError("");
     setSaveError("");
     setSaveSuccess("");
+    setSaveCompleted(false);
     setIsLoading(false);
     setLastRequest(null);
     setLatestReply(null);
+    clearDraft();
+  };
+
+  const handleUserInputChange = (value: string) => {
+    const nextValue = value.slice(0, MAX_INPUT_LENGTH);
+    setUserInput(nextValue);
+
+    if (value.length > MAX_INPUT_LENGTH) {
+      setFormError("少し長いようです。1200文字以内でお願いします。");
+      return;
+    }
+
+    setFormError((current) =>
+      current === "少し長いようです。1200文字以内でお願いします。" ? "" : current,
+    );
+  };
+
+  const handleReplyInputChange = (value: string) => {
+    const nextValue = value.slice(0, MAX_INPUT_LENGTH);
+    setReplyInput(nextValue);
+
+    if (value.length > MAX_INPUT_LENGTH) {
+      setChatError("少し長いようです。1200文字以内でお願いします。");
+      return;
+    }
+
+    setChatError((current) =>
+      current === "少し長いようです。1200文字以内でお願いします。" ? "" : current,
+    );
   };
 
   const applyRecord = (record: ConsultationRecord) => {
@@ -215,6 +289,7 @@ export const ConsultationExperience = () => {
     setChatError("");
     setSaveError("");
     setSaveSuccess("");
+    setSaveCompleted(false);
   };
 
   const fetchSora = async (payload: ChatRequest) => {
@@ -234,10 +309,18 @@ export const ConsultationExperience = () => {
       return;
     }
 
+    if (userInput.trim().length > MAX_INPUT_LENGTH) {
+      setFormError("少し長いようです。1200文字以内でお願いします。");
+      return;
+    }
+
     setFormError("");
     setChatError("");
     setSaveError("");
     setSaveSuccess("");
+    setSaveCompleted(false);
+    saveHasSeenIntro();
+    setShowIntroCard(false);
 
     try {
       const initialUserMessage = createChatMessage("user", userInput.trim());
@@ -246,7 +329,10 @@ export const ConsultationExperience = () => {
         topic,
         userInput: userInput.trim(),
         answers: [],
+        previousInsight: previousMemory?.insight,
+        previousTitle: previousMemory?.title,
       });
+      incrementSessionCount();
       trackEvent("consultation_started", { topic });
       setLatestReply(response.reply);
       const soraMessage = createChatMessage(
@@ -276,6 +362,11 @@ export const ConsultationExperience = () => {
       return;
     }
 
+    if (replyInput.trim().length > MAX_INPUT_LENGTH) {
+      setChatError("少し長いようです。1200文字以内でお願いします。");
+      return;
+    }
+
     setChatError("");
 
     const newAnswer = replyInput.trim();
@@ -288,6 +379,8 @@ export const ConsultationExperience = () => {
         topic,
         userInput: userInput.trim(),
         answers: nextAnswers,
+        previousInsight: previousMemory?.insight,
+        previousTitle: previousMemory?.title,
       });
       const soraMessage = createChatMessage(
         "sora",
@@ -315,6 +408,11 @@ export const ConsultationExperience = () => {
       return;
     }
 
+    if (replyInput.trim().length > MAX_INPUT_LENGTH) {
+      setChatError("少し長いようです。1200文字以内でお願いします。");
+      return;
+    }
+
     const finalAnswer = replyInput.trim();
     const finalUserMessage = createChatMessage("user", finalAnswer);
     const nextAnswers = [...answers, finalAnswer];
@@ -325,6 +423,8 @@ export const ConsultationExperience = () => {
         topic,
         userInput: userInput.trim(),
         answers: nextAnswers,
+        previousInsight: previousMemory?.insight,
+        previousTitle: previousMemory?.title,
       });
 
       setChatError("");
@@ -334,7 +434,9 @@ export const ConsultationExperience = () => {
       setSummary(response.reply.reflectionSummary);
       setSaveSuccess("");
       setSaveError("");
+      setSaveCompleted(false);
       setLatestReply(response.reply);
+      clearDraft();
       trackEvent("consultation_completed", { topic, answersCount: nextAnswers.length });
     } catch (error) {
       setChatError(
@@ -354,6 +456,12 @@ export const ConsultationExperience = () => {
       id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
       topic,
+      title: buildConsultationTitle({
+        topic,
+        insight: latestReply?.insight,
+        userInput: userInput.trim(),
+        summary,
+      }),
       userInput: userInput.trim(),
       emotion: summary.emotion,
       summary,
@@ -377,12 +485,20 @@ export const ConsultationExperience = () => {
     try {
       saveHistory([record, ...history]);
       setHistory(loadHistory());
-      setSaveSuccess("相談内容をローカルに保存しました。");
+      setSaveSuccess("言葉を保存しました");
       setSaveError("");
-      router.push("/log");
+      setSaveCompleted(true);
+      if (saveFeedbackTimeoutRef.current) {
+        window.clearTimeout(saveFeedbackTimeoutRef.current);
+      }
+      clearDraft();
+      saveFeedbackTimeoutRef.current = window.setTimeout(() => {
+        setSaveSuccess("");
+      }, 1500);
     } catch {
       setSaveError("保存に失敗しました。ブラウザの設定を確認してください。");
       setSaveSuccess("");
+      setSaveCompleted(false);
     }
   };
 
@@ -477,12 +593,42 @@ export const ConsultationExperience = () => {
       backLink={{ href: "/", label: "トップへ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
-        {latestMemo ? (
+        {showIntroCard ? (
+          <section className="rounded-[22px] border border-lilac/34 bg-white/78 px-5 py-4 shadow-soft">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">
+                  こころの羅針盤でできること
+                </p>
+                <div className="mt-3 space-y-1.5 text-sm leading-7 text-stone">
+                  <p>・今の気持ちを言葉にする</p>
+                  <p>・ソラと一緒に心を整理する</p>
+                  <p>・気づきを記録として残す</p>
+                </div>
+                <p className="mt-3 text-sm leading-7 text-stone">
+                  3分ほどで、今の心を少し整えることができます。
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  saveHasSeenIntro();
+                  setShowIntroCard(false);
+                }}
+                className="shrink-0 rounded-full border border-lilac/30 bg-white/82 px-3 py-1.5 text-xs text-stone transition hover:border-iris/40 hover:text-plum"
+              >
+                閉じる
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        {previousMemory ? (
           <section className="rounded-lg border border-lilac/40 bg-purple-50/70 px-4 py-3 text-sm text-stone shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回のあなた</p>
-            <p className="mt-2 text-xs text-stone/76">{latestMemo.label}</p>
-            <p className="mt-1 leading-7 text-ink/82">「{latestMemo.text}」</p>
-            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少し考えてみますか</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回のあなたから</p>
+            <p className="mt-2 text-xs text-stone/76">{previousMemory.label}</p>
+            <p className="mt-1 leading-7 text-ink/82">「{previousMemory.title}」</p>
+            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少しだけ、心を整理してみませんか。</p>
           </section>
         ) : null}
 
@@ -498,13 +644,14 @@ export const ConsultationExperience = () => {
             error={formError}
             inputMode={inputMode}
             onTopicChange={setTopic}
-            onInputChange={setUserInput}
+            onInputChange={handleUserInputChange}
             onInputModeChange={setInputMode}
             onStart={handleStart}
-              onReset={resetAll}
-              started={messages.length > 0}
-              isStartEnabled={isStartEnabled}
-              isLoading={isLoading}
+            onReset={resetAll}
+            started={messages.length > 0}
+            isStartEnabled={isStartEnabled}
+            isLoading={isLoading}
+            maxLength={MAX_INPUT_LENGTH}
             />
           </div>
           <div
@@ -520,18 +667,19 @@ export const ConsultationExperience = () => {
             canReply={canReply}
             canSummarize={canSummarize}
             inputMode={inputMode}
-            onReplyInputChange={setReplyInput}
+            onReplyInputChange={handleReplyInputChange}
             onInputModeChange={setInputMode}
             onNext={handleNext}
             onSummarize={handleSummarize}
             messageHint={messageHint}
-              isLoading={isLoading}
+            isLoading={isLoading}
             onRetry={handleRetry}
             canRetry={Boolean(lastRequest)}
             latestReply={latestReply}
             reflectionShift={reflectionShift}
             soraPresenceLine={soraPresenceLine}
             responseTopRef={stepTwoResponseRef}
+            maxLength={MAX_INPUT_LENGTH}
           />
           </div>
           <div
@@ -547,9 +695,11 @@ export const ConsultationExperience = () => {
               emotionalState={latestReply?.emotionalState || null}
               saveError={saveError}
               saveSuccess={saveSuccess}
+              isSaved={saveCompleted}
               onSave={handleSave}
               onOpenHistory={handleOpenHistory}
               onContinueThinking={scrollToStepTwo}
+              onRestart={resetAll}
               soraClosingLine={soraClosingLine}
             />
           </div>
