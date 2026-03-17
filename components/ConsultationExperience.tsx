@@ -23,8 +23,6 @@ import {
   ConsultationStage,
   ConsultationTopic,
   EmotionalState,
-  EmotionTag,
-  HeartState,
   ReflectionSummary,
   SoraReply,
 } from "@/types/consultation";
@@ -67,8 +65,6 @@ export const ConsultationExperience = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastRequest, setLastRequest] = useState<ChatRequest | null>(null);
   const [latestReply, setLatestReply] = useState<SoraReply | null>(null);
-  const [emotionTag, setEmotionTag] = useState<EmotionTag | null>(null);
-  const [heartState, setHeartState] = useState<HeartState | null>(null);
 
   useEffect(() => {
     const loadedHistory = loadHistory();
@@ -136,16 +132,12 @@ export const ConsultationExperience = () => {
       return `前回よりも「${topic}」について、もう少し詳しく言葉にできているのかもしれません。`;
     }
 
-    if (previousRecord.emotionTag === "まだモヤモヤ" && emotionTag === "整理できた") {
-      return "前回よりも、気持ちの輪郭が少し見えやすくなっているのかもしれません。";
-    }
-
     if (previousRecord.topic === topic) {
       return `前回も「${topic}」について立ち止まっていました。今日は、その迷いを少し別の角度から見つめられているのかもしれません。`;
     }
 
     return null;
-  }, [currentStage, emotionTag, history, topic, userInput]);
+  }, [currentStage, history, topic, userInput]);
 
   const soraPresenceLine = useMemo(
     () => pickSoraPresenceLine(`${topic}:${userInput}:${messages.length}`),
@@ -195,8 +187,6 @@ export const ConsultationExperience = () => {
     setIsLoading(false);
     setLastRequest(null);
     setLatestReply(null);
-    setEmotionTag(null);
-    setHeartState(null);
   };
 
   const applyRecord = (record: ConsultationRecord) => {
@@ -225,8 +215,6 @@ export const ConsultationExperience = () => {
     setChatError("");
     setSaveError("");
     setSaveSuccess("");
-    setEmotionTag(record.emotionTag || null);
-    setHeartState(record.heartState || null);
   };
 
   const fetchSora = async (payload: ChatRequest) => {
@@ -269,8 +257,6 @@ export const ConsultationExperience = () => {
       setMessages([initialUserMessage, soraMessage]);
       setAnswers([]);
       setReplyInput("");
-      setEmotionTag(null);
-      setHeartState(null);
       setSummary(null);
       setChatError("");
       scrollToStepTwo();
@@ -370,8 +356,6 @@ export const ConsultationExperience = () => {
       topic,
       userInput: userInput.trim(),
       emotion: summary.emotion,
-      emotionTag: emotionTag || undefined,
-      heartState: heartState || undefined,
       summary,
       insight:
         latestReply?.insight ||
@@ -545,8 +529,6 @@ export const ConsultationExperience = () => {
             onRetry={handleRetry}
             canRetry={Boolean(lastRequest)}
             latestReply={latestReply}
-            emotionTag={emotionTag}
-            onEmotionTagChange={setEmotionTag}
             reflectionShift={reflectionShift}
             soraPresenceLine={soraPresenceLine}
             responseTopRef={stepTwoResponseRef}
@@ -563,13 +545,11 @@ export const ConsultationExperience = () => {
               futureMessage={latestReply?.futureMessage || ""}
               nextQuestion={latestReply?.nextQuestion || ""}
               emotionalState={latestReply?.emotionalState || null}
-              heartState={heartState}
               saveError={saveError}
               saveSuccess={saveSuccess}
               onSave={handleSave}
               onOpenHistory={handleOpenHistory}
               onContinueThinking={scrollToStepTwo}
-              onHeartStateChange={setHeartState}
               soraClosingLine={soraClosingLine}
             />
           </div>

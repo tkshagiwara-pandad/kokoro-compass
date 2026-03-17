@@ -1,7 +1,7 @@
-import { PointerEvent as ReactPointerEvent, RefObject } from "react";
+import { RefObject } from "react";
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { SoraResponseCards } from "@/components/SoraResponseCards";
-import { ChatMessage, EmotionTag, emotionTagOptions, SoraReply } from "@/types/consultation";
+import { ChatMessage, SoraReply } from "@/types/consultation";
 
 type InputMode = "text" | "voice";
 
@@ -21,8 +21,6 @@ type ChatPanelProps = {
   onRetry: () => void;
   canRetry: boolean;
   latestReply: SoraReply | null;
-  emotionTag: EmotionTag | null;
-  onEmotionTagChange: (value: EmotionTag) => void;
   reflectionShift: string | null;
   soraPresenceLine: string;
   responseTopRef?: RefObject<HTMLDivElement | null>;
@@ -44,31 +42,10 @@ export const ChatPanel = ({
   onRetry,
   canRetry,
   latestReply,
-  emotionTag,
-  onEmotionTagChange,
   reflectionShift,
   soraPresenceLine,
   responseTopRef,
 }: ChatPanelProps) => {
-  const handleEmotionTagSelect = (value: EmotionTag) => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[ChatPanel] emotionTag selected:", value);
-    }
-    onEmotionTagChange(value);
-  };
-
-  const handleEmotionTagPointerDown = (
-    event: ReactPointerEvent<HTMLButtonElement>,
-    value: EmotionTag,
-  ) => {
-    if (event.pointerType === "mouse") {
-      return;
-    }
-
-    event.preventDefault();
-    handleEmotionTagSelect(value);
-  };
-
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
       <div className="mb-6">
@@ -99,37 +76,6 @@ export const ChatPanel = ({
               reply={latestReply}
               sections={["empathicMessage"]}
             />
-          </div>
-        ) : null}
-
-        {latestReply?.empathicMessage ? (
-          <div className="relative z-20 isolate overflow-visible rounded-[22px] border border-lilac/34 bg-white/84 px-4 py-4 touch-manipulation pointer-events-auto">
-            <p className="pointer-events-none text-[11px] uppercase tracking-[0.2em] text-plum/62">
-              今の気持ちはどれに近いですか
-            </p>
-            <div className="relative z-10 mt-3 flex flex-wrap gap-2 pointer-events-auto">
-              {emotionTagOptions.map((option) => {
-                const selected = option === emotionTag;
-
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => handleEmotionTagSelect(option)}
-                    onPointerDown={(event) => handleEmotionTagPointerDown(event, option)}
-                    aria-pressed={selected}
-                    className={`relative z-10 inline-flex min-h-11 cursor-pointer select-none items-center justify-center pointer-events-auto touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
-                      selected
-                        ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
-                        : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
-                    }`}
-                    style={{ WebkitTapHighlightColor: "transparent" }}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         ) : null}
 

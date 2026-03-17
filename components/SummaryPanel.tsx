@@ -1,6 +1,5 @@
-import { PointerEvent as ReactPointerEvent } from "react";
 import { EmotionalStateMeter } from "@/components/EmotionalStateMeter";
-import { EmotionalState, HeartState, heartStateOptions, ReflectionSummary } from "@/types/consultation";
+import { EmotionalState, ReflectionSummary } from "@/types/consultation";
 
 type SummaryPanelProps = {
   summary: ReflectionSummary | null;
@@ -8,13 +7,11 @@ type SummaryPanelProps = {
   futureMessage: string;
   nextQuestion: string;
   emotionalState: EmotionalState | null;
-  heartState: HeartState | null;
   saveError: string;
   saveSuccess: string;
   onSave: () => void;
   onOpenHistory: () => void;
   onContinueThinking: () => void;
-  onHeartStateChange: (value: HeartState) => void;
   soraClosingLine: string;
 };
 
@@ -32,34 +29,13 @@ export const SummaryPanel = ({
   futureMessage,
   nextQuestion,
   emotionalState,
-  heartState,
   saveError,
   saveSuccess,
   onSave,
   onOpenHistory,
   onContinueThinking,
-  onHeartStateChange,
   soraClosingLine,
 }: SummaryPanelProps) => {
-  const handleHeartStateSelect = (value: HeartState) => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[SummaryPanel] heartState selected:", value);
-    }
-    onHeartStateChange(value);
-  };
-
-  const handleHeartStatePointerDown = (
-    event: ReactPointerEvent<HTMLButtonElement>,
-    value: HeartState,
-  ) => {
-    if (event.pointerType === "mouse") {
-      return;
-    }
-
-    event.preventDefault();
-    handleHeartStateSelect(value);
-  };
-
   const handleSaveClick = () => {
     if (process.env.NODE_ENV !== "production") {
       console.log("[SummaryPanel] save clicked");
@@ -122,38 +98,6 @@ export const SummaryPanel = ({
               <EmotionalStateMeter state={emotionalState} compact />
             </article>
           ) : null}
-
-          <article className="relative z-20 isolate overflow-visible rounded-[18px] border border-lilac/24 bg-mist/12 p-4 touch-manipulation pointer-events-auto">
-            <p className="mb-2 pointer-events-none text-xs uppercase tracking-[0.22em] text-gold">
-              心の現在地
-            </p>
-            <p className="pointer-events-none text-sm leading-7 text-stone">
-              今のあなたはどこに近いですか？
-            </p>
-            <div className="relative z-10 mt-4 flex flex-wrap gap-2 pointer-events-auto">
-              {heartStateOptions.map((option) => {
-                const isSelected = option === heartState;
-
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => handleHeartStateSelect(option)}
-                    onPointerDown={(event) => handleHeartStatePointerDown(event, option)}
-                    aria-pressed={isSelected}
-                    className={`relative z-10 inline-flex min-h-11 cursor-pointer select-none items-center justify-center pointer-events-auto touch-manipulation rounded-full border px-3.5 py-2 text-sm transition ${
-                      isSelected
-                        ? "border-iris/68 bg-lilac/42 text-plum shadow-soft"
-                        : "border-lilac/34 bg-white text-stone hover:border-iris/48 hover:text-plum"
-                    }`}
-                    style={{ WebkitTapHighlightColor: "transparent" }}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </article>
 
           <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
