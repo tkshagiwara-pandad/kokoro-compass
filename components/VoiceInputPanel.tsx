@@ -24,19 +24,6 @@ type SupportInfo = {
 
 const MIN_AUDIO_BYTES = 1024;
 
-const getSupportedMimeTypes = (): string[] => {
-  if (
-    typeof window === "undefined" ||
-    typeof MediaRecorder === "undefined" ||
-    typeof MediaRecorder.isTypeSupported !== "function"
-  ) {
-    return [];
-  }
-
-  const candidates = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"];
-  return candidates.filter((candidate) => MediaRecorder.isTypeSupported(candidate));
-};
-
 const getVoiceErrorMessage = (error: unknown) => {
   if (error instanceof DOMException) {
     switch (error.name) {
@@ -96,13 +83,28 @@ export const VoiceInputPanel = ({
   const [errorMessage, setErrorMessage] = useState("");
 
   const supportInfo = useMemo<SupportInfo>(() => {
+    if (typeof window === "undefined") {
+      return {
+        hasGetUserMedia: false,
+        hasMediaRecorder: false,
+        supportedMimeTypes: [],
+      };
+    }
+
+    const hasGetUserMedia = Boolean(window.navigator?.mediaDevices?.getUserMedia);
+    const hasMediaRecorder = typeof window.MediaRecorder !== "undefined";
+
+    let supportedMimeTypes: string[] = [];
+
+    if (hasMediaRecorder && typeof window.MediaRecorder.isTypeSupported === "function") {
+      const candidates = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"];
+      supportedMimeTypes = candidates.filter((type) => window.MediaRecorder.isTypeSupported(type));
+    }
+
     const info = {
-      hasGetUserMedia:
-        typeof window !== "undefined" &&
-        typeof navigator !== "undefined" &&
-        Boolean(navigator.mediaDevices?.getUserMedia),
-      hasMediaRecorder: typeof window !== "undefined" && typeof MediaRecorder !== "undefined",
-      supportedMimeTypes: getSupportedMimeTypes(),
+      hasGetUserMedia,
+      hasMediaRecorder,
+      supportedMimeTypes,
     };
 
     if (process.env.NODE_ENV !== "production") {
