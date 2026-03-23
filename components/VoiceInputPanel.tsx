@@ -81,6 +81,10 @@ export const VoiceInputPanel = ({
   const selectedMimeTypeRef = useRef("");
   const [status, setStatus] = useState<VoiceStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [lastRuntimeError, setLastRuntimeError] = useState<{
+    name: string;
+    message: string;
+  } | null>(null);
 
   const supportInfo = useMemo<SupportInfo>(() => {
     if (typeof window === "undefined") {
@@ -241,14 +245,17 @@ export const VoiceInputPanel = ({
       mediaRecorder.start();
       setStatus("recording");
     } catch (error) {
+      const runtimeError = {
+        name: error instanceof Error ? error.name : "unknown",
+        message: error instanceof Error ? error.message : String(error),
+      };
+
       if (process.env.NODE_ENV !== "production") {
         // Debug log for getUserMedia failures.
-        console.log("[VoiceInputPanel] getUserMedia error", {
-          name: error instanceof Error ? error.name : "unknown",
-          message: error instanceof Error ? error.message : String(error),
-        });
+        console.log("[VoiceInputPanel] getUserMedia error", runtimeError);
       }
 
+      setLastRuntimeError(runtimeError);
       setErrorMessage(getVoiceErrorMessage(error));
       setStatus("error");
       stopTracks();
@@ -370,6 +377,24 @@ export const VoiceInputPanel = ({
         <p className="text-xs leading-5 text-stone/70">
           {transcriptHint || "内容を整えたら、そのまま送れます。"}
         </p>
+      ) : null}
+
+      {process.env.NODE_ENV !== "production" ? (
+        <div className="rounded-2xl border border-dashed border-lilac/40 bg-white/80 px-4 py-3 text-xs leading-6 text-stone/80">
+          <p className="font-medium text-ink/80">support:</p>
+          <p>getUserMedia: {String(supportInfo.hasGetUserMedia)}</p>
+          <p>mediaRecorder: {String(supportInfo.hasMediaRecorder)}</p>
+          <p>
+            mimeTypes: {supportInfo.supportedMimeTypes.length > 0 ? supportInfo.supportedMimeTypes.join(", ") : "(none)"}
+          </p>
+          <p>status: {status}</p>
+          {lastRuntimeError ? (
+            <>
+              <p>error.name: {lastRuntimeError.name}</p>
+              <p>error.message: {lastRuntimeError.message || "(empty)"}</p>
+            </>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );
