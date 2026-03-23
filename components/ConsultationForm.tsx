@@ -186,7 +186,7 @@ export const ConsultationForm = ({
         <p className="text-sm leading-7 text-stone">
           {started
             ? "いまは対話の途中です。ソラの問いに返してみてください。"
-            : "送ると、ソラとの対話が始まります。"}
+            : "送ると、ソラが静かに問いを返します。"}
         </p>
       </div>
     </section>

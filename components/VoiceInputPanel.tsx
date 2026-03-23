@@ -44,19 +44,19 @@ const getVoiceErrorMessage = (error: unknown) => {
     switch (error.name) {
       case "NotAllowedError":
       case "PermissionDeniedError":
-        return "マイクの使用が許可されていません。ブラウザ設定からマイクを許可してください。";
+        return "マイクの使用が許可されていません。ブラウザ設定から許可してください。";
       case "NotFoundError":
       case "DevicesNotFoundError":
         return "マイクが見つかりませんでした。";
       case "NotReadableError":
-        return "マイクを利用できませんでした。他のアプリで使用中でないか確認してください。";
+        return "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。";
       case "AbortError":
-        return "音声入力を始められませんでした。少し時間を置いてもう一度お試しください。";
+        return "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。";
       case "OverconstrainedError":
-        return "マイクの設定を確認できませんでした。ブラウザ設定を見直してください。";
+        return "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。";
       case "NotSupportedError":
       case "TypeError":
-        return "このブラウザでは音声入力が利用できない可能性があります。Safari または最新版ブラウザでお試しください。";
+        return "このブラウザでは音声入力が利用できない可能性があります。";
       default:
         break;
     }
@@ -65,11 +65,23 @@ const getVoiceErrorMessage = (error: unknown) => {
   if (error instanceof Error) {
     const message = `${error.name} ${error.message}`.toLowerCase();
     if (message.includes("permission") || message.includes("denied") || message.includes("allowed")) {
-      return "マイクの使用が許可されていません。ブラウザ設定からマイクを許可してください。";
+      return "マイクの使用が許可されていません。ブラウザ設定から許可してください。";
     }
   }
 
-  return "音声入力を始められませんでした。少し時間を置いてもう一度お試しください。";
+  return "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。";
+};
+
+const getTranscriptionErrorMessage = (error: unknown) => {
+  if (error instanceof TranscriptionRequestError) {
+    if (error.debugCode === "invalid_audio_payload" || error.debugCode === "transcribe_response_empty") {
+      return "文字起こしに失敗しました。もう一度お試しください。";
+    }
+
+    return "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。";
+  }
+
+  return "文字起こしに失敗しました。もう一度お試しください。";
 };
 
 const getMimeExtension = (mimeType: string) => {
@@ -97,14 +109,6 @@ export const VoiceInputPanel = ({
   const [status, setStatus] = useState<VoiceStatus>("idle");
   const [phase, setPhase] = useState<VoicePhase>("beforeStart");
   const [errorMessage, setErrorMessage] = useState("");
-  const [lastRuntimeError, setLastRuntimeError] = useState<{
-    name: string;
-    message: string;
-  } | null>(null);
-  const [lastHttpStatus, setLastHttpStatus] = useState<number | null>(null);
-  const [lastApiError, setLastApiError] = useState<string>("");
-  const [lastDebugCode, setLastDebugCode] = useState<string>("");
-  const [lastBlobSize, setLastBlobSize] = useState<number>(0);
 
   const supportInfo = useMemo<SupportInfo>(() => {
     if (typeof window === "undefined") {
@@ -125,18 +129,11 @@ export const VoiceInputPanel = ({
       supportedMimeTypes = candidates.filter((type) => window.MediaRecorder.isTypeSupported(type));
     }
 
-    const info = {
+    return {
       hasGetUserMedia,
       hasMediaRecorder,
       supportedMimeTypes,
     };
-
-    if (process.env.NODE_ENV !== "production") {
-      // Debug log for Safari voice input support.
-      console.log("[VoiceInputPanel] support check", info);
-    }
-
-    return info;
   }, []);
 
   const isSupported = supportInfo.hasGetUserMedia && supportInfo.hasMediaRecorder;
@@ -174,11 +171,6 @@ export const VoiceInputPanel = ({
     }
 
     setErrorMessage("");
-    setLastRuntimeError(null);
-    setLastHttpStatus(null);
-    setLastApiError("");
-    setLastDebugCode("");
-    setLastBlobSize(0);
     setPhase("beforeGetUserMedia");
     setStatus("requestingPermission");
 
@@ -186,11 +178,6 @@ export const VoiceInputPanel = ({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       setPhase("afterGetUserMedia");
       const mimeType = supportInfo.supportedMimeTypes[0] || "";
-
-      if (process.env.NODE_ENV !== "production") {
-        // Debug log for selected recorder format.
-        console.log("[VoiceInputPanel] selected mimeType", mimeType || "(default)");
-      }
 
       setPhase("beforeCreateRecorder");
       const mediaRecorder =
@@ -212,16 +199,8 @@ export const VoiceInputPanel = ({
       };
 
       mediaRecorder.onerror = (event) => {
-        if (process.env.NODE_ENV !== "production") {
-          // Debug log for MediaRecorder runtime errors.
-          console.log("[VoiceInputPanel] MediaRecorder error", event);
-        }
-
-        setLastRuntimeError({
-          name: "media_recorder_runtime_error",
-          message: "MediaRecorder error event",
-        });
-        setErrorMessage("マイクを利用できませんでした。他のアプリで使用中でないか確認してください。");
+        void event;
+        setErrorMessage("現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。");
         setPhase("failed");
         setStatus("error");
         stopTracks();
@@ -235,14 +214,9 @@ export const VoiceInputPanel = ({
           type: selectedMimeTypeRef.current || "audio/webm",
         });
         chunksRef.current = [];
-        setLastBlobSize(blob.size);
 
         if (blob.size < MIN_AUDIO_BYTES) {
-          setLastRuntimeError({
-            name: "blob_too_small",
-            message: `blob size: ${blob.size}`,
-          });
-          setErrorMessage("音声を認識できませんでした。もう一度試してみてください。");
+          setErrorMessage("文字起こしに失敗しました。もう一度お試しください。");
           setPhase("failed");
           setStatus("error");
           return;
@@ -261,11 +235,7 @@ export const VoiceInputPanel = ({
           setPhase("afterTranscribeResponse");
 
           if (!text.trim()) {
-            setLastRuntimeError({
-              name: "transcribe_response_invalid",
-              message: "empty transcription response",
-            });
-            setErrorMessage("音声を認識できませんでした。もう一度試してみてください。");
+            setErrorMessage("文字起こしに失敗しました。もう一度お試しください。");
             setPhase("failed");
             setStatus("error");
             return;
@@ -276,34 +246,7 @@ export const VoiceInputPanel = ({
           setPhase("done");
           setStatus("idle");
         } catch (transcriptionError) {
-          if (process.env.NODE_ENV !== "production") {
-            // Debug log for transcribe API failures.
-            console.log("[VoiceInputPanel] transcribe API error", transcriptionError);
-          }
-
-          if (transcriptionError instanceof TranscriptionRequestError) {
-            setLastHttpStatus(transcriptionError.status ?? null);
-            setLastApiError(transcriptionError.apiError || "");
-            setLastDebugCode(transcriptionError.debugCode || "");
-            setLastRuntimeError({
-              name: "transcribe_request_failed",
-              message: transcriptionError.message,
-            });
-          } else {
-            setLastRuntimeError({
-              name: "transcribe_request_failed",
-              message:
-                transcriptionError instanceof Error
-                  ? transcriptionError.message
-                  : String(transcriptionError),
-            });
-          }
-
-          setErrorMessage(
-            transcriptionError instanceof Error
-              ? transcriptionError.message
-              : "音声を認識できませんでした。もう一度試してみてください。",
-          );
+          setErrorMessage(getTranscriptionErrorMessage(transcriptionError));
           setPhase("failed");
           setStatus("error");
         }
@@ -314,20 +257,6 @@ export const VoiceInputPanel = ({
       setPhase("afterRecorderStart");
       setStatus("recording");
     } catch (error) {
-      const runtimeError = {
-        name:
-          error instanceof Error
-            ? error.name || "get_user_media_failed"
-            : "get_user_media_failed",
-        message: error instanceof Error ? error.message : String(error),
-      };
-
-      if (process.env.NODE_ENV !== "production") {
-        // Debug log for getUserMedia failures.
-        console.log("[VoiceInputPanel] getUserMedia error", runtimeError);
-      }
-
-      setLastRuntimeError(runtimeError);
       setErrorMessage(getVoiceErrorMessage(error));
       setPhase("failed");
       setStatus("error");
@@ -356,7 +285,7 @@ export const VoiceInputPanel = ({
 
   const statusMessage = (() => {
     if (!isSupported) {
-      return "このブラウザでは音声入力が利用できない可能性があります。Safari または最新版ブラウザでお試しください。";
+      return "このブラウザでは音声入力が利用できない可能性があります。";
     }
 
     if (status === "requestingPermission") {
@@ -369,10 +298,6 @@ export const VoiceInputPanel = ({
 
     if (status === "transcribing") {
       return "言葉を文字にしています";
-    }
-
-    if (value.trim()) {
-      return "音声を入力しました";
     }
 
     return "";
@@ -432,30 +357,6 @@ export const VoiceInputPanel = ({
           {errorMessage}
         </p>
       ) : null}
-
-      <div className="rounded-2xl border border-dashed border-lilac/40 bg-white/80 px-4 py-3 text-xs leading-5 text-stone/80">
-        <p className="font-medium text-ink/80">debug</p>
-        <p>getUserMedia: {String(supportInfo.hasGetUserMedia)}</p>
-        <p>mediaRecorder: {String(supportInfo.hasMediaRecorder)}</p>
-        <p>
-          mimeTypes:{" "}
-          {supportInfo.supportedMimeTypes.length > 0
-            ? supportInfo.supportedMimeTypes.join(",")
-            : "(none)"}
-        </p>
-        <p>status: {status}</p>
-        <p>phase: {phase}</p>
-        <p>recorderState: {mediaRecorderRef.current?.state || "(none)"}</p>
-        <p>selectedMimeType: {selectedMimeTypeRef.current || "(none)"}</p>
-        <p>chunksCount: {chunksRef.current.length}</p>
-        <p>blobSize: {lastBlobSize}</p>
-        <p>lastHttpStatus: {lastHttpStatus ?? "(none)"}</p>
-        <p>lastApiError: {lastApiError || "(none)"}</p>
-        <p>debugCode: {lastDebugCode || "(none)"}</p>
-        <p>errorName: {lastRuntimeError?.name || "(none)"}</p>
-        <p>errorMessage: {lastRuntimeError?.message || errorMessage || "(none)"}</p>
-        <p className="break-all">userAgent: {typeof window !== "undefined" ? window.navigator.userAgent : "(server)"}</p>
-      </div>
 
       <label className="block">
         <span className="mb-2 block text-sm text-ink/80">{transcriptLabel || "話した内容"}</span>
