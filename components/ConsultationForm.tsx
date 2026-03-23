@@ -44,6 +44,9 @@ export const ConsultationForm = ({
           正しい答えを書く必要はありません。
           思いつくままの言葉で大丈夫です。
         </p>
+        <p className="mt-3 text-sm leading-7 text-stone/88">
+          2〜3回のやり取りで、気持ちを少し整理していきます。
+        </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {["1 テーマを選ぶ", "2 書く / 話す", "3 ソラに送る"].map((step) => (
             <span
@@ -120,7 +123,7 @@ export const ConsultationForm = ({
           <span className="mb-2 block text-sm text-ink/80">相談内容</span>
           {inputMode === "text" ? (
             <>
-              <div className="mb-3 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
+              <div className="mb-4 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
                 <p className="text-sm leading-7 text-stone">
                   思いつくことを、そのまま書いて大丈夫です。
                 </p>
@@ -135,7 +138,7 @@ export const ConsultationForm = ({
                 rows={12}
                 maxLength={maxLength}
                 placeholder="思いつくことを、そのまま書いて大丈夫です"
-                className="field-base min-h-[288px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
+                className="field-base min-h-[140px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
                 disabled={isLoading}
               />
             </>

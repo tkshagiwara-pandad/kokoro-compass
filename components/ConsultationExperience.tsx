@@ -213,6 +213,10 @@ export const ConsultationExperience = () => {
       return "最初の問いに、いま一番近い気持ちを返してみてください。";
     }
 
+    if (answers.length === 1) {
+      return "最後に、もうひとつだけ。いま残っている気持ちを少し言葉にしてみてください。";
+    }
+
     return "ここまでで少し整理できたら、このまま心の整理を見ることもできます。続けても、ここで区切っても大丈夫です。";
   }, [answers.length, isLoading, messages.length, summary]);
 
@@ -556,13 +560,13 @@ export const ConsultationExperience = () => {
     }
 
     scrollTimeoutRef.current = window.setTimeout(() => {
-      const top = window.scrollY + element.getBoundingClientRect().top - 20;
+      const top = window.scrollY + element.getBoundingClientRect().top - 12;
 
       window.scrollTo({
         top: Math.max(top, 0),
         behavior: "smooth",
       });
-    }, 80);
+    }, 100);
   };
 
   useEffect(() => {

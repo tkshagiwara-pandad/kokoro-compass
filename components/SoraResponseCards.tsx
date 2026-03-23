@@ -53,7 +53,7 @@ export const SoraResponseCards = ({
         return (
           <article
             key={section.key}
-            className={`rounded-xl border bg-white p-4 shadow-sm sm:p-5 ${
+            className={`rounded-2xl border bg-white p-4 shadow-sm sm:p-5 ${
               isFuture
                 ? "border-gold/22 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.75))]"
                 : isQuestion
@@ -63,12 +63,12 @@ export const SoraResponseCards = ({
                     : "border-gray-100 bg-mist/16"
             }`}
           >
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="mb-4 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 {isEmpathic ? (
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
                 ) : null}
-                <p className="text-[11px] uppercase tracking-[0.22em] text-plum/62">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-plum/62">
                   {isEmpathic ? "ソラ" : section.label}
                 </p>
               </div>
@@ -93,7 +93,7 @@ export const SoraResponseCards = ({
             </div>
             <div className="max-w-prose space-y-4">
               {content.split("\n").filter(Boolean).map((paragraph, index) => (
-                <p key={`${section.key}-${index}`} className="text-[15px] leading-relaxed text-ink sm:leading-8">
+                <p key={`${section.key}-${index}`} className="text-[15px] leading-7 text-ink sm:text-base sm:leading-8">
                   {paragraph}
                 </p>
               ))}
