@@ -1,9 +1,10 @@
-import { RefObject } from "react";
+import { RefObject, useMemo, useState } from "react";
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
 import { SoraResponseCards } from "@/components/SoraResponseCards";
 import { ChatMessage, SoraReply } from "@/types/consultation";
 
 type InputMode = "text" | "voice";
+const HISTORY_LIMIT = 6;
 
 type ChatPanelProps = {
   messages: ChatMessage[];
@@ -48,6 +49,20 @@ export const ChatPanel = ({
   responseTopRef,
   maxLength,
 }: ChatPanelProps) => {
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const recentMessages = useMemo(
+    () =>
+      messages
+        .filter(
+          (message) =>
+            (message.sender === "sora" || message.sender === "user") &&
+            typeof message.content === "string" &&
+            message.content.trim().length > 0,
+        )
+        .slice(-HISTORY_LIMIT),
+    [messages],
+  );
+
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
       <div className="mb-6">
@@ -81,6 +96,36 @@ export const ChatPanel = ({
               reply={latestReply}
               sections={["empathicMessage"]}
             />
+          </div>
+        ) : null}
+
+        {recentMessages.length > 0 ? (
+          <div className="rounded-2xl border border-gray-100 bg-white/88 p-4 shadow-sm sm:p-5">
+            <button
+              type="button"
+              onClick={() => setIsHistoryOpen((current) => !current)}
+              className="text-sm leading-6 text-neutral-500 underline-offset-4 transition hover:text-plum hover:underline"
+            >
+              {isHistoryOpen ? "ここまでの言葉を閉じる" : "ここまでの言葉を見る"}
+            </button>
+
+            {isHistoryOpen ? (
+              <div className="mt-4 space-y-3">
+                {recentMessages.map((message) => (
+                  <div
+                    key={message.id}
+                    className="rounded-2xl border border-gray-100 bg-white px-4 py-3"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
+                      {message.sender === "sora" ? "ソラ" : "あなた"}
+                    </p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-ink/88">
+                      {message.content}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         ) : null}
 

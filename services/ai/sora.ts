@@ -60,17 +60,17 @@ const soraReplySchema = {
 
 const fallbackReply = (request: ChatRequest): SoraReply => ({
   empathicMessage:
-    "話してくださってありがとうございます。うまく言葉にならない揺れも、ここではそのままで大丈夫です。",
+    "そう感じてしまうのも、無理のないことだと思います。\n\nいま強く残っているのは、出来事そのものというより、まだ整理しきれていない感覚なのかもしれません。\n\n答えがないというより、いくつかの思いが重なったまま残っているようにも見えます。",
   followUpQuestion:
     request.action === "summarize"
       ? ""
-      : "いま一番強く残っている気持ちは、不安、寂しさ、迷いのどれに近いでしょうか。",
+      : "もしよかったら、いま一番引っかかっているのは、出来事そのものですか、それともそのあとに残った感覚でしょうか。",
   insight:
-    "今日の小さな気づきとして、あなたは答えよりもまず安心できる足場を求めているのかもしれません。",
+    "今日の小さな気づきとして、整理できないまま残っていること自体が、まだ大切なものの証なのかもしれません。",
   futureMessage:
-    "今振り返ると、あの頃の私は答えを急いでいたというより、安心して立ち止まれる場所を探していたのだと思います。",
+    "今振り返ると、あの頃の私は答えを急いでいたというより、言葉を置ける場所を探していたのだと思います。",
   nextQuestion:
-    "本当は、どんな時間や場所にいると少しほっとできるでしょうか。",
+    "次に言葉にするとしたら、いま残っている感覚のどこから触れられそうでしょうか。",
   emotionalState: defaultEmotionalState,
   reflectionSummary: {
     topic: `${request.topic}にまつわる心の整理`,
@@ -89,6 +89,65 @@ const getTrimmedString = (value: unknown) =>
 
 const clampReplyText = (value: string, maxLength = 500) =>
   value.length > maxLength ? `${value.slice(0, maxLength).trim()}…` : value;
+
+const stripQuestionTone = (value: string) =>
+  value
+    .replace(/[？?]+\s*/g, "。")
+    .replace(/。+/g, "。")
+    .trim();
+
+const getLatestUserText = (request: ChatRequest) =>
+  (request.answers.length > 0
+    ? request.answers[request.answers.length - 1]
+    : request.userInput
+  ).trim();
+
+const getLongJapaneseChunks = (value: string) => {
+  const normalized = value.replace(/\s+/g, "");
+
+  if (normalized.length < 10) {
+    return [];
+  }
+
+  const chunks: string[] = [];
+  for (let index = 0; index <= normalized.length - 10; index += 5) {
+    chunks.push(normalized.slice(index, index + 10));
+  }
+
+  return chunks;
+};
+
+const looksTooMirrored = (candidate: string, source: string) => {
+  const normalizedCandidate = candidate.replace(/\s+/g, "");
+  const chunks = getLongJapaneseChunks(source);
+
+  return chunks.some((chunk) => normalizedCandidate.includes(chunk));
+};
+
+const normalizeSingleQuestion = (value: string) => {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return "";
+  }
+
+  const lines = trimmed
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const firstQuestionLine =
+    lines.find((line) => /[？?]/.test(line)) ||
+    lines[0];
+
+  const firstQuestionIndex = firstQuestionLine.search(/[？?]/);
+
+  if (firstQuestionIndex >= 0) {
+    return firstQuestionLine.slice(0, firstQuestionIndex + 1).trim();
+  }
+
+  return firstQuestionLine;
+};
 
 const getObject = (value: unknown) =>
   value && typeof value === "object" && !Array.isArray(value)
@@ -163,27 +222,43 @@ const normalizeReflectionSummary = (
 const sanitizeReply = (reply: Partial<SoraReply>, request: ChatRequest): SoraReply => {
   const fallback = fallbackReply(request);
   const normalizedReply = getObject(reply);
+  const latestUserText = getLatestUserText(request);
+
+  const empathicMessageCandidate = clampReplyText(
+    getTrimmedString(normalizedReply?.empathicMessage) || fallback.empathicMessage,
+  );
+  const insightCandidate = clampReplyText(
+    stripQuestionTone(getTrimmedString(normalizedReply?.insight) || fallback.insight),
+  );
+  const futureMessageCandidate = clampReplyText(
+    stripQuestionTone(
+      getTrimmedString(normalizedReply?.futureMessage) || fallback.futureMessage,
+    ),
+  );
 
   return {
     empathicMessage:
-      clampReplyText(
-        getTrimmedString(normalizedReply?.empathicMessage) || fallback.empathicMessage,
-      ),
+      looksTooMirrored(empathicMessageCandidate, latestUserText)
+        ? fallback.empathicMessage
+        : empathicMessageCandidate,
     followUpQuestion:
       request.action === "summarize"
         ? ""
         : clampReplyText(
-            getTrimmedString(normalizedReply?.followUpQuestion) ||
-              fallback.followUpQuestion,
+            normalizeSingleQuestion(
+              getTrimmedString(normalizedReply?.followUpQuestion) ||
+                fallback.followUpQuestion,
+            ),
           ),
-    insight: clampReplyText(getTrimmedString(normalizedReply?.insight) || fallback.insight),
-    futureMessage:
-      clampReplyText(
-        getTrimmedString(normalizedReply?.futureMessage) || fallback.futureMessage,
-      ),
+    insight: looksTooMirrored(insightCandidate, latestUserText)
+      ? fallback.insight
+      : insightCandidate,
+    futureMessage: futureMessageCandidate,
     nextQuestion:
       clampReplyText(
-        getTrimmedString(normalizedReply?.nextQuestion) || fallback.nextQuestion,
+        normalizeSingleQuestion(
+          getTrimmedString(normalizedReply?.nextQuestion) || fallback.nextQuestion,
+        ),
       ),
     emotionalState: normalizeEmotionalState(
       getObject(normalizedReply?.emotionalState) as Partial<EmotionalState> | undefined,
