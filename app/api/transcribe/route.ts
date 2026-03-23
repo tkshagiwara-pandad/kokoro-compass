@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "現在、音声入力の準備をしています。少し時間を置いてもう一度お試しください。",
+            "現在、音声入力を利用できません。少し時間を置いてもう一度お試しください。",
         },
         { status: 503 },
       );

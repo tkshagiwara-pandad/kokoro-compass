@@ -56,7 +56,8 @@ export const requestSoraReply = async (
 
 export const requestTranscription = async (audioBlob: Blob): Promise<string> => {
   const formData = new FormData();
-  const extension = audioBlob.type.includes("mp4") ? "m4a" : "webm";
+  const extension =
+    audioBlob.type.includes("mp4") || audioBlob.type.includes("m4a") ? "m4a" : "webm";
   formData.append("audio", audioBlob, `consultation.${extension}`);
 
   const response = await fetch("/api/transcribe", {
