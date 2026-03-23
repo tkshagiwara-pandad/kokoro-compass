@@ -5,6 +5,18 @@ const GENERIC_ERROR_MESSAGE =
 const GENERIC_TRANSCRIPTION_ERROR_MESSAGE =
   "音声を認識できませんでした。もう一度試してみてください。";
 
+export class TranscriptionRequestError extends Error {
+  status?: number;
+  apiError?: string;
+
+  constructor(message: string, options?: { status?: number; apiError?: string }) {
+    super(message);
+    this.name = "TranscriptionRequestError";
+    this.status = options?.status;
+    this.apiError = options?.apiError;
+  }
+}
+
 export const requestSoraReply = async (
   payload: ChatRequest,
 ): Promise<ChatResponse> => {
@@ -70,7 +82,10 @@ export const requestTranscription = async (audioBlob: Blob): Promise<string> => 
     | null;
 
   if (!response.ok || !data?.text) {
-    throw new Error(data?.error || GENERIC_TRANSCRIPTION_ERROR_MESSAGE);
+    throw new TranscriptionRequestError(data?.error || GENERIC_TRANSCRIPTION_ERROR_MESSAGE, {
+      status: response.status,
+      apiError: data?.error,
+    });
   }
 
   return data.text;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { requestTranscription } from "@/lib/api";
+import { requestTranscription, TranscriptionRequestError } from "@/lib/api";
 
 type VoiceInputPanelProps = {
   value: string;
@@ -21,6 +21,21 @@ type SupportInfo = {
   hasMediaRecorder: boolean;
   supportedMimeTypes: string[];
 };
+
+type VoicePhase =
+  | "beforeStart"
+  | "beforeGetUserMedia"
+  | "afterGetUserMedia"
+  | "beforeCreateRecorder"
+  | "afterCreateRecorder"
+  | "beforeRecorderStart"
+  | "afterRecorderStart"
+  | "onDataAvailable"
+  | "onStop"
+  | "beforeTranscribe"
+  | "afterTranscribeResponse"
+  | "done"
+  | "failed";
 
 const MIN_AUDIO_BYTES = 1024;
 
@@ -80,11 +95,15 @@ export const VoiceInputPanel = ({
   const chunksRef = useRef<BlobPart[]>([]);
   const selectedMimeTypeRef = useRef("");
   const [status, setStatus] = useState<VoiceStatus>("idle");
+  const [phase, setPhase] = useState<VoicePhase>("beforeStart");
   const [errorMessage, setErrorMessage] = useState("");
   const [lastRuntimeError, setLastRuntimeError] = useState<{
     name: string;
     message: string;
   } | null>(null);
+  const [lastHttpStatus, setLastHttpStatus] = useState<number | null>(null);
+  const [lastApiError, setLastApiError] = useState<string>("");
+  const [lastBlobSize, setLastBlobSize] = useState<number>(0);
 
   const supportInfo = useMemo<SupportInfo>(() => {
     if (typeof window === "undefined") {
@@ -154,10 +173,16 @@ export const VoiceInputPanel = ({
     }
 
     setErrorMessage("");
+    setLastRuntimeError(null);
+    setLastHttpStatus(null);
+    setLastApiError("");
+    setLastBlobSize(0);
+    setPhase("beforeGetUserMedia");
     setStatus("requestingPermission");
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setPhase("afterGetUserMedia");
       const mimeType = supportInfo.supportedMimeTypes[0] || "";
 
       if (process.env.NODE_ENV !== "production") {
@@ -165,10 +190,12 @@ export const VoiceInputPanel = ({
         console.log("[VoiceInputPanel] selected mimeType", mimeType || "(default)");
       }
 
+      setPhase("beforeCreateRecorder");
       const mediaRecorder =
         mimeType && typeof MediaRecorder !== "undefined"
           ? new MediaRecorder(stream, { mimeType })
           : new MediaRecorder(stream);
+      setPhase("afterCreateRecorder");
 
       streamRef.current = stream;
       mediaRecorderRef.current = mediaRecorder;
@@ -178,6 +205,7 @@ export const VoiceInputPanel = ({
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           chunksRef.current.push(event.data);
+          setPhase("onDataAvailable");
         }
       };
 
@@ -187,28 +215,39 @@ export const VoiceInputPanel = ({
           console.log("[VoiceInputPanel] MediaRecorder error", event);
         }
 
-        setErrorMessage(
-          "マイクを利用できませんでした。他のアプリで使用中でないか確認してください。",
-        );
+        setLastRuntimeError({
+          name: "media_recorder_runtime_error",
+          message: "MediaRecorder error event",
+        });
+        setErrorMessage("マイクを利用できませんでした。他のアプリで使用中でないか確認してください。");
+        setPhase("failed");
         setStatus("error");
         stopTracks();
       };
 
       mediaRecorder.onstop = async () => {
+        setPhase("onStop");
         stopTracks();
 
         const blob = new Blob(chunksRef.current, {
           type: selectedMimeTypeRef.current || "audio/webm",
         });
         chunksRef.current = [];
+        setLastBlobSize(blob.size);
 
         if (blob.size < MIN_AUDIO_BYTES) {
+          setLastRuntimeError({
+            name: "blob_too_small",
+            message: `blob size: ${blob.size}`,
+          });
           setErrorMessage("音声を認識できませんでした。もう一度試してみてください。");
+          setPhase("failed");
           setStatus("error");
           return;
         }
 
         try {
+          setPhase("beforeTranscribe");
           setStatus("transcribing");
           setErrorMessage("");
 
@@ -217,15 +256,22 @@ export const VoiceInputPanel = ({
           });
 
           const text = await requestTranscription(normalizedBlob);
+          setPhase("afterTranscribeResponse");
 
           if (!text.trim()) {
+            setLastRuntimeError({
+              name: "transcribe_response_invalid",
+              message: "empty transcription response",
+            });
             setErrorMessage("音声を認識できませんでした。もう一度試してみてください。");
+            setPhase("failed");
             setStatus("error");
             return;
           }
 
           const nextValue = value.trim() ? `${value.trim()}\n${text.trim()}` : text.trim();
           onChange(nextValue);
+          setPhase("done");
           setStatus("idle");
         } catch (transcriptionError) {
           if (process.env.NODE_ENV !== "production") {
@@ -233,20 +279,43 @@ export const VoiceInputPanel = ({
             console.log("[VoiceInputPanel] transcribe API error", transcriptionError);
           }
 
+          if (transcriptionError instanceof TranscriptionRequestError) {
+            setLastHttpStatus(transcriptionError.status ?? null);
+            setLastApiError(transcriptionError.apiError || "");
+            setLastRuntimeError({
+              name: "transcribe_request_failed",
+              message: transcriptionError.message,
+            });
+          } else {
+            setLastRuntimeError({
+              name: "transcribe_request_failed",
+              message:
+                transcriptionError instanceof Error
+                  ? transcriptionError.message
+                  : String(transcriptionError),
+            });
+          }
+
           setErrorMessage(
             transcriptionError instanceof Error
               ? transcriptionError.message
               : "音声を認識できませんでした。もう一度試してみてください。",
           );
+          setPhase("failed");
           setStatus("error");
         }
       };
 
+      setPhase("beforeRecorderStart");
       mediaRecorder.start();
+      setPhase("afterRecorderStart");
       setStatus("recording");
     } catch (error) {
       const runtimeError = {
-        name: error instanceof Error ? error.name : "unknown",
+        name:
+          error instanceof Error
+            ? error.name || "get_user_media_failed"
+            : "get_user_media_failed",
         message: error instanceof Error ? error.message : String(error),
       };
 
@@ -257,6 +326,7 @@ export const VoiceInputPanel = ({
 
       setLastRuntimeError(runtimeError);
       setErrorMessage(getVoiceErrorMessage(error));
+      setPhase("failed");
       setStatus("error");
       stopTracks();
     }
@@ -371,6 +441,13 @@ export const VoiceInputPanel = ({
             : "(none)"}
         </p>
         <p>status: {status}</p>
+        <p>phase: {phase}</p>
+        <p>recorderState: {mediaRecorderRef.current?.state || "(none)"}</p>
+        <p>selectedMimeType: {selectedMimeTypeRef.current || "(none)"}</p>
+        <p>chunksCount: {chunksRef.current.length}</p>
+        <p>blobSize: {lastBlobSize}</p>
+        <p>lastHttpStatus: {lastHttpStatus ?? "(none)"}</p>
+        <p>lastApiError: {lastApiError || "(none)"}</p>
         <p>errorName: {lastRuntimeError?.name || "(none)"}</p>
         <p>errorMessage: {lastRuntimeError?.message || errorMessage || "(none)"}</p>
         <p className="break-all">userAgent: {typeof window !== "undefined" ? window.navigator.userAgent : "(server)"}</p>
