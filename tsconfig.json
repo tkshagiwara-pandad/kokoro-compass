@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-<<<<<<< HEAD
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": false,
-=======
-    "allowJs": true,
->>>>>>> a1d476d (Initial commit from Create Next App)
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -15,11 +15,6 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-<<<<<<< HEAD
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [{ "name": "next" }],
-=======
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
@@ -27,22 +22,20 @@
         "name": "next"
       }
     ],
->>>>>>> a1d476d (Initial commit from Create Next App)
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-<<<<<<< HEAD
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-=======
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    ".next/dev/types/**/*.ts"
   ],
->>>>>>> a1d476d (Initial commit from Create Next App)
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
