@@ -59,6 +59,7 @@ export const ChatPanel = ({
             typeof message.content === "string" &&
             message.content.trim().length > 0,
         )
+        .slice(0, -1)
         .slice(-HISTORY_LIMIT),
     [messages],
   );
@@ -99,7 +100,7 @@ export const ChatPanel = ({
           </div>
         ) : null}
 
-        {recentMessages.length > 0 ? (
+        {recentMessages.length >= 2 ? (
           <div className="rounded-2xl border border-gray-100 bg-white/88 p-4 shadow-sm sm:p-5">
             <button
               type="button"
@@ -119,7 +120,7 @@ export const ChatPanel = ({
                     <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
                       {message.sender === "sora" ? "ソラ" : "あなた"}
                     </p>
-                    <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-ink/88">
+                    <p className="mt-2 whitespace-pre-wrap text-[15px] leading-relaxed text-ink/88">
                       {message.content}
                     </p>
                   </div>
