@@ -360,6 +360,22 @@ export const VoiceInputPanel = ({
         </p>
       ) : null}
 
+      <div className="rounded-2xl border border-dashed border-lilac/40 bg-white/80 px-4 py-3 text-xs leading-5 text-stone/80">
+        <p className="font-medium text-ink/80">debug</p>
+        <p>getUserMedia: {String(supportInfo.hasGetUserMedia)}</p>
+        <p>mediaRecorder: {String(supportInfo.hasMediaRecorder)}</p>
+        <p>
+          mimeTypes:{" "}
+          {supportInfo.supportedMimeTypes.length > 0
+            ? supportInfo.supportedMimeTypes.join(",")
+            : "(none)"}
+        </p>
+        <p>status: {status}</p>
+        <p>errorName: {lastRuntimeError?.name || "(none)"}</p>
+        <p>errorMessage: {lastRuntimeError?.message || errorMessage || "(none)"}</p>
+        <p className="break-all">userAgent: {typeof window !== "undefined" ? window.navigator.userAgent : "(server)"}</p>
+      </div>
+
       <label className="block">
         <span className="mb-2 block text-sm text-ink/80">{transcriptLabel || "話した内容"}</span>
         <textarea
@@ -377,24 +393,6 @@ export const VoiceInputPanel = ({
         <p className="text-xs leading-5 text-stone/70">
           {transcriptHint || "内容を整えたら、そのまま送れます。"}
         </p>
-      ) : null}
-
-      {process.env.NODE_ENV !== "production" ? (
-        <div className="rounded-2xl border border-dashed border-lilac/40 bg-white/80 px-4 py-3 text-xs leading-6 text-stone/80">
-          <p className="font-medium text-ink/80">support:</p>
-          <p>getUserMedia: {String(supportInfo.hasGetUserMedia)}</p>
-          <p>mediaRecorder: {String(supportInfo.hasMediaRecorder)}</p>
-          <p>
-            mimeTypes: {supportInfo.supportedMimeTypes.length > 0 ? supportInfo.supportedMimeTypes.join(", ") : "(none)"}
-          </p>
-          <p>status: {status}</p>
-          {lastRuntimeError ? (
-            <>
-              <p>error.name: {lastRuntimeError.name}</p>
-              <p>error.message: {lastRuntimeError.message || "(empty)"}</p>
-            </>
-          ) : null}
-        </div>
       ) : null}
     </div>
   );
