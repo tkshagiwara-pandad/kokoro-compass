@@ -103,6 +103,7 @@ export const VoiceInputPanel = ({
   } | null>(null);
   const [lastHttpStatus, setLastHttpStatus] = useState<number | null>(null);
   const [lastApiError, setLastApiError] = useState<string>("");
+  const [lastDebugCode, setLastDebugCode] = useState<string>("");
   const [lastBlobSize, setLastBlobSize] = useState<number>(0);
 
   const supportInfo = useMemo<SupportInfo>(() => {
@@ -176,6 +177,7 @@ export const VoiceInputPanel = ({
     setLastRuntimeError(null);
     setLastHttpStatus(null);
     setLastApiError("");
+    setLastDebugCode("");
     setLastBlobSize(0);
     setPhase("beforeGetUserMedia");
     setStatus("requestingPermission");
@@ -282,6 +284,7 @@ export const VoiceInputPanel = ({
           if (transcriptionError instanceof TranscriptionRequestError) {
             setLastHttpStatus(transcriptionError.status ?? null);
             setLastApiError(transcriptionError.apiError || "");
+            setLastDebugCode(transcriptionError.debugCode || "");
             setLastRuntimeError({
               name: "transcribe_request_failed",
               message: transcriptionError.message,
@@ -448,6 +451,7 @@ export const VoiceInputPanel = ({
         <p>blobSize: {lastBlobSize}</p>
         <p>lastHttpStatus: {lastHttpStatus ?? "(none)"}</p>
         <p>lastApiError: {lastApiError || "(none)"}</p>
+        <p>debugCode: {lastDebugCode || "(none)"}</p>
         <p>errorName: {lastRuntimeError?.name || "(none)"}</p>
         <p>errorMessage: {lastRuntimeError?.message || errorMessage || "(none)"}</p>
         <p className="break-all">userAgent: {typeof window !== "undefined" ? window.navigator.userAgent : "(server)"}</p>

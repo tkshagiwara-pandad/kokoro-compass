@@ -8,12 +8,17 @@ const GENERIC_TRANSCRIPTION_ERROR_MESSAGE =
 export class TranscriptionRequestError extends Error {
   status?: number;
   apiError?: string;
+  debugCode?: string;
 
-  constructor(message: string, options?: { status?: number; apiError?: string }) {
+  constructor(
+    message: string,
+    options?: { status?: number; apiError?: string; debugCode?: string },
+  ) {
     super(message);
     this.name = "TranscriptionRequestError";
     this.status = options?.status;
     this.apiError = options?.apiError;
+    this.debugCode = options?.debugCode;
   }
 }
 
@@ -78,13 +83,14 @@ export const requestTranscription = async (audioBlob: Blob): Promise<string> => 
   });
 
   const data = (await response.json().catch(() => null)) as
-    | { text?: string; error?: string }
+    | { text?: string; error?: string; debugCode?: string }
     | null;
 
   if (!response.ok || !data?.text) {
     throw new TranscriptionRequestError(data?.error || GENERIC_TRANSCRIPTION_ERROR_MESSAGE, {
       status: response.status,
       apiError: data?.error,
+      debugCode: data?.debugCode,
     });
   }
 
