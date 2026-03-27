@@ -52,6 +52,13 @@ export default function LandingPage() {
                   出来事ではなく、心の動きを少しずつ書き留めていくための日記アプリです。
                   まだ整理されていない気持ちも、そっと言葉にして残しておけます。
                 </p>
+                <p className="max-w-2xl text-sm leading-7 text-stone/88">
+                  すぐに答えはほしくない。
+                  <br />
+                  でも、少しだけ言葉にしておきたい。
+                  <br />
+                  そんなときのための場所です。
+                </p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -77,6 +84,9 @@ export default function LandingPage() {
             </div>
 
             <div className="soft-panel p-5 sm:p-6">
+              <p className="text-sm leading-7 text-stone/82">
+                誰かに話すより先に、少しだけ自分の言葉にしたいときに向いています。
+              </p>
               <p className="text-xs uppercase tracking-[0.2em] text-gold">こんなときに</p>
               <div className="mt-4 grid gap-3">
                 {scenes.map((scene) => (
