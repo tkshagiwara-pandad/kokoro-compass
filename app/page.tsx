@@ -20,7 +20,7 @@ export default function LandingPage() {
     <LayoutShell
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
-      description="答えを与えるのではなく、気持ちに気づくのを助ける場所です。人に吐き出すのが苦手なときや、少し疲れているときにも、ソラと静かに心を整えられます。"
+      description="気持ちを言葉にして、少し整理して、あとから振り返るための場所です。人に話すほどではないけれど残しておきたい心の動きを、ソラと静かにたどれます。"
     >
       <main className="space-y-7 lg:space-y-9">
         <section className="surface-card overflow-hidden p-6 sm:p-8 lg:p-10">
@@ -28,16 +28,16 @@ export default function LandingPage() {
             <div className="space-y-5">
               <BetaBadge />
               <div className="space-y-4">
-                <p className="text-sm tracking-[0.24em] text-gold">心を整理する場所</p>
+                <p className="text-sm tracking-[0.24em] text-gold">心の動きを残す場所</p>
                 <h2 className="font-serif text-4xl leading-tight text-plum sm:text-5xl">
-                  答えをくれるAIではなく
+                  答えをくれるものではなく
                   <br />
-                  答えに近づくためのAI
+                  心の動きを残していくための場所
                 </h2>
                 <p className="max-w-2xl text-base leading-8 text-stone">
-                  こころの羅針盤は、ソラとのやさしい対話を通じて、
-                  気持ちを人にうまく話せないときでも、
-                  自分の言葉で少しずつ心の輪郭を見つめ直していくためのサービスです。
+                  こころの羅針盤は、
+                  出来事ではなく、心の動きを少しずつ書き留めていくための日記アプリです。
+                  まだ整理されていない気持ちも、ソラがそっと言葉の輪郭を整えます。
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">
@@ -46,7 +46,7 @@ export default function LandingPage() {
                   className="button-primary"
                   onClick={() => trackEvent("lp_cta_clicked", { destination: "/consultation" })}
                 >
-                  無料で試してみる
+                  記録を始めてみる
                 </Link>
                 <FeedbackButton
                   href={FEEDBACK_FORM_URL}
@@ -55,16 +55,16 @@ export default function LandingPage() {
                 />
               </div>
               <p className="text-sm leading-7 text-stone">
-                相談を続けて見返したいときは
+                残した言葉を振り返りたいときは
                 <Link href="/log" className="ml-2 text-plum transition hover:text-ink">
-                  マイログ
+                  心の地図
                 </Link>
                 から最近の気づきをたどれます。
               </p>
             </div>
 
             <div className="soft-panel p-5 sm:p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-gold">相談テーマ</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-gold">心に残りやすいきっかけ</p>
               <div className="mt-4 grid gap-3">
                 {themes.map((theme) => (
                   <div
@@ -82,23 +82,23 @@ export default function LandingPage() {
         <section className="grid gap-6 lg:grid-cols-3">
           <article className="surface-card p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-gold">1</p>
-            <h3 className="mt-3 font-serif text-2xl text-plum">悩みを書く</h3>
+            <h3 className="mt-3 font-serif text-2xl text-plum">気持ちを残す</h3>
             <p className="mt-3 text-sm leading-7 text-stone">
-              まとまっていない気持ちのままでも大丈夫です。いま心にあることを、そのまま書き始められます。
+              まとまっていないままで大丈夫です。いま心に残っていることを、そのまま書き始められます。
             </p>
           </article>
           <article className="surface-card p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-gold">2</p>
-            <h3 className="mt-3 font-serif text-2xl text-plum">ソラと対話する</h3>
+            <h3 className="mt-3 font-serif text-2xl text-plum">少しだけ整理する</h3>
             <p className="mt-3 text-sm leading-7 text-stone">
-              ソラは答えを押しつけず、やわらかな問いかけで感情や迷いの輪郭を一緒に整えていきます。
+              ソラは答えを押しつけず、やわらかな問いで心の動きに少しだけ輪郭を与えます。
             </p>
           </article>
           <article className="surface-card p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-gold">3</p>
-            <h3 className="mt-3 font-serif text-2xl text-plum">整理を持ち帰る</h3>
+            <h3 className="mt-3 font-serif text-2xl text-plum">あとから振り返る</h3>
             <p className="mt-3 text-sm leading-7 text-stone">
-              テーマ、感情、問題の核、今必要なことを見返しながら、自分の心の位置を静かに確認できます。
+              その日の気づきや、くり返し残りやすいテーマを見返しながら、自分の流れを静かにたどれます。
             </p>
           </article>
         </section>

@@ -87,7 +87,7 @@ export const SoraResponseCards = ({
                   }}
                   className="text-xs text-stone/72 transition hover:text-plum"
                 >
-                  {savedKey === saveKey ? "保存しました" : "この言葉を心のメモに残す"}
+                  {savedKey === saveKey ? "残しました" : "この言葉を残す"}
                 </button>
               ) : null}
             </div>

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "現在、相談室の準備をしています。時間を置いてもう一度お試しください。",
+            "現在、記録を整える準備をしています。時間を置いてもう一度お試しください。",
         },
         { status: 503 },
       );

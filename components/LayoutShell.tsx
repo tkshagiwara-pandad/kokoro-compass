@@ -46,8 +46,8 @@ export const LayoutShell = ({
         <footer className="mt-8 rounded-[24px] border border-lilac/30 bg-white/62 px-5 py-4 shadow-soft">
           <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">ソラについて</p>
           <p className="mt-2 text-sm leading-7 text-stone">
-            ソラは、あなたの心を整理するための内省サポートAIです。
-            答えを決める存在ではなく、気持ちを見つめる伴走者としてそばにいます。
+            ソラは、あなたの心を整理するための静かな伴走者です。
+            答えを決める存在ではなく、気持ちを言葉にしやすくするためにそっとそばにいます。
           </p>
           <p className="mt-2 text-xs leading-6 text-stone/78">
             このサービスは医療・法律などの専門助言を提供するものではありません。

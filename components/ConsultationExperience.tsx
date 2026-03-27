@@ -198,7 +198,7 @@ export const ConsultationExperience = () => {
 
   const messageHint = useMemo(() => {
     if (summary) {
-      return "対話は整いました。整理された内容を見返しながら、いまの気持ちの輪郭をたどれます。";
+      return "記録は整いました。残した言葉を見返しながら、いまの気持ちの輪郭をたどれます。";
     }
 
     if (isLoading) {
@@ -206,7 +206,7 @@ export const ConsultationExperience = () => {
     }
 
     if (messages.length === 0) {
-      return "相談内容を書くと、ソラがやさしい問いをひとつずつ返します。";
+      return "心に残っていることを書くと、ソラがやさしい問いをひとつずつ返します。";
     }
 
     if (answers.length === 0) {
@@ -309,7 +309,7 @@ export const ConsultationExperience = () => {
 
   const handleStart = async () => {
     if (!userInput.trim()) {
-      setFormError("相談内容を入力してください。");
+      setFormError("心に残っていることを書いてください。");
       return;
     }
 
@@ -593,7 +593,7 @@ export const ConsultationExperience = () => {
     <LayoutShell
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
-      description="ソラと対話しながら、感情や悩みの輪郭を静かに整えるための小さな相談室です。ここでは答えを急がず、いま必要な視点をやわらかく見つけていきます。"
+      description="出来事ではなく、心の動きを少しずつ残していくための場所です。ソラがそっと整理を手伝いながら、あとで振り返れる記録に整えていきます。"
       backLink={{ href: "/", label: "トップへ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
@@ -606,11 +606,11 @@ export const ConsultationExperience = () => {
                 </p>
                 <div className="mt-3 space-y-1.5 text-sm leading-7 text-stone">
                   <p>・今の気持ちを言葉にする</p>
-                  <p>・ソラと一緒に心を整理する</p>
-                  <p>・気づきを記録として残す</p>
+                  <p>・ソラと一緒に少しだけ整理する</p>
+                  <p>・心の動きを記録として残す</p>
                 </div>
                 <p className="mt-3 text-sm leading-7 text-stone">
-                  3分ほどで、今の心を少し整えることができます。
+                  3分ほどで、今の心に残っていることを少し言葉にできます。
                 </p>
               </div>
               <button
@@ -632,7 +632,7 @@ export const ConsultationExperience = () => {
             <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回のあなたから</p>
             <p className="mt-2 text-xs text-stone/76">{previousMemory.label}</p>
             <p className="mt-1 leading-7 text-ink/82">「{previousMemory.title}」</p>
-            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少しだけ、心を整理してみませんか。</p>
+            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少しだけ、心の動きを残してみませんか。</p>
           </section>
         ) : null}
 
@@ -714,16 +714,16 @@ export const ConsultationExperience = () => {
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[24px] border border-lilac/36 bg-white/62 p-5 shadow-soft">
             <p className="text-xs uppercase tracking-[0.22em] text-gold">My Log</p>
-            <h2 className="mt-2 font-serif text-xl text-plum">マイログと人生の地図</h2>
+            <h2 className="mt-2 font-serif text-xl text-plum">心の地図と残してきた言葉</h2>
             <p className="mt-3 text-sm leading-7 text-stone">
-              保存した相談は、あとから気づきや最近のテーマを静かに見返せます。今の相談を終えたあとで、自分の流れをたどりたいときに開いてください。
+              残した言葉は、あとから気づきや最近のテーマとして静かに見返せます。今日の流れをあとで振り返りたいときに開いてください。
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href="/log"
                 className="inline-flex items-center justify-center rounded-full border border-lilac/42 bg-white/76 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
               >
-                人生の地図を見る
+                心の地図を見る
               </Link>
               {history.length > 0 ? (
                 <button
@@ -731,7 +731,7 @@ export const ConsultationExperience = () => {
                   onClick={() => handleSelectHistory(history[0])}
                   className="inline-flex items-center justify-center rounded-full border border-lilac/38 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
                 >
-                  最新の相談を開く
+                  最新の記録を開く
                 </button>
               ) : null}
             </div>

@@ -37,10 +37,10 @@ export const LogExperience = () => {
 
   return (
     <LayoutShell
-      eyebrow="My Log"
+      eyebrow="Mind Map"
       title="あなたの心の地図"
       description="こころの羅針盤で残された言葉から、あなたの心の動きや小さな気づきの流れを静かにたどるためのページです。"
-      backLink={{ href: "/consultation", label: "相談画面へ戻る" }}
+      backLink={{ href: "/consultation", label: "記録画面へ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
         <section className="rounded-[24px] border border-lilac/36 bg-white/68 px-5 py-4 shadow-soft">
@@ -55,7 +55,7 @@ export const LogExperience = () => {
           onSelect={handleSelect}
           onDelete={handleDelete}
           visibleCount={history.length}
-          selectLabel="相談画面で開く"
+          selectLabel="この記録を開く"
         />
 
         {error ? (
@@ -67,7 +67,7 @@ export const LogExperience = () => {
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-lilac/38 bg-white/68 px-5 py-4 shadow-soft">
           <div className="space-y-2">
             <p className="text-sm leading-7 text-stone">
-              ログはこの端末の `localStorage` に保存されています。必要に応じて相談画面へ戻り、続きを整理できます。
+              残した言葉はこの端末の `localStorage` に保存されています。必要に応じて記録画面へ戻り、続きを書き足せます。
             </p>
             <p className="text-sm leading-7 text-stone/88">
               今日の体験はいかがでしたか？30秒で終わります。
@@ -75,7 +75,7 @@ export const LogExperience = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/consultation" className="button-secondary">
-              相談画面へ戻る
+              記録画面へ戻る
             </Link>
             <FeedbackButton
               href={FEEDBACK_FORM_URL}

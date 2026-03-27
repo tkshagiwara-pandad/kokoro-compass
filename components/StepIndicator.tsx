@@ -1,9 +1,9 @@
 import { ConsultationStage } from "@/types/consultation";
 
 const steps = [
-  { id: 1, label: "STEP 1", title: "相談を書く" },
+  { id: 1, label: "STEP 1", title: "心の動きを残す" },
   { id: 2, label: "STEP 2", title: "ソラと整える" },
-  { id: 3, label: "STEP 3", title: "心の整理を見る" },
+  { id: 3, label: "STEP 3", title: "記録を振り返る" },
 ] as const;
 
 type StepIndicatorProps = {

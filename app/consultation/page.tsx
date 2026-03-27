@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ConsultationExperience } from "@/components/ConsultationExperience";
 
 export const metadata: Metadata = {
-  title: "相談を始める",
+  title: "今日の記録を残す",
   description:
-    "ソラとの対話を通じて、恋愛・仕事・人間関係などの悩みを静かに整理する相談画面です。",
+    "いま心に残っていることを少しずつ言葉にし、ソラと静かに整理しながら記録として残していくページです。",
 };
 
 export default function ConsultationPage() {

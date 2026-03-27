@@ -40,20 +40,13 @@ export const SummaryPanel = ({
   onRestart,
   soraClosingLine,
 }: SummaryPanelProps) => {
-  const handleSaveClick = () => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[SummaryPanel] save clicked");
-    }
-    onSave();
-  };
-
   return (
     <section className="surface-card p-6 sm:p-7">
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 3</p>
-        <h2 className="mt-2 font-serif text-2xl text-plum">心の整理結果</h2>
+        <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          ソラが今の対話をもとに、見えてきた輪郭を静かにまとめます。
+          ソラがいま残した言葉をもとに、見えてきた輪郭を静かにまとめます。
         </p>
       </div>
 
@@ -106,7 +99,7 @@ export const SummaryPanel = ({
           {isSaved ? (
             <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
               <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-                今日の対話を残しました
+                今日の記録を残しました
               </p>
               <p className="text-sm leading-7 text-stone">
                 今日ここまで言葉にできたことも、
@@ -125,7 +118,7 @@ export const SummaryPanel = ({
                   onClick={onRestart}
                   className="button-secondary touch-manipulation"
                 >
-                  もう一度話す
+                  もう一度書く
                 </button>
               </div>
               <p className="mt-3 text-xs leading-6 text-stone/72">
@@ -141,22 +134,22 @@ export const SummaryPanel = ({
                 ここまでで少し整理できたら、記録として残して終えても大丈夫です。
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
-                <button type="button" onClick={handleSaveClick} className="button-primary touch-manipulation">
-                  保存して終わる
+                <button type="button" onClick={onSave} className="button-primary touch-manipulation">
+                  今日の記録を残す
                 </button>
                 <button
                   type="button"
                   onClick={onContinueThinking}
                   className="button-secondary touch-manipulation"
                 >
-                  もう少し考える
+                  もう少し書く
                 </button>
                 <button
                   type="button"
                   onClick={onOpenHistory}
                   className="button-secondary touch-manipulation"
                 >
-                  マイログを見る
+                  心の地図を見る
                 </button>
               </div>
             </article>
@@ -185,7 +178,7 @@ export const SummaryPanel = ({
         </div>
       ) : (
         <div className="flex min-h-[430px] items-center justify-center rounded-[28px] border border-lilac/55 bg-mist/60 p-6 text-center text-sm leading-7 text-stone/80">
-          対話が整うと、ここに「答え」ではなく、
+          記録が整うと、ここに「答え」ではなく、
           今の心を見つめるための整理が表示されます。
         </div>
       )}

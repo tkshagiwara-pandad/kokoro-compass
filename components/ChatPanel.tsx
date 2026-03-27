@@ -70,7 +70,7 @@ export const ChatPanel = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 2</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">ソラ</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          いまの気持ちを、少しずつ整えていく時間です。
+          ここに残した言葉を、少しずつ整えていく時間です。
         </p>
       </div>
 
@@ -84,7 +84,7 @@ export const ChatPanel = ({
             <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">ソラ</p>
           </div>
           <p className="mt-2 text-sm leading-7 text-stone">
-            ここでは、急がずに言葉にして大丈夫です。
+            ここでは、急がずに言葉を残して大丈夫です。
           </p>
           <p className="mt-1 text-xs leading-6 text-stone/72">
             {soraPresenceLine}
@@ -172,7 +172,7 @@ export const ChatPanel = ({
                 onChange={onReplyInputChange}
                 disabled={isLoading || (!canReply && !canSummarize)}
                 maxLength={maxLength}
-                introMessage="いま感じていることを、そのまま続けて話してみてください。"
+                introMessage="いま残しておきたいことを、そのまま続けて声にしてみてください。"
                 helperMessage="声は文字になってから、静かに見直せます。"
                 transcriptHint="内容を整えたら、下のボタンからそのまま進められます。"
               />
@@ -182,7 +182,7 @@ export const ChatPanel = ({
                 onChange={(event) => onReplyInputChange(event.target.value)}
                 rows={5}
                 maxLength={maxLength}
-                placeholder="思いつくことを、そのまま書いて大丈夫です。"
+                placeholder="まだ整理されていないままで大丈夫です。"
                 className="field-base min-h-[140px] border-gray-200 bg-white leading-relaxed shadow-sm disabled:bg-mist/60 sm:min-h-[156px]"
                 disabled={isLoading || (!canReply && !canSummarize)}
               />
@@ -211,7 +211,7 @@ export const ChatPanel = ({
               disabled={isLoading || !canReply}
               className="button-secondary min-w-[126px] border-iris bg-white"
             >
-              {isLoading ? "ソラが言葉を整えています" : "この気持ちを送る"}
+              {isLoading ? "ソラが言葉を整えています" : "この言葉を残す"}
             </button>
             <button
               type="button"
@@ -219,7 +219,7 @@ export const ChatPanel = ({
               disabled={isLoading || !canSummarize}
               className="button-accent min-w-[158px]"
             >
-              心の整理を見る
+              今日の記録を見る
             </button>
           </div>
 

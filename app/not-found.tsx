@@ -11,7 +11,7 @@ export default function NotFound() {
     >
       <main className="surface-card p-8 text-center">
         <p className="text-sm leading-7 text-stone">
-          お探しのページは見つかりませんでした。相談を始める場合はトップページからお入りください。
+          お探しのページは見つかりませんでした。もう一度言葉を残したいときは、トップページからお入りください。
         </p>
         <div className="mt-6 flex justify-center">
           <Link href="/" className="button-primary">

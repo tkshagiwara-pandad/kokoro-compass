@@ -36,14 +36,14 @@ const buildLifeMapComment = (counts: Record<LifeMapTheme, number>) => {
     .sort((left, right) => right.count - left.count);
 
   if (rankedThemes.length === 0) {
-    return "相談を重ねていくと、心が向かいやすいテーマや、くり返し立ち止まりやすい場所が少しずつ見えてきます。";
+    return "言葉を残していくと、心が向かいやすいテーマや、くり返し立ち止まりやすい場所が少しずつ見えてきます。";
   }
 
   if (rankedThemes.length === 1) {
     return `最近は「${rankedThemes[0].theme}」が心の中心に現れやすいようです。いま大切にしたい感覚を、ひとつだけ言葉にしてみるのもよさそうです。`;
   }
 
-  return `最近は「${rankedThemes[0].theme}」と「${rankedThemes[1].theme}」が重なって現れています。別々の悩みに見えても、心の奥では同じ願いを整えようとしているのかもしれません。`;
+  return `最近は「${rankedThemes[0].theme}」と「${rankedThemes[1].theme}」が重なって現れています。別々の気がかりに見えても、心の奥では同じ願いを整えようとしているのかもしれません。`;
 };
 
 export const TrendPanel = ({ records }: TrendPanelProps) => {
@@ -55,12 +55,12 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
   return (
     <section className="rounded-[24px] border border-lilac/40 bg-white/70 p-5 shadow-soft">
       <div className="mb-4">
-        <p className="text-xs uppercase tracking-[0.24em] text-gold">My Log</p>
+        <p className="text-xs uppercase tracking-[0.24em] text-gold">Mind Map</p>
         <h2 className="mt-2 font-serif text-xl text-plum">あなたの心の地図</h2>
         <p className="mt-2 text-sm leading-7 text-stone">
           {hasRecords
             ? "こころの羅針盤で残された言葉から、あなたの心の動きを静かにたどることができます。"
-            : "相談が増えると、あなたの思考の傾向がここに少しずつ現れてきます。"}
+            : "言葉が増えると、あなたの心の流れがここに少しずつ現れてきます。"}
         </p>
       </div>
 
@@ -96,7 +96,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
           ) : (
             <div className="mt-3 rounded-2xl border border-dashed border-lilac/38 bg-white/78 px-4 py-4">
               <p className="text-sm leading-7 text-ink">
-                相談を重ねると、仕事や恋愛、人間関係、将来への気がかりがどのくらい現れやすいかが、ここに静かに残っていきます。
+                言葉を重ねると、仕事や恋愛、人間関係、将来への気がかりがどのくらい現れやすいかが、ここに静かに残っていきます。
               </p>
               <div className="mt-3 grid gap-2">
                 {lifeMapThemes.map((theme) => (
@@ -160,7 +160,7 @@ export const TrendPanel = ({ records }: TrendPanelProps) => {
               ))
             ) : (
               <p className="text-sm leading-7 text-stone">
-                相談を重ねると、不安や疲れ、希望の流れがここに静かに重なって見えてきます。
+                言葉を重ねると、不安や疲れ、希望の流れがここに静かに重なって見えてきます。
               </p>
             )}
           </div>
