@@ -26,7 +26,10 @@ export default function LandingPage() {
     <LayoutShell
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
-      description="人に話すほどではないけれど、少し残しておきたい気持ちがある。こころの羅針盤は、そんな心の動きを言葉にして、あとから振り返るための場所です。"
+      description={[
+        "人に話すほどではないけれど、少し残しておきたい気持ちがある。",
+        "こころの羅針盤は、そんな心の動きを言葉にして、あとから振り返るための場所です。",
+      ].join(" ")}
     >
       <main className="space-y-7 lg:space-y-9">
         <section className="surface-card overflow-hidden p-6 sm:p-8 lg:p-10">
