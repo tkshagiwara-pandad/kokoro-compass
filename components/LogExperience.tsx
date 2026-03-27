@@ -75,7 +75,7 @@ export const LogExperience = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/consultation" className="button-secondary">
-              記録画面へ戻る
+              今日の言葉を残す
             </Link>
             <FeedbackButton
               href={FEEDBACK_FORM_URL}

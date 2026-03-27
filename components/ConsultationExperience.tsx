@@ -657,6 +657,7 @@ export const ConsultationExperience = () => {
             topic={topic}
             input={userInput}
             error={formError}
+            hasPreviousRecord={history.length > 0}
             inputMode={inputMode}
             onTopicChange={setTopic}
             onInputChange={handleUserInputChange}

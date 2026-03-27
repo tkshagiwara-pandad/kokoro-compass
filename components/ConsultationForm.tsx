@@ -7,6 +7,7 @@ type ConsultationFormProps = {
   topic: ConsultationTopic;
   input: string;
   error: string;
+  hasPreviousRecord: boolean;
   inputMode: InputMode;
   onTopicChange: (value: ConsultationTopic) => void;
   onInputChange: (value: string) => void;
@@ -23,6 +24,7 @@ export const ConsultationForm = ({
   topic,
   input,
   error,
+  hasPreviousRecord,
   inputMode,
   onTopicChange,
   onInputChange,
@@ -45,8 +47,13 @@ export const ConsultationForm = ({
           思いつくままの言葉で始められます。
         </p>
         <p className="mt-3 text-sm leading-7 text-stone/88">
-          2〜3回のやり取りで、気持ちを少し整理しながら記録していきます。
+          2〜3回ほど言葉を重ねながら、気持ちを少しずつ残していきます。
         </p>
+        {hasPreviousRecord ? (
+          <p className="mt-2 text-sm leading-7 text-stone/80">
+            前の続きでなくても大丈夫です。
+          </p>
+        ) : null}
         <div className="mt-4 flex flex-wrap gap-2">
           {["1 きっかけを選ぶ", "2 書く / 話す", "3 言葉を残す"].map((step) => (
             <span

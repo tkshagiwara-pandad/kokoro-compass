@@ -133,17 +133,17 @@ export const SummaryPanel = ({
               <div className="mt-4 flex flex-wrap gap-3">
                 <button
                   type="button"
-                  onClick={onOpenHistory}
+                  onClick={onRestart}
                   className="button-primary touch-manipulation"
                 >
-                  心の地図を見る
+                  もうひとつ残す
                 </button>
                 <button
                   type="button"
-                  onClick={onRestart}
+                  onClick={onOpenHistory}
                   className="button-secondary touch-manipulation"
                 >
-                  もうひとつ残す
+                  心の地図に戻る
                 </button>
               </div>
             </article>
