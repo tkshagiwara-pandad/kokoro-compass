@@ -14,6 +14,8 @@ type HistoryPanelProps = {
 
 type HistoryGroupKey = "today" | "yesterday" | "thisWeek" | "earlier";
 
+const historyGroupOrder: HistoryGroupKey[] = ["today", "yesterday", "thisWeek", "earlier"];
+
 const HISTORY_GROUP_LABELS: Record<HistoryGroupKey, string> = {
   today: "今日",
   yesterday: "昨日",
@@ -60,15 +62,13 @@ export const HistoryPanel = ({
 }: HistoryPanelProps) => {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const visibleRecords = records.slice(0, visibleCount);
-  const groupedRecords: Array<{ key: HistoryGroupKey; records: ConsultationRecord[] }> = [
-    "today",
-    "yesterday",
-    "thisWeek",
-    "earlier",
-  ].map((key) => ({
-    key,
-    records: visibleRecords.filter((record) => getHistoryGroupKey(record.createdAt) === key),
-  })).filter((group) => group.records.length > 0);
+  const groupedRecords: Array<{ key: HistoryGroupKey; records: ConsultationRecord[] }> =
+    historyGroupOrder
+      .map((key) => ({
+        key,
+        records: visibleRecords.filter((record) => getHistoryGroupKey(record.createdAt) === key),
+      }))
+      .filter((group) => group.records.length > 0);
 
   return (
     <section className="rounded-[24px] border border-lilac/42 bg-white/68 p-5 shadow-soft">
