@@ -3,6 +3,7 @@ import { EmotionalState, ReflectionSummary } from "@/types/consultation";
 
 type SummaryPanelProps = {
   summary: ReflectionSummary | null;
+  userInput: string;
   insight: string;
   futureMessage: string;
   nextQuestion: string;
@@ -19,16 +20,9 @@ type SummaryPanelProps = {
   soraClosingLine: string;
 };
 
-const summaryItems = [
-  { key: "topic", label: "テーマ" },
-  { key: "emotion", label: "感情" },
-  { key: "coreIssue", label: "問題の核" },
-  { key: "whatYouNeed", label: "今必要なこと" },
-  { key: "soraMessage", label: "ソラからのメッセージ" },
-] as const;
-
 export const SummaryPanel = ({
   summary,
+  userInput,
   insight,
   futureMessage,
   nextQuestion,
@@ -50,51 +44,71 @@ export const SummaryPanel = ({
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 3</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          ソラがいま残した言葉をもとに、見えてきた輪郭を静かにまとめます。
+          その日の言葉を、あとから静かに読み直せるようにしています。
         </p>
       </div>
 
       {summary ? (
         <div className="space-y-4.5">
-          {summaryItems.map((item) => (
-            <article
-              key={item.key}
-              className="rounded-[22px] border border-lilac/50 bg-white/88 p-4 sm:p-5"
-            >
-              <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-                {item.label}
-              </p>
-              <p className="text-[15px] leading-7 text-ink sm:leading-8">
-                {summary[item.key]}
-              </p>
-            </article>
-          ))}
+          <article className="rounded-[24px] border border-lilac/45 bg-white/92 p-5 shadow-soft">
+            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+              そのときに残した言葉
+            </p>
+            <p className="text-[15px] leading-8 text-ink sm:text-base">
+              {userInput}
+            </p>
+          </article>
 
-          <article className="rounded-[20px] border border-lilac/36 bg-mist/24 p-4">
+          <article className="rounded-[20px] border border-lilac/30 bg-mist/16 p-4 sm:p-5">
+            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+              そのときの問い
+            </p>
+            <p className="text-[15px] leading-7 text-ink/88 sm:leading-8">{nextQuestion}</p>
+          </article>
+
+          <article className="rounded-[20px] border border-lilac/28 bg-white/84 p-4 sm:p-5">
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
+              ソラが返していた言葉
+            </p>
+            <p className="text-[15px] leading-7 text-ink/86 sm:leading-8">{summary.soraMessage}</p>
+          </article>
+
+          <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4 sm:p-5">
+            <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
+              このときのメモ
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-plum/60">テーマ</p>
+                <p className="mt-1 text-sm leading-7 text-ink/84">{summary.topic}</p>
+              </div>
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-plum/60">感情</p>
+                <p className="mt-1 text-sm leading-7 text-ink/84">{summary.emotion}</p>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[18px] border border-lilac/24 bg-white/82 p-4">
             <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
               今日の小さな気づき
             </p>
             <p className="text-[15px] leading-7 text-ink sm:leading-8">{insight}</p>
           </article>
 
-          <article className="rounded-[24px] border border-gold/32 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.9))] p-4 sm:p-5 shadow-[0_14px_32px_rgba(120,106,82,0.08)]">
-            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
-              未来のあなたからの言葉
-            </p>
-            <p className="text-[15px] leading-7 text-ink sm:leading-8">{futureMessage}</p>
-          </article>
-
-          <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-              次の問い
-            </p>
-            <p className="text-sm leading-7 text-ink/88 sm:leading-8">{nextQuestion}</p>
-          </article>
+          {futureMessage ? (
+            <article className="rounded-[18px] border border-gold/26 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.78))] p-4 sm:p-5">
+              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
+                あとから残った言葉
+              </p>
+              <p className="text-[15px] leading-7 text-ink sm:leading-8">{futureMessage}</p>
+            </article>
+          ) : null}
 
           {emotionalState ? (
-            <article className="rounded-[18px] border border-lilac/22 bg-mist/10 p-4">
+            <article className="rounded-[18px] border border-lilac/18 bg-mist/10 p-4">
               <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
-                心の状態メーター
+                このときの心の動き
               </p>
               <EmotionalStateMeter state={emotionalState} compact />
             </article>

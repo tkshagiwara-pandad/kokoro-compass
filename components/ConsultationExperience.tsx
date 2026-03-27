@@ -704,6 +704,7 @@ export const ConsultationExperience = () => {
           >
             <SummaryPanel
               summary={summary}
+              userInput={userInput.trim()}
               insight={latestReply?.insight || ""}
               futureMessage={latestReply?.futureMessage || ""}
               nextQuestion={latestReply?.nextQuestion || ""}
