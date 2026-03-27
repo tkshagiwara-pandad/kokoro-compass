@@ -75,6 +75,8 @@ export const ConsultationExperience = () => {
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
   const [saveCompleted, setSaveCompleted] = useState(false);
+  const [savedPreview, setSavedPreview] = useState("");
+  const [savedAtLabel, setSavedAtLabel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lastRequest, setLastRequest] = useState<ChatRequest | null>(null);
   const [latestReply, setLatestReply] = useState<SoraReply | null>(null);
@@ -233,6 +235,8 @@ export const ConsultationExperience = () => {
     setSaveError("");
     setSaveSuccess("");
     setSaveCompleted(false);
+    setSavedPreview("");
+    setSavedAtLabel("");
     setIsLoading(false);
     setLastRequest(null);
     setLatestReply(null);
@@ -492,6 +496,13 @@ export const ConsultationExperience = () => {
       setSaveSuccess("言葉を保存しました");
       setSaveError("");
       setSaveCompleted(true);
+      setSavedPreview(record.userInput.trim().replace(/\s+/g, " ").slice(0, 90));
+      setSavedAtLabel(
+        new Intl.DateTimeFormat("ja-JP", {
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(new Date(record.createdAt)),
+      );
       if (saveFeedbackTimeoutRef.current) {
         window.clearTimeout(saveFeedbackTimeoutRef.current);
       }
@@ -697,6 +708,8 @@ export const ConsultationExperience = () => {
               futureMessage={latestReply?.futureMessage || ""}
               nextQuestion={latestReply?.nextQuestion || ""}
               emotionalState={latestReply?.emotionalState || null}
+              savedPreview={savedPreview}
+              savedAtLabel={savedAtLabel}
               saveError={saveError}
               saveSuccess={saveSuccess}
               isSaved={saveCompleted}

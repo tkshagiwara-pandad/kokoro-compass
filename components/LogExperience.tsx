@@ -38,8 +38,8 @@ export const LogExperience = () => {
   return (
     <LayoutShell
       eyebrow="Mind Map"
-      title="あなたの心の地図"
-      description="こころの羅針盤で残された言葉から、あなたの心の動きや小さな気づきの流れを静かにたどるためのページです。"
+      title="心の地図"
+      description="残してきた言葉を、あとから静かにたどれます。"
       backLink={{ href: "/consultation", label: "記録画面へ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">

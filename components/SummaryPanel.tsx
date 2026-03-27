@@ -7,6 +7,8 @@ type SummaryPanelProps = {
   futureMessage: string;
   nextQuestion: string;
   emotionalState: EmotionalState | null;
+  savedPreview: string;
+  savedAtLabel: string;
   saveError: string;
   saveSuccess: string;
   isSaved: boolean;
@@ -31,6 +33,8 @@ export const SummaryPanel = ({
   futureMessage,
   nextQuestion,
   emotionalState,
+  savedPreview,
+  savedAtLabel,
   saveError,
   saveSuccess,
   isSaved,
@@ -99,12 +103,19 @@ export const SummaryPanel = ({
           {isSaved ? (
             <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
               <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-                今日の記録を残しました
+                今日の言葉を残しました
               </p>
               <p className="text-sm leading-7 text-stone">
-                今日ここまで言葉にできたことも、
-                ひとつの整理です。
+                言葉になりきらないままでも、ここに置いておけます。
               </p>
+              {savedPreview ? (
+                <div className="mt-4 rounded-[16px] border border-lilac/18 bg-white/72 px-4 py-3">
+                  <p className="text-sm leading-7 text-ink/84 line-clamp-2">{savedPreview}</p>
+                </div>
+              ) : null}
+              {savedAtLabel ? (
+                <p className="mt-3 text-xs leading-6 text-stone/68">{savedAtLabel}</p>
+              ) : null}
               <div className="mt-4 flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -118,12 +129,9 @@ export const SummaryPanel = ({
                   onClick={onRestart}
                   className="button-secondary touch-manipulation"
                 >
-                  もう一度書く
+                  もうひとつ残す
                 </button>
               </div>
-              <p className="mt-3 text-xs leading-6 text-stone/72">
-                また必要なときに、ここへ戻ってきてください。
-              </p>
             </article>
           ) : (
             <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
@@ -170,7 +178,7 @@ export const SummaryPanel = ({
               {saveError}
             </p>
           ) : null}
-          {saveSuccess ? (
+          {saveSuccess && !isSaved ? (
             <p className="rounded-2xl border border-emerald-200 bg-emerald-50/90 px-4 py-3 text-sm leading-6 text-emerald-700">
               {saveSuccess}
             </p>
