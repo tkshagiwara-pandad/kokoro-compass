@@ -67,9 +67,8 @@ export const ChatPanel = ({
   return (
     <section className="surface-card p-6 sm:p-7 lg:p-8">
       <div className="mb-6">
-        <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 2</p>
-        <h2 className="mt-2 font-serif text-2xl text-plum">ソラ</h2>
-        <p className="mt-3 text-sm leading-7 text-stone">
+        <h2 className="font-serif text-2xl text-plum">ソラ</h2>
+        <p className="mt-2 text-sm leading-7 text-stone">
           ここに残した言葉を、少しずつ整えていく時間です。
         </p>
       </div>

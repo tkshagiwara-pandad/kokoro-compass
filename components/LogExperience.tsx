@@ -31,7 +31,7 @@ export const LogExperience = () => {
       setHistory(loadHistory());
       setError("");
     } catch {
-      setError("履歴の更新に失敗しました。ブラウザの設定を確認してください。");
+      setError("記録の更新に失敗しました。ブラウザの設定を確認してください。");
     }
   };
 
@@ -43,8 +43,8 @@ export const LogExperience = () => {
       backLink={{ href: "/consultation", label: "記録画面へ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
-        <section className="rounded-[24px] border border-lilac/36 bg-white/68 px-5 py-4 shadow-soft">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">これまでの記録</p>
+        <section className="rounded-[20px] border border-lilac/24 bg-white/52 px-5 py-4">
+          <p className="text-[10px] uppercase tracking-[0.16em] text-plum/56">残してきた言葉</p>
           <p className="mt-2 font-serif text-2xl text-plum">{history.length}件</p>
         </section>
 
@@ -64,17 +64,17 @@ export const LogExperience = () => {
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-lilac/38 bg-white/68 px-5 py-4 shadow-soft">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-lilac/24 bg-white/56 px-5 py-4">
           <div className="space-y-2">
-            <p className="text-sm leading-7 text-stone">
+            <p className="text-sm leading-7 text-stone/82">
               残した言葉はこの端末の `localStorage` に保存されています。必要に応じて記録画面へ戻り、続きを書き足せます。
             </p>
-            <p className="text-sm leading-7 text-stone/88">
+            <p className="text-sm leading-7 text-stone/76">
               今日の体験はいかがでしたか？30秒で終わります。
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/consultation" className="button-secondary">
+            <Link href="/consultation" className="text-sm text-stone/78 transition hover:text-plum">
               今日の言葉を残す
             </Link>
             <FeedbackButton

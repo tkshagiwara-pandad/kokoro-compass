@@ -39,45 +39,26 @@ export const ConsultationForm = ({
 }: ConsultationFormProps) => {
   return (
     <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
-      <div className="mb-6">
-        <div className="rounded-[20px] border border-lilac/36 bg-white/74 px-4 py-3 shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-plum/68">今日の記録</p>
-          <p className="mt-1 text-sm leading-7 text-ink/84">{todayLabel}</p>
-          <p className="text-xs leading-6 text-stone/76">{todayStatusText}</p>
+      <div className="mb-5">
+        <div className="rounded-[18px] border border-lilac/24 bg-white/52 px-4 py-2.5">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">今日の記録</p>
+          <p className="mt-1 text-[15px] leading-7 text-ink/84">{todayLabel}</p>
+          <p className="text-xs leading-6 text-stone/70">{todayStatusText}</p>
         </div>
-        <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
-        <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録を、少しだけ残してみる</h2>
-        <p className="mt-3 text-sm leading-7 text-stone">
-          出来事より、いま残っている気持ちを少しだけ書いてみてください。
-        </p>
-        <p className="mt-3 text-sm leading-7 text-stone/88">
-          2〜3回ほど言葉を重ねながら、気持ちを少しずつ残していきます。
-        </p>
-        <p className="mt-2 text-sm leading-7 text-stone/80">
-          何もなくても、ひとことで大丈夫です。今日は何もなかった、でも大丈夫です。
+        <p className="mt-2 text-sm leading-6 text-stone/74">
+          何もなくても、ひとことで大丈夫です。
         </p>
         {hasPreviousRecord ? (
-          <p className="mt-2 text-sm leading-7 text-stone/80">
+          <p className="mt-1 text-xs leading-6 text-stone/68">
             前の続きでなくても大丈夫です。
           </p>
         ) : null}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {["1 きっかけを選ぶ", "2 書く / 話す", "3 言葉を残す"].map((step) => (
-            <span
-              key={step}
-              className="inline-flex rounded-full border border-lilac/34 bg-white/78 px-3 py-1 text-xs text-stone"
-            >
-              {step}
-            </span>
-          ))}
-        </div>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-4">
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">今日のことを少し書く</span>
-            <p className="mt-1 text-xs leading-6 text-stone/76">言葉になりきっていなくても大丈夫です。</p>
+            <span className="block text-[13px] font-normal text-ink/72">今日のことを少し書く</span>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
             {([
@@ -109,25 +90,15 @@ export const ConsultationForm = ({
             })}
           </div>
 
-          <span className="mb-2 block text-sm text-ink/80">今日の記録</span>
           {inputMode === "text" ? (
             <>
-              <div className="mb-4 rounded-[22px] border border-iris/34 bg-white/82 px-4 py-3.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)] sm:px-5">
-                <p className="text-sm leading-7 text-stone">
-                  出来事より、心に残っている感覚を少しだけ残すつもりで大丈夫です。
-                </p>
-                <p className="mt-2 text-xs leading-6 text-stone/78">
-                  例: 「最近仕事のあとに重さが残ります」 「将来のことを考えると少し落ち着きません」
-                  「人との距離感が気になっています」
-                </p>
-              </div>
               <textarea
                 value={input}
                 onChange={(event) => onInputChange(event.target.value)}
-                rows={12}
+                rows={9}
                 maxLength={maxLength}
-                placeholder="ひとことだけでも残せます"
-                className="field-base min-h-[140px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
+                placeholder="今日は何もなかった、でも大丈夫"
+                className="field-base min-h-[132px] border-lilac/30 bg-white/84 shadow-none sm:min-h-[240px]"
                 disabled={isLoading}
               />
             </>
@@ -171,12 +142,6 @@ export const ConsultationForm = ({
             ソラがあなたの言葉を整理しています…
           </div>
         ) : null}
-
-        <p className="text-sm leading-7 text-stone">
-          {started
-            ? "いま残している言葉を、もう少しだけ続けて書けます。"
-            : "送ると、ソラが静かに整理を手伝います。"}
-        </p>
       </div>
     </section>
   );

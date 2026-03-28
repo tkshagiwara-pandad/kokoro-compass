@@ -41,73 +41,72 @@ export const SummaryPanel = ({
   return (
     <section className="surface-card p-6 sm:p-7">
       <div className="mb-6">
-        <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 3</p>
-        <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録</h2>
-        <p className="mt-3 text-sm leading-7 text-stone">
+        <h2 className="font-serif text-2xl text-plum">今日の記録</h2>
+        <p className="mt-2 text-sm leading-7 text-stone/82">
           その日の言葉を、あとから静かに読み直せるようにしています。
         </p>
       </div>
 
       {summary ? (
-        <div className="space-y-4.5">
-          <article className="rounded-[24px] border border-lilac/45 bg-white/92 p-5 shadow-soft">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+        <div className="space-y-5">
+          <article className="rounded-[20px] border border-lilac/24 bg-white/76 p-5">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/56">
               そのときに残した言葉
             </p>
-            <p className="text-[15px] leading-8 text-ink sm:text-base">
+            <p className="text-[15px] leading-8 text-ink/88 sm:text-base">
               {userInput}
             </p>
           </article>
 
-          <article className="rounded-[20px] border border-lilac/30 bg-mist/16 p-4 sm:p-5">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+          <article className="rounded-[18px] border border-lilac/20 bg-white/52 p-4 sm:p-5">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/54">
               そのときの問い
             </p>
-            <p className="text-[15px] leading-7 text-ink/88 sm:leading-8">{nextQuestion}</p>
+            <p className="text-[15px] leading-7 text-ink/78 sm:leading-8">{nextQuestion}</p>
           </article>
 
-          <article className="rounded-[20px] border border-lilac/28 bg-white/84 p-4 sm:p-5">
-            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
+          <article className="rounded-[18px] border border-lilac/18 bg-white/48 p-4 sm:p-5">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/52">
               ソラが返していた言葉
             </p>
-            <p className="text-[15px] leading-7 text-ink/86 sm:leading-8">{summary.soraMessage}</p>
+            <p className="text-[15px] leading-7 text-ink/74 sm:leading-8">{summary.soraMessage}</p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/24 bg-mist/14 p-4 sm:p-5">
-            <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
+          <article className="rounded-[18px] border border-lilac/18 bg-white/46 p-4 sm:p-5">
+            <p className="mb-3 text-[10px] uppercase tracking-[0.16em] text-plum/54">
               このときのメモ
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-plum/60">テーマ</p>
-                <p className="mt-1 text-sm leading-7 text-ink/84">{summary.topic}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-plum/50">テーマ</p>
+                <p className="mt-1 text-sm leading-7 text-ink/76">{summary.topic}</p>
               </div>
               <div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-plum/60">感情</p>
-                <p className="mt-1 text-sm leading-7 text-ink/84">{summary.emotion}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-plum/50">感情</p>
+                <p className="mt-1 text-sm leading-7 text-ink/76">{summary.emotion}</p>
               </div>
             </div>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/24 bg-white/82 p-4">
-            <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
+          <article className="rounded-[18px] border border-lilac/18 bg-white/54 p-4">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/54">
               今日の小さな気づき
             </p>
-            <p className="text-[15px] leading-7 text-ink sm:leading-8">{insight}</p>
+            <p className="text-[15px] leading-7 text-ink/78 sm:leading-8">{insight}</p>
           </article>
 
           {futureMessage ? (
-            <article className="rounded-[18px] border border-gold/26 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,244,250,0.78))] p-4 sm:p-5">
-              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gold">
+            <article className="rounded-[18px] border border-lilac/16 bg-white/44 p-4 sm:p-5">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/52">
                 あとから残った言葉
               </p>
-              <p className="text-[15px] leading-7 text-ink sm:leading-8">{futureMessage}</p>
+              <p className="text-[15px] leading-7 text-ink/74 sm:leading-8">{futureMessage}</p>
             </article>
           ) : null}
 
           {emotionalState ? (
-            <article className="rounded-[18px] border border-lilac/18 bg-mist/10 p-4">
-              <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold">
+            <article className="rounded-[18px] border border-lilac/14 bg-white/42 p-4">
+              <p className="mb-3 text-[10px] uppercase tracking-[0.16em] text-plum/50">
                 このときの心の動き
               </p>
               <EmotionalStateMeter state={emotionalState} compact />
@@ -115,35 +114,35 @@ export const SummaryPanel = ({
           ) : null}
 
           {isSaved ? (
-            <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
-              <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-                今日の言葉を残しました
-              </p>
-              <p className="text-sm leading-7 text-stone">
-                言葉になりきらないままでも、ここに置いておけます。
-              </p>
+            <article className="rounded-[18px] border border-lilac/18 bg-white/68 p-4 sm:p-5">
               {savedPreview ? (
-                <div className="mt-4 rounded-[16px] border border-lilac/18 bg-white/72 px-4 py-3">
-                  <p className="text-sm leading-7 text-ink/84 line-clamp-2">{savedPreview}</p>
+                <div className="rounded-[16px] border border-lilac/14 bg-white/74 px-4 py-3">
+                  <p className="text-[15px] leading-7 text-ink/84 line-clamp-2">{savedPreview}</p>
                 </div>
               ) : null}
+              <p className="mt-4 text-[11px] uppercase tracking-[0.18em] text-plum/58">
+                今日の言葉を残しました
+              </p>
+              <p className="mt-1 text-sm leading-7 text-stone/78">
+                言葉になりきらないままでも、ここに置いておけます。
+              </p>
               {savedAtLabel ? (
-                <p className="mt-3 text-xs leading-6 text-stone/68">{savedAtLabel}</p>
+                <p className="mt-2 text-xs leading-6 text-stone/60">{savedAtLabel}</p>
               ) : null}
               <div className="mt-4 flex flex-wrap gap-3">
                 <button
                   type="button"
                   onClick={onRestart}
-                  className="button-primary touch-manipulation"
+                  className="button-primary touch-manipulation opacity-95"
                 >
                   もうひとつ残す
                 </button>
                 <button
                   type="button"
                   onClick={onOpenHistory}
-                  className="button-secondary touch-manipulation"
+                  className="touch-manipulation text-sm text-stone/78 transition hover:text-plum"
                 >
-                  心の地図に戻る
+                  心の地図を見る
                 </button>
               </div>
             </article>

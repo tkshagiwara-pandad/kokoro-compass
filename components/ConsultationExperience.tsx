@@ -8,7 +8,6 @@ import { ConsultationForm } from "@/components/ConsultationForm";
 import { FeedbackButton } from "@/components/FeedbackButton";
 import { LayoutShell } from "@/components/LayoutShell";
 import { NoticePanel } from "@/components/NoticePanel";
-import { StepIndicator } from "@/components/StepIndicator";
 import { SummaryPanel } from "@/components/SummaryPanel";
 import { trackEvent } from "@/lib/analytics";
 import { requestSoraReply } from "@/lib/api";
@@ -165,6 +164,7 @@ export const ConsultationExperience = () => {
         year: "numeric",
         month: "long",
         day: "numeric",
+        weekday: "short",
       }).format(new Date()),
     [],
   );
@@ -173,7 +173,7 @@ export const ConsultationExperience = () => {
     todayRecordsCount > 0 ? "今日はすでにひとつ残っています。" : "今日はまだ何も残っていません。";
 
   const startButtonLabel =
-    todayRecordsCount > 0 ? "今日の記録をもうひとつ残す" : "今日の記録を書く";
+    todayRecordsCount > 0 ? "今日の記録をもうひとつ残す" : "記録を残す";
 
   const previousMemory = useMemo(() => {
     const latestRecord = history[0];
@@ -393,7 +393,7 @@ export const ConsultationExperience = () => {
 
   const handleNext = async () => {
     if (!replyInput.trim()) {
-      setChatError("返答を入力してから次へ進んでください。");
+      setChatError("返したい言葉を書いてから続けてください。");
       return;
     }
 
@@ -439,7 +439,7 @@ export const ConsultationExperience = () => {
 
   const handleSummarize = async () => {
     if (!replyInput.trim()) {
-      setChatError("最後の返答を入力してから整理結果を表示してください。");
+      setChatError("最後の言葉を書いてから、今日の記録を開いてください。");
       return;
     }
 
@@ -635,49 +635,6 @@ export const ConsultationExperience = () => {
       backLink={{ href: "/", label: "トップへ戻る" }}
     >
       <main className="space-y-6 lg:space-y-7">
-        {showIntroCard ? (
-          <section className="rounded-[22px] border border-lilac/34 bg-white/78 px-5 py-4 shadow-soft">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">
-                  こころの羅針盤でできること
-                </p>
-                <div className="mt-3 space-y-1.5 text-sm leading-7 text-stone">
-                  <p>・今の気持ちを言葉にする</p>
-                  <p>・ソラと一緒に少しだけ整理する</p>
-                  <p>・心の動きを記録として残す</p>
-                </div>
-                <p className="mt-3 text-sm leading-7 text-stone">
-                  3分ほどで、今の心に残っていることを少し言葉にできます。
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  saveHasSeenIntro();
-                  setShowIntroCard(false);
-                }}
-                className="shrink-0 rounded-full border border-lilac/30 bg-white/82 px-3 py-1.5 text-xs text-stone transition hover:border-iris/40 hover:text-plum"
-              >
-                閉じる
-              </button>
-            </div>
-          </section>
-        ) : null}
-
-        {previousMemory ? (
-          <section className="rounded-lg border border-lilac/40 bg-purple-50/70 px-4 py-3 text-sm text-stone shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-plum/70">前回のあなたから</p>
-            <p className="mt-2 text-xs text-stone/76">{previousMemory.label}</p>
-            <p className="mt-1 leading-7 text-ink/82">「{previousMemory.title}」</p>
-            <p className="mt-1 text-xs leading-6 text-stone/72">今日も少しだけ、心の動きを残してみませんか。</p>
-          </section>
-        ) : null}
-
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <StepIndicator currentStage={currentStage} />
-        </div>
-
         <section className="grid gap-6 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
           <div className="transition duration-200">
             <ConsultationForm
@@ -751,6 +708,39 @@ export const ConsultationExperience = () => {
             />
           </div>
         </section>
+
+        {previousMemory ? (
+          <section className="rounded-[18px] border border-lilac/24 bg-white/46 px-4 py-3 text-sm text-stone/84">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">前に残した言葉</p>
+            <p className="mt-2 text-xs text-stone/76">{previousMemory.label}</p>
+            <p className="mt-1 leading-7 text-ink/78">「{previousMemory.title}」</p>
+            <p className="mt-1 text-xs leading-6 text-stone/66">前の続きでなくても大丈夫です。</p>
+          </section>
+        ) : null}
+
+        {showIntroCard ? (
+          <section className="rounded-[18px] border border-lilac/22 bg-white/42 px-4 py-3.5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">こころの羅針盤</p>
+                <p className="mt-2 text-sm leading-7 text-stone/80">
+                  ここには、その日の言葉を少しずつ残していけます。
+                </p>
+                <p className="text-sm leading-7 text-stone/72">まとまっていなくても、そのままで大丈夫です。</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  saveHasSeenIntro();
+                  setShowIntroCard(false);
+                }}
+                className="shrink-0 rounded-full border border-lilac/22 bg-white/72 px-3 py-1.5 text-[11px] text-stone/72 transition hover:border-iris/34 hover:text-plum"
+              >
+                閉じる
+              </button>
+            </div>
+          </section>
+        ) : null}
 
         <NoticePanel compact />
 

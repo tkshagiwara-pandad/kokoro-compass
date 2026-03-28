@@ -58,7 +58,7 @@ export const HistoryPanel = ({
   onSelect,
   onDelete,
   visibleCount = 4,
-  selectLabel = "履歴を開く",
+  selectLabel = "この言葉を開く",
 }: HistoryPanelProps) => {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const visibleRecords = records.slice(0, visibleCount);
@@ -71,10 +71,10 @@ export const HistoryPanel = ({
       .filter((group) => group.records.length > 0);
 
   return (
-    <section className="rounded-[24px] border border-lilac/42 bg-white/68 p-5 shadow-soft">
+    <section className="rounded-[22px] border border-lilac/28 bg-white/56 p-5">
       <div className="mb-4">
         <h2 className="font-serif text-xl text-plum">最近残した言葉</h2>
-        <p className="mt-2 text-sm leading-7 text-stone">
+        <p className="mt-2 text-sm leading-7 text-stone/82">
           日付やテーマよりも、そのときの言葉を静かにたどれるようにしています。
         </p>
       </div>
@@ -83,27 +83,27 @@ export const HistoryPanel = ({
         {visibleRecords.length > 0 ? (
           groupedRecords.map((group) => (
             <section key={group.key} className="space-y-3.5">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-plum/60">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-plum/52">
                 {HISTORY_GROUP_LABELS[group.key]}
               </p>
               <div className="grid gap-3.5 lg:grid-cols-2">
                 {group.records.map((record) => (
                   <article
                     key={record.id}
-                    className="relative rounded-[22px] border border-lilac/40 bg-mist/32 p-5 shadow-soft"
+                    className="relative rounded-[20px] border border-lilac/24 bg-white/64 p-4"
                   >
                     <div className="mb-3 flex items-start justify-between gap-3">
                       <div className="space-y-2">
-                        <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs text-plum shadow-soft">
+                        <span className="inline-flex rounded-full bg-white/78 px-3 py-1 text-[11px] text-plum/72">
                           {record.topic}
                         </span>
                         <p className="line-clamp-3 text-[15px] leading-7 text-ink/88">
                           {record.userInput}
                         </p>
-                        <p className="text-xs leading-6 text-stone">{getRecordDisplayTitle(record)}</p>
+                        <p className="text-xs leading-6 text-stone/72">{getRecordDisplayTitle(record)}</p>
                       </div>
                       <div className="relative flex shrink-0 items-start gap-2">
-                        <span className="text-[11px] leading-5 text-stone">
+                        <span className="text-[11px] leading-5 text-stone/68">
                           {formatRelativeDate(record.createdAt)}
                         </span>
                         <button
@@ -111,7 +111,7 @@ export const HistoryPanel = ({
                           onClick={() =>
                             setOpenMenuId((current) => (current === record.id ? null : record.id))
                           }
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-lilac/26 bg-white/84 text-stone transition hover:border-iris/40 hover:text-plum"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-lilac/18 bg-white/74 text-stone/72 transition hover:border-iris/30 hover:text-plum"
                           aria-label="メニューを開く"
                           aria-expanded={openMenuId === record.id}
                         >
@@ -138,24 +138,24 @@ export const HistoryPanel = ({
                       </div>
                     </div>
                     {record.emotionTag ? (
-                      <p className="mt-1 text-xs leading-6 text-stone">
+                      <p className="mt-1 text-xs leading-6 text-stone/70">
                         今の気持ち: {record.emotionTag}
                       </p>
                     ) : null}
                     {record.heartState ? (
-                      <p className="mt-1 text-xs leading-6 text-stone">
+                      <p className="mt-1 text-xs leading-6 text-stone/70">
                         心の現在地: {record.heartState}
                       </p>
                     ) : null}
-                    <div className="mt-4 rounded-2xl border border-lilac/26 bg-white/84 p-4">
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-gold">今日の気づき</p>
-                      <p className="mt-1 text-sm leading-6 text-ink">{record.insight}</p>
+                    <div className="mt-4 rounded-[18px] border border-lilac/18 bg-white/74 p-3.5">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-gold/86">今日の気づき</p>
+                      <p className="mt-1 text-sm leading-6 text-ink/84">{record.insight}</p>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <button
                         type="button"
                         onClick={() => onSelect(record)}
-                        className="button-secondary"
+                        className="text-sm text-stone/78 transition hover:text-plum"
                       >
                         {selectLabel}
                       </button>
@@ -166,7 +166,7 @@ export const HistoryPanel = ({
             </section>
           ))
         ) : (
-          <div className="rounded-[22px] border border-lilac/45 bg-mist/35 p-6 text-sm leading-7 text-stone lg:col-span-2">
+          <div className="rounded-[20px] border border-lilac/24 bg-white/48 p-5 text-sm leading-7 text-stone lg:col-span-2">
             <p className="font-serif text-xl text-plum">心の地図</p>
             <p className="mt-3">まだ残っている言葉はありません。</p>
             <p className="mt-3">
@@ -175,7 +175,7 @@ export const HistoryPanel = ({
               ここに少しずつ心の流れが見えてきます。
             </p>
             <div className="mt-4">
-              <Link href="/consultation" className="button-secondary">
+              <Link href="/consultation" className="text-sm text-stone/78 transition hover:text-plum">
                 記録を始める
               </Link>
             </div>
@@ -183,7 +183,7 @@ export const HistoryPanel = ({
         )}
       </div>
       {records.length > visibleRecords.length ? (
-        <p className="mt-4 text-xs leading-6 text-stone">
+        <p className="mt-4 text-xs leading-6 text-stone/66">
           まずは最新 {visibleRecords.length} 件を表示しています。
         </p>
       ) : null}
