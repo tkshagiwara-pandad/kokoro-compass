@@ -38,29 +38,29 @@ export const ConsultationForm = ({
   maxLength,
 }: ConsultationFormProps) => {
   return (
-    <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
-      <div className="mb-5">
-        <div className="rounded-[18px] border border-lilac/24 bg-white/52 px-4 py-2.5">
+    <section className="surface-card border-iris/24 bg-white/74 p-5 shadow-[0_14px_36px_rgba(104,88,120,0.06)] sm:p-6 lg:p-7">
+      <div className="mb-4">
+        <div className="rounded-[16px] border border-lilac/18 bg-white/46 px-4 py-2.5">
           <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">今日の記録</p>
           <p className="mt-1 text-[15px] leading-7 text-ink/84">{todayLabel}</p>
-          <p className="text-xs leading-6 text-stone/70">{todayStatusText}</p>
+          <p className="text-[11px] leading-6 text-stone/66">{todayStatusText}</p>
         </div>
-        <p className="mt-2 text-sm leading-6 text-stone/74">
+        <p className="mt-2 text-sm leading-6 text-stone/72">
           何もなくても、ひとことで大丈夫です。
         </p>
         {hasPreviousRecord ? (
-          <p className="mt-1 text-xs leading-6 text-stone/68">
+          <p className="mt-1 text-[11px] leading-6 text-stone/62">
             前の続きでなくても大丈夫です。
           </p>
         ) : null}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <label className="block">
-          <div className="mb-3">
-            <span className="block text-[13px] font-normal text-ink/72">今日のことを少し書く</span>
+          <div className="mb-2.5">
+            <span className="block text-[12px] font-normal text-ink/68">今日のことを少し書く</span>
           </div>
-          <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
+          <div className="mb-3.5 inline-flex rounded-[16px] border border-iris/20 bg-white/82 p-1">
             {([
               { key: "text", label: "書く" },
               { key: "voice", label: "話す", icon: "○" },
@@ -73,9 +73,9 @@ export const ConsultationForm = ({
                   type="button"
                   onClick={() => onInputModeChange(option.key)}
                   disabled={isLoading}
-                  className={`inline-flex min-w-[88px] items-center justify-center gap-1.5 rounded-[14px] px-4 py-2.5 text-sm transition ${
+                  className={`inline-flex min-w-[84px] items-center justify-center gap-1.5 rounded-[13px] px-3.5 py-2 text-sm transition ${
                     isSelected
-                      ? "bg-lilac/44 text-plum shadow-soft"
+                      ? "bg-lilac/36 text-plum"
                       : "text-stone hover:bg-mist/55 hover:text-plum"
                   }`}
                 >
@@ -95,10 +95,10 @@ export const ConsultationForm = ({
               <textarea
                 value={input}
                 onChange={(event) => onInputChange(event.target.value)}
-                rows={9}
+                rows={8}
                 maxLength={maxLength}
                 placeholder="今日は何もなかった、でも大丈夫"
-                className="field-base min-h-[132px] border-lilac/30 bg-white/84 shadow-none sm:min-h-[240px]"
+                className="field-base min-h-[120px] border-lilac/20 bg-white/76 leading-7 shadow-none sm:min-h-[196px]"
                 disabled={isLoading}
               />
             </>
@@ -118,19 +118,19 @@ export const ConsultationForm = ({
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-4.5 flex flex-wrap items-center gap-3">
           <button
             type="button"
             onClick={onStart}
             disabled={!isStartEnabled || isLoading}
-            className="button-primary min-w-[168px]"
+            className="button-primary min-w-[148px] opacity-95"
           >
             {isLoading ? "言葉を整えています..." : startButtonLabel}
           </button>
           <button
             type="button"
             onClick={onReset}
-            className="button-secondary"
+            className="text-sm text-stone/72 transition hover:text-plum"
             disabled={isLoading}
           >
             リセット
@@ -138,7 +138,7 @@ export const ConsultationForm = ({
         </div>
 
         {isLoading && !started ? (
-          <div className="rounded-2xl border border-lilac/36 bg-mist/34 px-4 py-3 text-sm leading-7 text-stone">
+          <div className="rounded-[18px] border border-lilac/20 bg-white/54 px-4 py-3 text-sm leading-7 text-stone/78">
             ソラがあなたの言葉を整理しています…
           </div>
         ) : null}

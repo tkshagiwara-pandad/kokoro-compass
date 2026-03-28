@@ -39,18 +39,18 @@ export const SummaryPanel = ({
   soraClosingLine,
 }: SummaryPanelProps) => {
   return (
-    <section className="surface-card p-6 sm:p-7">
-      <div className="mb-6">
+    <section className="surface-card p-5 sm:p-6">
+      <div className="mb-4.5">
         <h2 className="font-serif text-2xl text-plum">今日の記録</h2>
-        <p className="mt-2 text-sm leading-7 text-stone/82">
+        <p className="mt-2 text-sm leading-7 text-stone/74">
           その日の言葉を、あとから静かに読み直せるようにしています。
         </p>
       </div>
 
       {summary ? (
-        <div className="space-y-5">
-          <article className="rounded-[20px] border border-lilac/24 bg-white/76 p-5">
-            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/56">
+        <div className="space-y-4">
+          <article className="rounded-[18px] border border-lilac/18 bg-white/72 p-4.5">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/54">
               そのときに残した言葉
             </p>
             <p className="text-[15px] leading-8 text-ink/88 sm:text-base">
@@ -58,22 +58,22 @@ export const SummaryPanel = ({
             </p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/20 bg-white/52 p-4 sm:p-5">
-            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/54">
+          <article className="rounded-[16px] border border-lilac/16 bg-white/46 p-4">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/50">
               そのときの問い
             </p>
             <p className="text-[15px] leading-7 text-ink/78 sm:leading-8">{nextQuestion}</p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/18 bg-white/48 p-4 sm:p-5">
-            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/52">
+          <article className="rounded-[16px] border border-lilac/14 bg-white/42 p-4">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/48">
               ソラが返していた言葉
             </p>
-            <p className="text-[15px] leading-7 text-ink/74 sm:leading-8">{summary.soraMessage}</p>
+            <p className="text-[15px] leading-7 text-ink/70 sm:leading-8">{summary.soraMessage}</p>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/18 bg-white/46 p-4 sm:p-5">
-            <p className="mb-3 text-[10px] uppercase tracking-[0.16em] text-plum/54">
+          <article className="rounded-[16px] border border-lilac/14 bg-white/42 p-4">
+            <p className="mb-3 text-[10px] uppercase tracking-[0.14em] text-plum/50">
               このときのメモ
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -88,16 +88,16 @@ export const SummaryPanel = ({
             </div>
           </article>
 
-          <article className="rounded-[18px] border border-lilac/18 bg-white/54 p-4">
-            <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/54">
+          <article className="rounded-[16px] border border-lilac/14 bg-white/46 p-4">
+            <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/50">
               今日の小さな気づき
             </p>
             <p className="text-[15px] leading-7 text-ink/78 sm:leading-8">{insight}</p>
           </article>
 
           {futureMessage ? (
-            <article className="rounded-[18px] border border-lilac/16 bg-white/44 p-4 sm:p-5">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.16em] text-plum/52">
+            <article className="rounded-[16px] border border-lilac/12 bg-white/40 p-4">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/48">
                 あとから残った言葉
               </p>
               <p className="text-[15px] leading-7 text-ink/74 sm:leading-8">{futureMessage}</p>
@@ -105,8 +105,8 @@ export const SummaryPanel = ({
           ) : null}
 
           {emotionalState ? (
-            <article className="rounded-[18px] border border-lilac/14 bg-white/42 p-4">
-              <p className="mb-3 text-[10px] uppercase tracking-[0.16em] text-plum/50">
+            <article className="rounded-[16px] border border-lilac/12 bg-white/40 p-4">
+              <p className="mb-3 text-[10px] uppercase tracking-[0.14em] text-plum/48">
                 このときの心の動き
               </p>
               <EmotionalStateMeter state={emotionalState} compact />
@@ -114,13 +114,13 @@ export const SummaryPanel = ({
           ) : null}
 
           {isSaved ? (
-            <article className="rounded-[18px] border border-lilac/18 bg-white/68 p-4 sm:p-5">
+            <article className="rounded-[16px] border border-lilac/12 bg-white/62 p-4">
               {savedPreview ? (
-                <div className="rounded-[16px] border border-lilac/14 bg-white/74 px-4 py-3">
+                <div className="rounded-[14px] border border-lilac/10 bg-white/70 px-4 py-3">
                   <p className="text-[15px] leading-7 text-ink/84 line-clamp-2">{savedPreview}</p>
                 </div>
               ) : null}
-              <p className="mt-4 text-[11px] uppercase tracking-[0.18em] text-plum/58">
+              <p className="mt-3.5 text-[10px] uppercase tracking-[0.14em] text-plum/54">
                 今日の言葉を残しました
               </p>
               <p className="mt-1 text-sm leading-7 text-stone/78">
@@ -129,11 +129,11 @@ export const SummaryPanel = ({
               {savedAtLabel ? (
                 <p className="mt-2 text-xs leading-6 text-stone/60">{savedAtLabel}</p>
               ) : null}
-              <div className="mt-4 flex flex-wrap gap-3">
+              <div className="mt-3.5 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={onRestart}
-                  className="button-primary touch-manipulation opacity-95"
+                  className="button-primary touch-manipulation min-w-[142px] opacity-85"
                 >
                   もうひとつ残す
                 </button>
@@ -147,28 +147,28 @@ export const SummaryPanel = ({
               </div>
             </article>
           ) : (
-            <article className="rounded-[18px] border border-lilac/24 bg-mist/12 p-4">
-              <p className="mb-2 text-xs uppercase tracking-[0.22em] text-gold">
-                今日はここまでにしますか？
+            <article className="rounded-[16px] border border-lilac/14 bg-white/56 p-4">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-plum/52">
+                このまま残しておきますか？
               </p>
-              <p className="text-sm leading-7 text-stone">
+              <p className="text-sm leading-7 text-stone/78">
                 ここまでで少し整理できたら、記録として残して終えても大丈夫です。
               </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <button type="button" onClick={onSave} className="button-primary touch-manipulation">
+              <div className="mt-3.5 flex flex-wrap items-center gap-3">
+                <button type="button" onClick={onSave} className="button-primary touch-manipulation opacity-95">
                   今日の記録を残す
                 </button>
                 <button
                   type="button"
                   onClick={onContinueThinking}
-                  className="button-secondary touch-manipulation"
+                  className="touch-manipulation text-sm text-stone/76 transition hover:text-plum"
                 >
                   もう少し書く
                 </button>
                 <button
                   type="button"
                   onClick={onOpenHistory}
-                  className="button-secondary touch-manipulation"
+                  className="touch-manipulation text-sm text-stone/72 transition hover:text-plum"
                 >
                   心の地図を見る
                 </button>
@@ -176,14 +176,14 @@ export const SummaryPanel = ({
             </article>
           )}
 
-          <article className="rounded-[18px] border border-lilac/24 bg-white/84 px-4 py-4">
+          <article className="rounded-[16px] border border-lilac/12 bg-white/64 px-4 py-4">
             <div className="flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-lilac/70" aria-hidden="true" />
-              <p className="text-[11px] uppercase tracking-[0.2em] text-plum/62">
-                ソラより
+              <p className="text-[10px] uppercase tracking-[0.14em] text-plum/54">
+                ソラ
               </p>
             </div>
-            <p className="mt-2 text-sm leading-7 text-ink/88">{soraClosingLine}</p>
+            <p className="mt-2 text-sm leading-7 text-ink/82">{soraClosingLine}</p>
           </article>
 
           {saveError ? (
@@ -198,9 +198,10 @@ export const SummaryPanel = ({
           ) : null}
         </div>
       ) : (
-        <div className="flex min-h-[430px] items-center justify-center rounded-[28px] border border-lilac/55 bg-mist/60 p-6 text-center text-sm leading-7 text-stone/80">
-          記録が整うと、ここに「答え」ではなく、
-          今の心を見つめるための整理が表示されます。
+        <div className="flex min-h-[380px] items-center justify-center rounded-[24px] border border-lilac/24 bg-white/56 p-6 text-center text-sm leading-7 text-stone/76">
+          言葉が少しずつ重なると、
+          <br />
+          ここに静かな振り返りが残ります。
         </div>
       )}
     </section>
