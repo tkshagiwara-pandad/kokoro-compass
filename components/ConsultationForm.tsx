@@ -40,15 +40,14 @@ export const ConsultationForm = ({
     <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
-        <h2 className="mt-2 font-serif text-2xl text-plum">今日の心の動きを、少しだけ残してみる</h2>
+        <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録を、少しだけ残してみる</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
-          ここは、心の動きを少しずつ残していくための場所です。
-          正しくまとめなくて大丈夫です。
-          思いつくままの言葉で始められます。
+          出来事より、いま残っている気持ちを少しだけ書いてみてください。
         </p>
         <p className="mt-3 text-sm leading-7 text-stone/88">
           2〜3回ほど言葉を重ねながら、気持ちを少しずつ残していきます。
         </p>
+        <p className="mt-2 text-sm leading-7 text-stone/80">何もなくても、ひとことで大丈夫です。</p>
         {hasPreviousRecord ? (
           <p className="mt-2 text-sm leading-7 text-stone/80">
             前の続きでなくても大丈夫です。
@@ -68,7 +67,7 @@ export const ConsultationForm = ({
 
       <div className="space-y-5">
         <div className="rounded-[24px] border border-lilac/45 bg-white/76 p-4 sm:p-5">
-          <span className="mb-3 block text-sm text-ink/80">心に残っているきっかけ</span>
+          <span className="mb-3 block text-sm text-ink/80">今日に近いもの</span>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
             {consultationTopics.map((option) => {
               const isSelected = option === topic;
@@ -94,7 +93,7 @@ export const ConsultationForm = ({
 
         <label className="block">
           <div className="mb-3">
-            <span className="block text-sm text-ink">いま心に残っていることを書く</span>
+            <span className="block text-sm text-ink">今日のことを少し書く</span>
             <p className="mt-1 text-xs leading-6 text-stone/76">言葉になりきっていなくても大丈夫です。</p>
           </div>
           <div className="mb-5 inline-flex rounded-[18px] border border-iris/34 bg-white/88 p-1.5 shadow-[0_10px_24px_rgba(137,119,154,0.05)]">
@@ -144,7 +143,7 @@ export const ConsultationForm = ({
                 onChange={(event) => onInputChange(event.target.value)}
                 rows={12}
                 maxLength={maxLength}
-                placeholder="いま心に残っていることを書く"
+                placeholder="まだ整理されていないままで大丈夫です"
                 className="field-base min-h-[140px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
                 disabled={isLoading}
               />

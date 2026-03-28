@@ -66,7 +66,7 @@ export default function LandingPage() {
                   className="button-primary"
                   onClick={() => trackEvent("lp_cta_clicked", { destination: "/consultation" })}
                 >
-                  記録を始めてみる
+                  今日の記録を書く
                 </Link>
                 <FeedbackButton
                   href={FEEDBACK_FORM_URL}
