@@ -129,6 +129,21 @@ export default function LandingPage() {
         </section>
 
         <NoticePanel />
+
+        <section className="rounded-[22px] border border-lilac/24 bg-white/54 px-5 py-5 text-center sm:px-6">
+          <p className="text-sm leading-7 text-stone/76">
+            ここまで読んでみて、少し残しておきたいことがあれば。
+          </p>
+          <div className="mt-4">
+            <Link
+              href="/consultation"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-lilac/34 bg-white/76 px-5 py-2.5 text-sm text-stone transition hover:border-iris/42 hover:text-plum"
+              onClick={() => trackEvent("lp_bottom_cta_clicked", { destination: "/consultation" })}
+            >
+              今日の記録を書く
+            </Link>
+          </div>
+        </section>
       </main>
     </LayoutShell>
   );
