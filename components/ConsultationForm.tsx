@@ -1,10 +1,8 @@
 import { VoiceInputPanel } from "@/components/VoiceInputPanel";
-import { consultationTopics, ConsultationTopic } from "@/types/consultation";
 
 type InputMode = "text" | "voice";
 
 type ConsultationFormProps = {
-  topic: ConsultationTopic;
   input: string;
   error: string;
   hasPreviousRecord: boolean;
@@ -12,7 +10,6 @@ type ConsultationFormProps = {
   todayStatusText: string;
   startButtonLabel: string;
   inputMode: InputMode;
-  onTopicChange: (value: ConsultationTopic) => void;
   onInputChange: (value: string) => void;
   onInputModeChange: (value: InputMode) => void;
   onStart: () => void;
@@ -24,7 +21,6 @@ type ConsultationFormProps = {
 };
 
 export const ConsultationForm = ({
-  topic,
   input,
   error,
   hasPreviousRecord,
@@ -32,7 +28,6 @@ export const ConsultationForm = ({
   todayStatusText,
   startButtonLabel,
   inputMode,
-  onTopicChange,
   onInputChange,
   onInputModeChange,
   onStart,
@@ -79,32 +74,6 @@ export const ConsultationForm = ({
       </div>
 
       <div className="space-y-5">
-        <div className="rounded-[24px] border border-lilac/45 bg-white/76 p-4 sm:p-5">
-          <span className="mb-2 block text-sm text-ink/80">必要なら近いものを選ぶ</span>
-          <p className="mb-3 text-xs leading-6 text-stone/76">選ばなくても、そのまま書けます。</p>
-          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-            {consultationTopics.map((option) => {
-              const isSelected = option === topic;
-
-              return (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => onTopicChange(option)}
-                  disabled={isLoading}
-                  className={`min-h-[54px] rounded-[18px] border px-4 py-3 text-sm transition ${
-                    isSelected
-                      ? "border-iris/70 bg-lilac/40 text-plum shadow-soft"
-                      : "border-lilac/60 bg-white/92 text-stone hover:border-iris/60 hover:bg-mist"
-                  }`}
-                >
-                  {option}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         <label className="block">
           <div className="mb-3">
             <span className="block text-sm text-ink">今日のことを少し書く</span>

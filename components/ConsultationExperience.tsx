@@ -681,7 +681,6 @@ export const ConsultationExperience = () => {
         <section className="grid gap-6 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
           <div className="transition duration-200">
             <ConsultationForm
-            topic={topic}
             input={userInput}
             error={formError}
             hasPreviousRecord={history.length > 0}
@@ -689,7 +688,6 @@ export const ConsultationExperience = () => {
             todayStatusText={todayStatusText}
             startButtonLabel={startButtonLabel}
             inputMode={inputMode}
-            onTopicChange={setTopic}
             onInputChange={handleUserInputChange}
             onInputModeChange={setInputMode}
             onStart={handleStart}
