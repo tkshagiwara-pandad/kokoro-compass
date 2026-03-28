@@ -631,11 +631,11 @@ export const ConsultationExperience = () => {
     <LayoutShell
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
-      description="出来事ではなく、心の動きを少しずつ残していくための場所です。ソラがそっと整理を手伝いながら、あとで振り返れる記録に整えていきます。"
+      description="今日の言葉を少し残して、あとから静かにたどるための場所です。"
       backLink={{ href: "/", label: "トップへ戻る" }}
     >
-      <main className="space-y-6 lg:space-y-7">
-        <section className="grid gap-6 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
+      <main className="space-y-5 lg:space-y-6">
+        <section className="grid gap-5 xl:grid-cols-[1fr_1.08fr_0.92fr] xl:items-start">
           <div className="transition duration-200">
             <ConsultationForm
             input={userInput}
@@ -658,7 +658,7 @@ export const ConsultationExperience = () => {
           <div
             ref={stepTwoRef}
             className={`scroll-mt-24 transition duration-200 ${
-              currentStage === 1 ? "opacity-72 xl:pt-4" : "opacity-100"
+              currentStage === 1 ? "opacity-80 xl:pt-3" : "opacity-100"
             }`}
           >
           <ChatPanel
@@ -685,7 +685,7 @@ export const ConsultationExperience = () => {
           </div>
           <div
             className={`transition duration-200 ${
-              currentStage === 1 ? "opacity-68 xl:pt-6" : "opacity-100"
+              currentStage === 1 ? "opacity-78 xl:pt-4" : "opacity-100"
             }`}
           >
             <SummaryPanel
@@ -710,7 +710,7 @@ export const ConsultationExperience = () => {
         </section>
 
         {previousMemory ? (
-          <section className="rounded-[18px] border border-lilac/24 bg-white/46 px-4 py-3 text-sm text-stone/84">
+          <section className="rounded-[16px] border border-lilac/18 bg-white/42 px-4 py-3 text-sm text-stone/80">
             <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">前に残した言葉</p>
             <p className="mt-2 text-xs text-stone/76">{previousMemory.label}</p>
             <p className="mt-1 leading-7 text-ink/78">「{previousMemory.title}」</p>
@@ -719,14 +719,14 @@ export const ConsultationExperience = () => {
         ) : null}
 
         {showIntroCard ? (
-          <section className="rounded-[18px] border border-lilac/22 bg-white/42 px-4 py-3.5">
+          <section className="rounded-[16px] border border-lilac/18 bg-white/38 px-4 py-3">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.18em] text-plum/56">こころの羅針盤</p>
-                <p className="mt-2 text-sm leading-7 text-stone/80">
+                <p className="mt-2 text-sm leading-7 text-stone/78">
                   ここには、その日の言葉を少しずつ残していけます。
                 </p>
-                <p className="text-sm leading-7 text-stone/72">まとまっていなくても、そのままで大丈夫です。</p>
+                <p className="text-sm leading-7 text-stone/68">まとまっていなくても、そのままで大丈夫です。</p>
               </div>
               <button
                 type="button"
@@ -734,7 +734,7 @@ export const ConsultationExperience = () => {
                   saveHasSeenIntro();
                   setShowIntroCard(false);
                 }}
-                className="shrink-0 rounded-full border border-lilac/22 bg-white/72 px-3 py-1.5 text-[11px] text-stone/72 transition hover:border-iris/34 hover:text-plum"
+                className="shrink-0 text-[11px] text-stone/66 transition hover:text-plum"
               >
                 閉じる
               </button>
@@ -745,16 +745,16 @@ export const ConsultationExperience = () => {
         <NoticePanel compact />
 
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[24px] border border-lilac/36 bg-white/62 p-5 shadow-soft">
-            <p className="text-xs uppercase tracking-[0.22em] text-gold">My Log</p>
-            <h2 className="mt-2 font-serif text-xl text-plum">心の地図と残してきた言葉</h2>
-            <p className="mt-3 text-sm leading-7 text-stone">
-              残した言葉は、あとから気づきや最近のテーマとして静かに見返せます。今日の流れをあとで振り返りたいときに開いてください。
+          <div className="rounded-[20px] border border-lilac/24 bg-white/54 p-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-plum/56">心の地図</p>
+            <h2 className="mt-2 font-serif text-xl text-plum">残してきた言葉をたどる</h2>
+            <p className="mt-3 text-sm leading-7 text-stone/80">
+              残した言葉は、あとから静かに読み返せます。
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href="/log"
-                className="inline-flex items-center justify-center rounded-full border border-lilac/42 bg-white/76 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+                className="text-sm text-stone/78 transition hover:text-plum"
               >
                 心の地図を見る
               </Link>
@@ -762,29 +762,29 @@ export const ConsultationExperience = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectHistory(history[0])}
-                  className="inline-flex items-center justify-center rounded-full border border-lilac/38 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+                  className="text-sm text-stone/72 transition hover:text-plum"
                 >
-                  最新の記録を開く
+                  前の言葉を開く
                 </button>
               ) : null}
             </div>
           </div>
 
-          <div className="rounded-[24px] border border-lilac/36 bg-white/62 px-5 py-4 shadow-soft">
-            <p className="text-sm leading-7 text-stone">
-              ベータ版のため、使いづらさや気になる点があれば短くても大丈夫です。感想をいただけると改善に役立ちます。
+          <div className="rounded-[20px] border border-lilac/24 bg-white/50 px-5 py-4">
+            <p className="text-sm leading-7 text-stone/78">
+              使いづらさや気になる点があれば、短くても大丈夫です。
             </p>
             <div className="mt-4">
               <FeedbackButton
                 href={FEEDBACK_FORM_URL}
                 label="フィードバックを送る"
-                className="inline-flex items-center justify-center rounded-full border border-lilac/40 bg-white/72 px-4 py-2.5 text-sm text-stone transition hover:border-iris/45 hover:text-plum"
+                className="text-sm text-stone/72 transition hover:text-plum"
               />
             </div>
           </div>
         </section>
 
-        <div className="text-sm text-stone">
+        <div className="text-sm text-stone/72">
           <Link href="/" className="transition hover:text-plum">
             トップページへ戻る
           </Link>
