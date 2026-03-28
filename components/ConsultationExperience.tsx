@@ -56,6 +56,11 @@ const formatRelativeDay = (createdAt: string) => {
   return `${days}日前`;
 };
 
+const isSameDay = (left: Date, right: Date) =>
+  left.getFullYear() === right.getFullYear() &&
+  left.getMonth() === right.getMonth() &&
+  left.getDate() === right.getDate();
+
 export const ConsultationExperience = () => {
   const router = useRouter();
   const stepTwoRef = useRef<HTMLDivElement | null>(null);
@@ -147,6 +152,28 @@ export const ConsultationExperience = () => {
   );
 
   const isStartEnabled = userInput.trim().length > 0;
+
+  const todayRecordsCount = useMemo(() => {
+    const today = new Date();
+
+    return history.filter((record) => isSameDay(new Date(record.createdAt), today)).length;
+  }, [history]);
+
+  const todayLabel = useMemo(
+    () =>
+      new Intl.DateTimeFormat("ja-JP", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(new Date()),
+    [],
+  );
+
+  const todayStatusText =
+    todayRecordsCount > 0 ? "今日はすでにひとつ残っています。" : "今日はまだ何も残っていません。";
+
+  const startButtonLabel =
+    todayRecordsCount > 0 ? "今日の記録をもうひとつ残す" : "今日の記録を書く";
 
   const previousMemory = useMemo(() => {
     const latestRecord = history[0];
@@ -658,6 +685,9 @@ export const ConsultationExperience = () => {
             input={userInput}
             error={formError}
             hasPreviousRecord={history.length > 0}
+            todayLabel={todayLabel}
+            todayStatusText={todayStatusText}
+            startButtonLabel={startButtonLabel}
             inputMode={inputMode}
             onTopicChange={setTopic}
             onInputChange={handleUserInputChange}

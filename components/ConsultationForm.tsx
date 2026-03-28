@@ -8,6 +8,9 @@ type ConsultationFormProps = {
   input: string;
   error: string;
   hasPreviousRecord: boolean;
+  todayLabel: string;
+  todayStatusText: string;
+  startButtonLabel: string;
   inputMode: InputMode;
   onTopicChange: (value: ConsultationTopic) => void;
   onInputChange: (value: string) => void;
@@ -25,6 +28,9 @@ export const ConsultationForm = ({
   input,
   error,
   hasPreviousRecord,
+  todayLabel,
+  todayStatusText,
+  startButtonLabel,
   inputMode,
   onTopicChange,
   onInputChange,
@@ -39,6 +45,11 @@ export const ConsultationForm = ({
   return (
     <section className="surface-card border-iris/32 bg-white/78 p-6 shadow-[0_22px_52px_rgba(104,88,120,0.1)] sm:p-7 lg:p-8">
       <div className="mb-6">
+        <div className="rounded-[20px] border border-lilac/36 bg-white/74 px-4 py-3 shadow-[0_10px_24px_rgba(137,119,154,0.04)]">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-plum/68">今日の記録</p>
+          <p className="mt-1 text-sm leading-7 text-ink/84">{todayLabel}</p>
+          <p className="text-xs leading-6 text-stone/76">{todayStatusText}</p>
+        </div>
         <p className="text-xs uppercase tracking-[0.24em] text-gold">Step 1</p>
         <h2 className="mt-2 font-serif text-2xl text-plum">今日の記録を、少しだけ残してみる</h2>
         <p className="mt-3 text-sm leading-7 text-stone">
@@ -47,7 +58,9 @@ export const ConsultationForm = ({
         <p className="mt-3 text-sm leading-7 text-stone/88">
           2〜3回ほど言葉を重ねながら、気持ちを少しずつ残していきます。
         </p>
-        <p className="mt-2 text-sm leading-7 text-stone/80">何もなくても、ひとことで大丈夫です。</p>
+        <p className="mt-2 text-sm leading-7 text-stone/80">
+          何もなくても、ひとことで大丈夫です。今日は何もなかった、でも大丈夫です。
+        </p>
         {hasPreviousRecord ? (
           <p className="mt-2 text-sm leading-7 text-stone/80">
             前の続きでなくても大丈夫です。
@@ -67,7 +80,8 @@ export const ConsultationForm = ({
 
       <div className="space-y-5">
         <div className="rounded-[24px] border border-lilac/45 bg-white/76 p-4 sm:p-5">
-          <span className="mb-3 block text-sm text-ink/80">今日に近いもの</span>
+          <span className="mb-2 block text-sm text-ink/80">必要なら近いものを選ぶ</span>
+          <p className="mb-3 text-xs leading-6 text-stone/76">選ばなくても、そのまま書けます。</p>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
             {consultationTopics.map((option) => {
               const isSelected = option === topic;
@@ -143,7 +157,7 @@ export const ConsultationForm = ({
                 onChange={(event) => onInputChange(event.target.value)}
                 rows={12}
                 maxLength={maxLength}
-                placeholder="まだ整理されていないままで大丈夫です"
+                placeholder="ひとことだけでも残せます"
                 className="field-base min-h-[140px] border-iris/42 bg-white shadow-[0_12px_28px_rgba(137,119,154,0.07)] sm:min-h-[304px]"
                 disabled={isLoading}
               />
@@ -171,7 +185,7 @@ export const ConsultationForm = ({
             disabled={!isStartEnabled || isLoading}
             className="button-primary min-w-[168px]"
           >
-            {isLoading ? "言葉を整えています..." : "言葉を残す"}
+            {isLoading ? "言葉を整えています..." : startButtonLabel}
           </button>
           <button
             type="button"
