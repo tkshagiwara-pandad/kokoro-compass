@@ -137,7 +137,7 @@ export default function LandingPage() {
           <div className="mt-4">
             <Link
               href="/consultation"
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-lilac/42 bg-white/88 px-5 py-2.5 text-sm text-stone/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition hover:border-iris/48 hover:text-plum"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-lilac/48 bg-white/94 px-5 py-2.5 text-sm text-stone/88 shadow-[0_1px_2px_rgba(104,88,120,0.04),inset_0_1px_0_rgba(255,255,255,0.76)] transition hover:border-iris/52 hover:text-plum"
               onClick={() => trackEvent("lp_bottom_cta_clicked", { destination: "/consultation" })}
             >
               今日の記録を書く
