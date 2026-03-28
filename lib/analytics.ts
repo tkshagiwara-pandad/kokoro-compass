@@ -1,6 +1,7 @@
 type AnalyticsEvent =
   | "lp_viewed"
   | "lp_cta_clicked"
+  | "lp_bottom_cta_clicked"
   | "consultation_started"
   | "consultation_completed"
   | "feedback_clicked";
