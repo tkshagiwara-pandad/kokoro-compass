@@ -726,7 +726,7 @@ export const ConsultationExperience = () => {
                 <p className="mt-2 text-sm leading-7 text-stone/78">
                   ここには、その日の言葉を少しずつ残していけます。
                 </p>
-                <p className="text-sm leading-7 text-stone/68">まとまっていなくても、そのままで大丈夫です。</p>
+                <p className="text-sm leading-7 text-stone/68">まずは自分の言葉を残し、必要なときだけソラが少し整理を手伝います。</p>
               </div>
               <button
                 type="button"

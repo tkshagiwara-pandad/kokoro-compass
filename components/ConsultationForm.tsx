@@ -48,6 +48,9 @@ export const ConsultationForm = ({
         <p className="mt-2 text-sm leading-6 text-stone/72">
           何もなくても、ひとことで大丈夫です。
         </p>
+        <p className="mt-1 text-[11px] leading-6 text-stone/62">
+          たとえば「今日は何もなかったけど、少し疲れている」でも大丈夫です。
+        </p>
         {hasPreviousRecord ? (
           <p className="mt-1 text-[11px] leading-6 text-stone/62">
             前の続きでなくても大丈夫です。
@@ -97,7 +100,7 @@ export const ConsultationForm = ({
                 onChange={(event) => onInputChange(event.target.value)}
                 rows={8}
                 maxLength={maxLength}
-                placeholder="今日は何もなかった、でも大丈夫"
+                placeholder="今日は何もなかったけど、少し疲れている"
                 className="field-base min-h-[120px] border-lilac/20 bg-white/76 leading-7 shadow-none sm:min-h-[196px]"
                 disabled={isLoading}
               />

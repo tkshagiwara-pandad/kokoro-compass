@@ -27,8 +27,8 @@ export default function LandingPage() {
       eyebrow="Kokoro Compass"
       title="こころの羅針盤"
       description={[
-        "人に話すほどではないけれど、少し残しておきたい気持ちがある。",
-        "こころの羅針盤は、そんな心の動きを言葉にして、あとから振り返るための場所です。",
+        "その日の気持ちや出来事を、短く残しておける場所です。",
+        "こころの羅針盤は、言葉になりきらない気持ちも静かに置いておける日記アプリです。",
       ].join(" ")}
     >
       <main className="space-y-7 lg:space-y-9">
@@ -44,13 +44,13 @@ export default function LandingPage() {
                   静かな日記アプリ
                 </h2>
                 <p className="max-w-2xl text-base leading-8 text-stone">
-                  答えを探すためではなく、
+                  その日の気持ちや出来事を、
                   <br />
-                  心の動きを残していくための場所。
+                  短く残しておける場所です。
                 </p>
                 <p className="max-w-2xl text-base leading-8 text-stone">
-                  出来事ではなく、心の動きを少しずつ書き留めていくための日記アプリです。
-                  まだ整理されていない気持ちも、そっと言葉にして残しておけます。
+                  まとまっていなくても、その日の言葉を少し置いておけます。
+                  必要なときだけ、ソラが見えている言葉を少し整えます。
                 </p>
                 <p className="max-w-2xl text-sm leading-7 text-stone/88">
                   すぐに答えはほしくない。
@@ -87,6 +87,12 @@ export default function LandingPage() {
               <p className="text-sm leading-7 text-stone/82">
                 誰かに話すより先に、少しだけ自分の言葉にしたいときに向いています。
               </p>
+              <div className="mt-4 rounded-[18px] border border-lilac/34 bg-white/72 px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-plum/56">たとえば</p>
+                <p className="mt-2 text-sm leading-7 text-stone/80">
+                  「今日は何もなかった気もするけど、少し疲れている」
+                </p>
+              </div>
               <p className="text-xs uppercase tracking-[0.2em] text-gold">こんなときに</p>
               <div className="mt-4 grid gap-3">
                 {scenes.map((scene) => (
